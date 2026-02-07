@@ -1,0 +1,788 @@
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --border-color: #ffffff;
+    --font-primary: 'DotGothic16', sans-serif;
+    --window-padding: 1rem;
+    --border-width: 4px;
+    /* Thick pixel border */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    /* Prevent selection for better app-feel */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 20px;
+    /* Base size */
+}
+
+#game-container {
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 10px;
+}
+
+/* Screen Management */
+.screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    /* For pixel art files */
+}
+
+/* Background Definitions */
+#title-screen {
+    /* Image will be set via file, fallback to black */
+    background-color: #000;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+#battle-screen {
+    /* Simple Dark/Scary Background */
+    background: radial-gradient(circle at center, #1a0526 0%, #000000 90%);
+    /* Deep purple to black void */
+    overflow-y: auto;
+    /* Allow scrolling if content is too tall */
+    justify-content: flex-start;
+    /* Stack from top instead of spacing out, closer to classic RPG */
+    gap: 1rem;
+    /* Add gap between elements */
+    padding-bottom: 20px;
+    /* Space for scrolling */
+}
+
+/* Improve text readability against backgrounds */
+.window-frame,
+.pixel-btn,
+.title-logo,
+#enemy-sprite {
+    z-index: 10;
+    /* Ensure UI is above background */
+}
+
+.title-logo h1,
+.title-logo p {
+    text-shadow: 4px 4px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Common Window Style */
+.window-frame {
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 4px;
+    padding: var(--window-padding);
+    background-color: var(--bg-color);
+    position: relative;
+    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--border-color);
+    /* Double border effect attempt */
+}
+
+/* Title Screen Specifics */
+#title-screen {
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    /* For absolute positioning of version if needed, or just flex flow */
+}
+
+.version {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1rem;
+    color: #888;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.hero-stats-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    padding: 0 10px;
+}
+
+.hero-stats-box .window-frame {
+    width: 48%;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.title-logo {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.title-logo h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 4px 4px 0px #333;
+}
+
+.title-logo p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.pixel-btn {
+    background-color: transparent;
+    color: var(--text-color);
+    border: var(--border-width) solid var(--border-color);
+    font-family: var(--font-primary);
+    font-size: 2.2rem;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+.pixel-btn:active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.highlight {
+    color: #55ffff;
+    /* Cyan usually used for names */
+}
+
+/* Battle Screen Specifics */
+#battle-screen {
+    padding-top: 20px;
+}
+
+/* Obsolete #enemy-area block removed */
+
+/* Battle Player Stats (Top Left) */
+#battle-player-stats {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: auto;
+    min-width: 140px;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 3px solid #fff;
+    border-radius: 8px;
+    z-index: 100;
+}
+
+#battle-player-stats .name {
+    font-size: 1.2rem;
+    color: #55ffff;
+    /* Cyan */
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 #000;
+}
+
+#battle-player-stats .stat-row,
+#battle-enemy-stats .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Player HP Gauge */
+#hero-hp-gauge-container {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+#hero-hp-gauge-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #adff2f);
+    transition: width 0.4s;
+}
+
+/* Reusing semantic colors */
+#hero-hp-gauge-fill.low {
+    background: linear-gradient(90deg, #ff4500, #ff8c00);
+}
+
+#hero-hp-gauge-fill.mid {
+    background: linear-gradient(90deg, #ffd700, #ffff00);
+}
+
+/* Battle Enemy Stats (Top Right) */
+#battle-enemy-stats {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: auto;
+    min-width: 140px;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 3px solid #fff;
+    border-radius: 8px;
+    z-index: 100;
+    transition: opacity 0.5s;
+}
+
+#battle-enemy-name {
+    font-size: 1.2rem;
+    color: #ff5555;
+    /* Reddish for enemy */
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0 #000;
+    text-align: right;
+}
+
+#enemy-hp-gauge-container {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* HP Gauge Styles - Original IDs preserved/mapped where possible */
+/* #enemy-stats and #hp-gauge-container removed from original location control */
+
+/* Fix Enemy Area to just center the sprite */
+#enemy-area {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Removed padding-bottom */
+    pointer-events: none;
+    z-index: 5;
+}
+
+#enemy-sprite {
+    font-size: 8rem;
+    position: relative;
+    top: -50px;
+    /* Slight upward adjustment */
+    animation: floating 2s ease-in-out infinite;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+#hp-gauge-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #adff2f);
+    /* Lime Green */
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.4), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.4s;
+}
+
+/* Low HP colors */
+#hp-gauge-fill.low {
+    background: linear-gradient(90deg, #ff4500, #ff8c00);
+    /* Red/Orange */
+}
+
+#hp-gauge-fill.mid {
+    background: linear-gradient(90deg, #ffd700, #ffff00);
+    /* Yellow */
+}
+
+#enemy-sprite {
+    font-size: 8rem;
+    /* Emoji size for now */
+    animation: floating 2s ease-in-out infinite;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+#enemy-sprite.boss {
+    font-size: 12rem;
+    filter: drop-shadow(0 0 10px #ff0000);
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.flash {
+    animation: flash 0.2s ease-in-out;
+}
+
+/* Damage Shake Animation */
+.damage-shake {
+    animation: damageShake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    filter: sepia(100%) hue-rotate(-50deg) saturate(600%);
+    /* Red flash */
+}
+
+@keyframes damageShake {
+
+    10%,
+    90% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(8px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-16px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(16px, 0, 0);
+    }
+}
+
+/* Enemy Defeat Animation (Melt/Fade) */
+#enemy-sprite.enemy-defeat {
+    animation: enemyDefeat 3s ease-out forwards;
+}
+
+@keyframes enemyDefeat {
+    0% {
+        transform: scale(1);
+        filter: brightness(1) drop-shadow(0 0 0 transparent);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(1.2) rotate(15deg);
+        /* Impact Frame */
+        filter: brightness(2) drop-shadow(0 0 10px yellow);
+        /* Flash */
+        opacity: 1;
+    }
+
+    40% {
+        transform: scale(0.9) rotate(-15deg);
+        filter: brightness(0.5);
+        /* Recoil */
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: scale(0) rotate(720deg);
+        /* Spin and Vanish! */
+        filter: brightness(0);
+        opacity: 0;
+    }
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(8px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-16px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(16px, 0, 0);
+    }
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Obsolete styles removed for Apple Polish Refactor */
+
+/* Level Up Animation */
+.level-up-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffeb3b;
+    font-size: 4rem;
+    text-shadow: 4px 4px 0 #000;
+    z-index: 100;
+    pointer-events: none;
+    animation: levelUpFloat 2s ease-out forwards;
+}
+
+@keyframes levelUpFloat {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.5);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -100px) scale(1);
+    }
+}
+
+/* Game Over Overlay */
+#game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+#game-over-overlay h2 {
+    color: #ff5555;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 0 #fff;
+}
+
+/* Command Menu Styles (DQ Style - Blue/Vertical) */
+/* Command Menu Styles (DQ Style - Blue/Vertical) */
+/* Message Window - Anchored at Bottom */
+#message-window {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 600px;
+    height: 100px;
+    /* Fixed height for consistency */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Deep black/blue */
+    border: 3px solid #fff;
+    border-radius: 12px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    font-size: 1.8rem;
+    line-height: 1.6;
+}
+
+#message-window p {
+    width: 100%;
+}
+
+/* Command Menu Styles (Modern Retro - Apple Polish) */
+#command-menu {
+    position: fixed;
+    bottom: 135px;
+    /* Stacked right above message window (gap 15px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 480px;
+    background-color: rgba(0, 0, 170, 0.95);
+    /* Deep Blue with slight transparency */
+    border: 3px solid #fff;
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    /* Modern touch */
+}
+
+/* Vertical List Layout */
+.command-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* Remove gap, use padding for hits */
+}
+
+.command-btn {
+    width: 100%;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    /* Subtle separators */
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.8rem;
+    text-align: left;
+    padding: 10px 0 10px 40px;
+    /* Larger hit area */
+    cursor: pointer;
+    box-shadow: none;
+    transition: background 0.2s;
+    position: relative;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 1.2;
+}
+
+.command-btn:last-child {
+    border-bottom: none;
+}
+
+/* Cursor '▶' Interaction */
+.command-btn::before {
+    content: "▶";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-size: 1.8rem;
+    transition: opacity 0.1s;
+    animation: blinkCursor 1s infinite step-end;
+}
+
+.command-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.command-btn:hover::before,
+.command-btn:active::before,
+.command-btn:focus::before {
+    opacity: 1;
+}
+
+/* Question UI Integration (Modern Retro) */
+.question-area {
+    position: fixed;
+    bottom: 130px;
+    /* Slightly lower */
+    /* Match Command Menu position */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    /* Narrower width */
+    max-width: 420px;
+    background-color: rgba(0, 0, 170, 0.95);
+    border: 3px solid #fff;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    /* Reduced padding */
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+#question-window {
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 0.5rem;
+    /* Reduced */
+    margin-bottom: 0.5rem;
+    /* Reduced */
+    background: transparent;
+    text-align: center;
+}
+
+#question-text {
+    font-size: 1.8rem;
+    /* Smaller font */
+    /* Hero Number */
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#answer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.answer-btn {
+    width: 100%;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.5rem;
+    /* Smaller font */
+    text-align: left;
+    padding: 8px 0 8px 45px;
+    /* Increased padding */
+    cursor: pointer;
+    box-shadow: none;
+    transition: background 0.2s;
+    position: relative;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.answer-btn:last-child {
+    border-bottom: none;
+}
+
+.answer-btn::before {
+    content: "▶";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-size: 1.4rem;
+    /* Match button font size */
+    transition: opacity 0.1s;
+}
+
+.answer-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.answer-btn:hover::before,
+.answer-btn:active::before,
+.answer-btn:focus::before {
+    opacity: 1;
+}
+
+.answer-btn:active,
+.command-btn:active {
+    background-color: rgba(255, 215, 0, 0.2);
+    /* Gold tint on press */
+    color: #ffeb3b;
+}
+
+/* Ensure hidden works */
+.question-area.hidden,
+#command-menu.hidden {
+    display: none !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+
+    #command-menu,
+    .question-area {
+        width: 95%;
+        padding: 1rem;
+        bottom: 130px;
+    }
+
+    #message-window {
+        bottom: 15px;
+        font-size: 1.2rem;
+    }
+
+    .command-btn,
+    .answer-btn {
+        font-size: 1.6rem;
+        padding: 12px 0 12px 35px;
+        /* Larger touch target */
+    }
+
+    /* Compact stats for mobile */
+    #battle-player-stats,
+    #battle-enemy-stats {
+        padding: 0.5rem;
+        min-width: auto;
+    }
+
+    #battle-player-stats .name,
+    #battle-enemy-name {
+        font-size: 1rem;
+    }
+
+    #battle-player-stats .stat-row,
+    #battle-enemy-stats .stat-row {
+        font-size: 1.1rem;
+    }
+}
+
+/* Persistent Version Display */
+.version-display {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: 'DotGothic16', sans-serif;
+}

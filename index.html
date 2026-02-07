@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>さんすうクエスト</title>
+    <!-- Google Fonts: DotGothic16 for Pixel Art style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=17">
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(`Error: ${message}\nLine: ${lineno}\nSource: ${source}`);
+        };
+    </script>
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Title Screen -->
+        <div id="title-screen" class="screen active">
+            <div class="hero-stats-box">
+                <div class="window-frame">
+                    <p>なまえ</p>
+                    <p class="highlight">えいとくん</p>
+                </div>
+                <div class="window-frame">
+                    <div class="stat-row"><span>H P</span><span>50</span></div>
+                    <div class="stat-row"><span>M P</span><span>10</span></div>
+                    <div class="stat-row"><span>L V</span><span>1</span></div>
+                </div>
+            </div>
+
+            <div class="title-logo">
+                <h1>さんすう クエスト</h1>
+                <p>1ねんせいの けいさんを といて</p>
+                <p>でんせつのまもの を たおそう！</p>
+            </div>
+
+            <button id="start-btn" class="pixel-btn">
+                ぼうけんを はじめる
+            </button>
+        </div>
+
+        <!-- Battle Screen (Hidden by default) -->
+        <div id="battle-screen" class="screen hidden">
+            <!-- Player Stats (Top Left) -->
+            <div id="battle-player-stats" class="window-frame">
+                <p class="name">えいとくん</p>
+                <div class="stat-row">
+                    <span>HP</span> <span id="battle-hero-hp">50</span>
+                </div>
+                <!-- Added Player HP Gauge -->
+                <div id="hero-hp-gauge-container">
+                    <div id="hero-hp-gauge-fill"></div>
+                </div>
+                <!-- Spacing -->
+                <div class="stat-row" style="margin-top: 5px;">
+                    <span>MP</span> <span id="battle-hero-mp">10</span>
+                </div>
+                <div class="stat-row">
+                    <span>LV</span> <span id="battle-hero-lv">1</span>
+                </div>
+            </div>
+
+            <div id="battle-enemy-stats" class="window-frame hidden">
+                <p id="battle-enemy-name">モンスター</p>
+                <!-- Added Enemy HP Number -->
+                <div class="stat-row" style="justify-content: flex-end; margin-bottom: 2px;">
+                    <span>HP</span> <span id="battle-enemy-hp">100</span>
+                </div>
+                <div id="enemy-hp-gauge-container">
+                    <div id="hp-gauge-fill"></div>
+                </div>
+                <!-- Added Enemy Level -->
+                <p id="battle-enemy-lv-container" style="text-align: right; margin-top: 5px; color: #fff;">
+                    LV <span id="battle-enemy-lv">1</span>
+                </p>
+            </div>
+
+            <div id="enemy-area">
+                <div id="enemy-sprite">😈</div>
+            </div>
+
+            <div id="message-window" class="window-frame">
+                <p id="game-message">モンスターが あらわれた！<span id="message-cursor">▼</span></p>
+            </div>
+
+        </div>
+
+        <!-- Command Menu (Moved to Root) -->
+        <div id="command-menu" class="window-frame hidden">
+            <div class="command-grid">
+                <button class="command-btn" data-cmd="fight">たたかう</button>
+                <button class="command-btn" data-cmd="spell">じゅもん</button>
+                <button class="command-btn" data-cmd="run">にげる</button>
+                <button class="command-btn" data-cmd="item">どうぐ</button>
+            </div>
+        </div>
+
+        <!-- Question Area (Moved to Root) -->
+        <div class="question-area hidden">
+            <div id="question-window" class="window-frame">
+                <p id="question-text" class="large-text">1 + 1 = ?</p>
+            </div>
+            <div id="answer-buttons" class="window-frame">
+                <button class="answer-btn">1</button>
+                <button class="answer-btn">2</button>
+                <button class="answer-btn">3</button>
+                <button class="answer-btn">4</button>
+            </div>
+        </div>
+        <div class="version-display">Ver 3.15</div>
+    </div>
+    <script src="game.js?v=7"></script>
+</body>
+
+</html>

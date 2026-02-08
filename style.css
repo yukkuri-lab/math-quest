@@ -978,6 +978,8 @@ body {
         font-size: 1rem;
         height: 90px;
         padding: 0.5rem 1rem;
+        width: 95%;
+        /* Align with Command Menu */
     }
 
     .command-btn {

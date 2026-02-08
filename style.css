@@ -998,6 +998,13 @@ body {
         /* Reset negative margin if needed */
     }
 
+    /* Force enemy to top on mobile to avoid overlap */
+    #enemy-window {
+        align-items: flex-start;
+        padding-top: 80px;
+        /* Space below stats */
+    }
+
     /* Compact stats for mobile */
     #battle-player-stats,
     #battle-enemy-stats {

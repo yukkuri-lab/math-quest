@@ -67,14 +67,24 @@ class GameController {
     }
 
     init() {
+        // Global Audio Unlock (Aggressive)
+        const unlockAudio = () => {
+            this.bgm.unlock();
+            // Remove listeners once unlocked
+            document.body.removeEventListener('touchstart', unlockAudio);
+            document.body.removeEventListener('click', unlockAudio);
+        };
+        document.body.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+        document.body.addEventListener('click', unlockAudio, { once: true });
+
         // Start Button (Click & Touch)
         const startHandler = (e) => {
             // Prevent double firing if both fire
             if (e.cancelable) e.preventDefault();
             this.startGame();
         };
-        this.elements.startBtn.addEventListener('click', () => this.startGame());
-        this.elements.startBtn.addEventListener('touchstart', () => this.startGame(), { passive: true });
+        this.elements.startBtn.addEventListener('click', startHandler);
+        this.elements.startBtn.addEventListener('touchstart', startHandler, { passive: false });
 
         // Attach event listeners to answer buttons
         this.elements.answerButtons.forEach(btn => {

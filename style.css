@@ -981,9 +981,9 @@ body {
     }
 
     .command-btn {
-        font-size: 1.4rem;
-        padding: 8px 5px 8px 30px;
-        margin-bottom: 2px;
+        font-size: 1.2rem;
+        padding: 6px 5px 6px 30px;
+        margin-bottom: 1px;
     }
 
     /* Compact Answer Buttons */

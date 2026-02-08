@@ -108,11 +108,13 @@ class GameController {
             const runTest = () => {
                 this.bgm.unlock();
 
-                // Direct Oscillator Test
                 try {
                     const ctx = this.bgm.audioCtx;
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
+                    // Play both to test
+                    this.bgm.playSFX('decision');
+                    setTimeout(() => this.bgm.playSFX('pi'), 200);
+
+                    this.updateDebugInfo(`Test: SFX OK (${ctx.state})`);
                     osc.connect(gain);
                     gain.connect(ctx.destination);
                     osc.frequency.value = 880; // High beep

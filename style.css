@@ -985,9 +985,10 @@ body {
     }
 
     .command-btn {
-        font-size: 1.2rem;
-        padding: 10px 5px 10px 30px;
-        /* More vertical padding */
+        font-size: 1rem;
+        /* Match message window */
+        padding: 8px 5px 8px 30px;
+        /* Reduced vertical padding */
         margin-bottom: 0;
         /* Remove gap for borders */
         border-bottom: 1px solid rgba(255, 255, 255, 0.3);

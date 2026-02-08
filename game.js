@@ -101,6 +101,28 @@ class GameController {
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetGame());
         }
+
+        // Sound Test Button
+        const soundTestBtn = document.getElementById('sound-test-btn');
+        if (soundTestBtn) {
+            soundTestBtn.addEventListener('click', () => {
+                this.bgm.unlock();
+                this.playSound('pi');
+                this.updateDebugInfo();
+            });
+            soundTestBtn.addEventListener('touchstart', () => {
+                this.bgm.unlock();
+                this.playSound('pi');
+                this.updateDebugInfo();
+            }, { passive: true });
+        }
+    }
+
+    updateDebugInfo() {
+        const debugEl = document.getElementById('debug-info');
+        if (debugEl && this.bgm.audioCtx) {
+            debugEl.innerText = `Audio: ${this.bgm.audioCtx.state}`;
+        }
     }
 
     startGame() {
@@ -1118,6 +1140,18 @@ class BGMController {
             source.connect(this.audioCtx.destination);
             source.start(0);
             console.log("Audio unlocked via silent buffer");
+
+            // Also warm up HTML5 Audio elements
+            const audios = document.querySelectorAll('audio');
+            audios.forEach(a => {
+                a.volume = 0;
+                a.play().then(() => {
+                    a.pause();
+                    a.currentTime = 0;
+                    a.volume = 1;
+                }).catch(e => console.log("Warmup failed", e));
+            });
+
         } catch (e) {
             console.error("Audio unlock failed", e);
         }

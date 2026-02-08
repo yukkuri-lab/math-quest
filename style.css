@@ -967,23 +967,35 @@ body {
     #command-menu,
     .question-area {
         width: 95%;
-        padding: 1rem;
-        bottom: 130px;
+        padding: 0.5rem;
+        /* Less padding */
+        bottom: 120px;
+        /* Slightly lower */
     }
 
     #message-window {
-        bottom: 15px;
-        font-size: 1.2rem;
+        bottom: 10px;
+        font-size: 1rem;
+        height: 90px;
+        padding: 0.5rem 1rem;
     }
 
     .command-btn,
     .answer-btn {
-        font-size: 1.8rem;
-        /* Larger font for kids */
-        padding: 15px 10px 15px 40px;
-        /* Much larger touch target */
-        margin-bottom: 5px;
-        /* Spacing between buttons */
+        font-size: 1.4rem;
+        /* Smaller font */
+        padding: 8px 5px 8px 30px;
+        /* Smaller touch target */
+        margin-bottom: 2px;
+        /* Less spacing */
+    }
+
+    /* Restrict enemy size on mobile */
+    .enemy-image {
+        max-height: 35vh;
+        /* Limit height */
+        margin-top: 0;
+        /* Reset negative margin if needed */
     }
 
     /* Compact stats for mobile */
@@ -995,12 +1007,12 @@ body {
 
     #battle-player-stats .name,
     #battle-enemy-name {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     #battle-player-stats .stat-row,
     #battle-enemy-stats .stat-row {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 

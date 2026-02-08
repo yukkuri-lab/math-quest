@@ -1208,3 +1208,4 @@ class BGMController {
             }, note.t);
         });
     }
+}

@@ -971,8 +971,8 @@ body {
         width: 95%;
         padding: 0.3rem;
         /* Compact padding */
-        bottom: 15vh;
-        /* Dynamic positioning */
+        bottom: 115px;
+        /* Stacked above message window (10px + 90px + padding + gap) */
     }
 
     #message-window {

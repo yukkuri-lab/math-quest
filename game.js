@@ -80,7 +80,10 @@ class GameController {
         });
 
         // Reset Button
-        document.getElementById('reset-btn').addEventListener('click', () => this.resetGame());
+        const resetBtn = document.getElementById('reset-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.resetGame());
+        }
     }
 
     startGame() {

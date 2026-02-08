@@ -998,11 +998,30 @@ body {
         /* Reset negative margin if needed */
     }
 
-    /* Force enemy to top on mobile to avoid overlap */
+    /* Force enemy to top area on mobile */
+    #enemy-area {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: 40vh;
+        margin: 0;
+        align-items: center;
+        z-index: 5;
+    }
+
     #enemy-window {
-        align-items: flex-start;
-        padding-top: 80px;
-        /* Space below stats */
+        width: 90%;
+        height: 100%;
+        max-height: none;
+        aspect-ratio: auto;
+        padding-top: 0;
+        align-items: center;
+    }
+
+    #enemy-sprite img {
+        max-height: 90%;
+        width: auto;
     }
 
     /* Compact stats for mobile */

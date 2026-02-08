@@ -984,8 +984,16 @@ body {
 
     .command-btn {
         font-size: 1.2rem;
-        padding: 6px 5px 6px 30px;
-        margin-bottom: 1px;
+        padding: 10px 5px 10px 30px;
+        /* More vertical padding */
+        margin-bottom: 0;
+        /* Remove gap for borders */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        /* Separator line */
+    }
+
+    .command-btn:last-child {
+        border-bottom: none;
     }
 
     /* Compact Answer Buttons */

@@ -238,6 +238,14 @@ body {
     color: var(--bg-color);
 }
 
+.small-btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    border-width: 2px;
+    opacity: 0.7;
+}
+
 .highlight {
     color: #55ffff;
     /* Cyan usually used for names */

@@ -78,8 +78,10 @@ class GameController {
     }
 
     startGame() {
-        // Init Audio Context on user interaction
+        // Init Audio Context on user interaction to fix mobile audio
         this.bgm.init();
+        this.bgm.resumeAudio();
+
         this.switchScreen('battle');
         this.startBattle();
 
@@ -1021,8 +1023,14 @@ class BGMController {
         }
     }
 
+    resumeAudio() {
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+    }
+
     play(type) {
-        return; // Muted for now
+        // removed early return to enable sound
         if (this.currentType === type && this.isPlaying) return;
         this.stop();
         this.init();

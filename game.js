@@ -1013,6 +1013,44 @@ class GameController {
             osc.stop(now + 2.0);
         }
     }
+    // --- Save System ---
+
+    saveGame() {
+        const saveData = {
+            player: this.player,
+            lvl1BossDefeated: this.lvl1BossDefeated || false,
+            bossDefeated: this.bossDefeated || false
+        };
+        localStorage.setItem('mathQuestSave', JSON.stringify(saveData));
+        console.log("Game Saved", saveData);
+    }
+
+    loadGame() {
+        const saveString = localStorage.getItem('mathQuestSave');
+        if (saveString) {
+            try {
+                const saveData = JSON.parse(saveString);
+                if (saveData.player) {
+                    this.player = { ...this.player, ...saveData.player };
+                }
+                this.lvl1BossDefeated = saveData.lvl1BossDefeated || false;
+                this.bossDefeated = saveData.bossDefeated || false;
+                console.log("Game Loaded", saveData);
+                return true;
+            } catch (e) {
+                console.error("Save Data Corrupt", e);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    resetGame() {
+        if (confirm("ほんとうに データがきえます。よろしいですか？")) {
+            localStorage.removeItem('mathQuestSave');
+            location.reload();
+        }
+    }
 }
 
 class BGMController {
@@ -1170,42 +1208,3 @@ class BGMController {
             }, note.t);
         });
     }
-    // --- Save System ---
-
-    saveGame() {
-        const saveData = {
-            player: this.player,
-            lvl1BossDefeated: this.lvl1BossDefeated || false,
-            bossDefeated: this.bossDefeated || false
-        };
-        localStorage.setItem('mathQuestSave', JSON.stringify(saveData));
-        console.log("Game Saved", saveData);
-    }
-
-    loadGame() {
-        const saveString = localStorage.getItem('mathQuestSave');
-        if (saveString) {
-            try {
-                const saveData = JSON.parse(saveString);
-                if (saveData.player) {
-                    this.player = { ...this.player, ...saveData.player };
-                }
-                this.lvl1BossDefeated = saveData.lvl1BossDefeated || false;
-                this.bossDefeated = saveData.bossDefeated || false;
-                console.log("Game Loaded", saveData);
-                return true;
-            } catch (e) {
-                console.error("Save Data Corrupt", e);
-                return false;
-            }
-        }
-        return false;
-    }
-
-    resetGame() {
-        if (confirm("ほんとうに データがきえます。よろしいですか？")) {
-            localStorage.removeItem('mathQuestSave');
-            location.reload();
-        }
-    }
-}

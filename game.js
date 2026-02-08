@@ -1174,6 +1174,72 @@ class BGMController {
         }
     }
 
+    playSFX(type) {
+        if (!this.audioCtx) this.init();
+        if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+
+        const ctx = this.audioCtx;
+        const t = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'pi') {
+            // Cursor move / Select
+            osc.frequency.setValueAtTime(880, t);
+            osc.type = 'square';
+            gain.gain.setValueAtTime(0.1, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+            osc.start(t);
+            osc.stop(t + 0.1);
+        } else if (type === 'decision') {
+            // Confirm
+            osc.frequency.setValueAtTime(1200, t);
+            osc.frequency.exponentialRampToValueAtTime(1800, t + 0.1);
+            osc.type = 'square';
+            gain.gain.setValueAtTime(0.1, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.15);
+            osc.start(t);
+            osc.stop(t + 0.15);
+        } else if (type === 'damage') {
+            // Damage
+            osc.frequency.setValueAtTime(150, t);
+            osc.frequency.linearRampToValueAtTime(100, t + 0.2);
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.3, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.2);
+            osc.start(t);
+            osc.stop(t + 0.2);
+        } else if (type === 'win') {
+            // Win Fanfare (Simple)
+            this.playNote(523.25, t, 0.1); // C5
+            this.playNote(523.25, t + 0.1, 0.1); // C5
+            this.playNote(523.25, t + 0.2, 0.1); // C5
+            this.playNote(659.25, t + 0.3, 0.4); // E5
+        } else if (type === 'start') {
+            // Game Start
+            this.playNote(440, t, 0.1);
+            this.playNote(554, t + 0.1, 0.1);
+            this.playNote(659, t + 0.2, 0.4);
+        }
+    }
+
+    playNote(freq, time, duration) {
+        const osc = this.audioCtx.createOscillator();
+        const gain = this.audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(this.audioCtx.destination);
+        osc.type = 'square';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.1, time);
+        gain.gain.setValueAtTime(0.1, time + duration - 0.05);
+        gain.gain.linearRampToValueAtTime(0, time + duration);
+        osc.start(time);
+        osc.stop(time + duration);
+    }
+
     play(type) {
         // removed early return to enable sound
         if (this.currentType === type && this.isPlaying) return;

@@ -188,6 +188,34 @@ body {
     animation: floating 3s ease-in-out infinite;
 }
 
+@media (max-width: 600px) {
+    .title-logo {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .title-logo h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .title-logo p {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    #title-hero {
+        max-height: 25vh;
+        margin: 0.5rem auto;
+    }
+
+    #start-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+}
+
 /* Buttons */
 .pixel-btn {
     background-color: transparent;

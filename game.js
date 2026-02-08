@@ -60,6 +60,7 @@ class GameController {
 
         };
         this.bgm = new BGMController();
+        this.typingTimeout = null;
     }
 
     init() {
@@ -134,8 +135,6 @@ class GameController {
         await sleep(2000);
 
         // 4. Reveal Enemy (No text)
-        // this.logMessage("？？？ が あらわれた！！");
-        // await sleep(2000);
         await sleep(1000); // 1s pause after darkness
 
         // Appear concurrently with text!
@@ -147,6 +146,10 @@ class GameController {
         this.elements.enemySprite.style.opacity = '1';
         if (this.elements.enemyStats) this.elements.enemyStats.style.opacity = '1';
 
+        // Camera Shake Effect
+        document.body.classList.add('camera-shake');
+        setTimeout(() => document.body.classList.remove('camera-shake'), 500);
+
         // BGM Start
         if (this.currentEnemy.isBoss) {
             this.bgm.play('boss');
@@ -157,7 +160,8 @@ class GameController {
         this.playSound('pi'); // Alert sound
         this.playSound('pi'); // Alert sound
 
-        await sleep(1500);
+        // Dramatic Pause before Command Menu (User requested "short dramatic pause")
+        await sleep(1000);
 
         // 6. Start Battle
         this.isBattleActive = true;
@@ -319,30 +323,25 @@ class GameController {
 
     generateEnemy() {
         // World Youkai Data (C001-C022, F001)
-        const enemies = [
-            { id: "C001", name: "モスマン", emoji: "🦋", hp: 15, exp: 5 },
-            { id: "C002", name: "モンキーマン", emoji: "🦍", hp: 18, exp: 6 },
-            { id: "C003", name: "グレイ", emoji: "👽", hp: 12, exp: 5 },
-            { id: "C004", name: "キシュテム・ドワーフ", emoji: "👶", hp: 12, exp: 4 }, // Was 10
-            { id: "C005", name: "リザードマン", emoji: "🦎", hp: 20, exp: 7 },
-            { id: "C006", name: "ドーバー・デーモン", emoji: "👽", hp: 14, exp: 5 },
-            { id: "C007", name: "フォウク・モンスター", emoji: "👹", hp: 22, exp: 8 },
-            { id: "C008", name: "ノーム", emoji: "🧙", hp: 12, exp: 4 }, // Was 10
-            { id: "C009", name: "ナイト・クローラー", emoji: "👖", hp: 12, exp: 5 }, // Pants as legs? Or Worm 🐛
-            { id: "C010", name: "ジェヴォーダンのけもの", emoji: "🐺", hp: 25, exp: 9 },
-            { id: "C011", name: "バウオコジ", emoji: "🦇", hp: 15, exp: 6 }, // Bat/Dog
-            { id: "C012", name: "ジャドーピープル", emoji: "👥", hp: 18, exp: 7 },
-            { id: "C013", name: "スレンダーマン", emoji: "🕴️", hp: 20, exp: 8 },
-            { id: "C014", name: "フラットウッズ・モンスター", emoji: "👾", hp: 25, exp: 9 },
-            { id: "C015", name: "ビッグマン", emoji: "🐷", hp: 22, exp: 8 }, // Pig face
-            { id: "C016", name: "マナナンガル", emoji: "🧛", hp: 18, exp: 7 },
-            { id: "C017", name: "レイク", emoji: "🧟", hp: 18, exp: 7 },
-            { id: "C018", name: "トロール", emoji: "🧌", hp: 30, exp: 10 },
-            { id: "C019", name: "ポンベロ", emoji: "👺", hp: 15, exp: 6 },
-            { id: "C020", name: "ドッグマン", emoji: "🐕", hp: 20, exp: 8 },
-            { id: "C021", name: "ボスニア・モンスター", emoji: "🐸", hp: 14, exp: 5 },
-            { id: "C022", name: "つばさネコ", emoji: "🐱", hp: 12, exp: 5 }
-        ];
+        const enemies = window.enemyData || [];
+
+
+        // Boss Battle: King Monkey (Level 1 Last Boss)
+        // Trigger: Level 1 and close to Level Up (exp >= 8)
+        if (this.player.lv === 1 && this.player.exp >= 8 && !this.lvl1BossDefeated) {
+            return {
+                id: "BOSS_LV1",
+                name: "キング・モンキー",
+                emoji: "🦍", // Fallback
+                image: "assets/boss_lvl1.png", // User provided image
+                hp: 60,
+                maxHp: 60,
+                exp: 15, // Ensure Level Up
+                level: 3, // Stronger attacks
+                isBoss: true,
+                isLvl1Boss: true
+            };
+        }
 
         // Boss Battle: Bigfoot (Level 10)
         if (this.player.lv >= 10 && !this.bossDefeated) {
@@ -358,7 +357,27 @@ class GameController {
             };
         }
 
-        const randomIndex = Math.floor(Math.random() * enemies.length);
+        // Tutorial / First Battle: Always Humanoid UMA
+        if (this.player.lv === 1 && this.player.exp === 0) {
+            return {
+                id: "C000",
+                name: "ヒューマノイド型UMA",
+                emoji: "👽",
+                image: "assets/uma_humanoid_final_03.jpg",
+                hp: 16,
+                maxHp: 16,
+                exp: 3,
+                level: 1
+            };
+        }
+
+        let randomIndex;
+        if (this.player.lv === 1 && Math.random() < 0.5) {
+            // 50% chance for Humanoid UMA at Level 1
+            randomIndex = 0; // C000 is at index 0
+        } else {
+            randomIndex = Math.floor(Math.random() * enemies.length);
+        }
         const enemyTemplate = enemies[randomIndex];
 
         // Determine Enemy Level (Player LV +/- 1, min 1)
@@ -380,8 +399,25 @@ class GameController {
     updateEnemyDisplay() {
         if (!this.currentEnemy) return;
 
-        // Update Sprite
-        this.elements.enemySprite.textContent = this.currentEnemy.emoji;
+        // Update Sprite or Image
+        this.elements.enemySprite.innerHTML = ''; // Clear previous content
+
+        if (this.currentEnemy.image) {
+            const img = document.createElement('img');
+            img.src = this.currentEnemy.image;
+            img.className = 'enemy-image ' + (this.currentEnemy.isBoss ? 'boss' : '');
+            // Handle error (fallback to emoji)
+            img.onerror = () => {
+                this.elements.enemySprite.textContent = this.currentEnemy.emoji;
+                this.elements.enemySprite.classList.remove('has-image');
+            };
+            this.elements.enemySprite.appendChild(img);
+            this.elements.enemySprite.classList.add('has-image');
+        } else {
+            this.elements.enemySprite.textContent = this.currentEnemy.emoji;
+            this.elements.enemySprite.classList.remove('has-image');
+        }
+
         if (this.currentEnemy.isBoss) {
             this.elements.enemySprite.classList.add('boss');
         } else {
@@ -566,7 +602,10 @@ class GameController {
 
         if (hpEl) hpEl.textContent = Math.max(0, this.player.hp);
         if (mpEl) mpEl.textContent = Math.max(0, this.player.mp);
-        if (lvEl) lvEl.textContent = this.player.level;
+        if (lvEl) lvEl.textContent = this.player.lv;
+
+        const expEl = document.getElementById('battle-hero-exp');
+        if (expEl) expEl.textContent = this.player.exp;
 
         // Update Gauge
         if (gaugeFill) {
@@ -720,7 +759,13 @@ class GameController {
         this.playSound('attack'); // Victory sound placeholder
 
         // Check Boss Defeated
-        if (this.currentEnemy.isBoss) {
+        if (this.currentEnemy.isLvl1Boss) {
+            this.lvl1BossDefeated = true;
+            this.logMessage("レベル１のボスを たおした！");
+            this.playSound('win');
+        }
+
+        if (this.currentEnemy.id === "F001") { // Final Boss
             setTimeout(() => {
                 this.handleGameClear();
             }, 1000);
@@ -729,6 +774,7 @@ class GameController {
 
         // EXP Logic
         this.player.exp += this.currentEnemy.exp;
+        this.updatePlayerStats(); // Ensure UI updates immediately
 
         // Item Drop Logic
         const items = [
@@ -832,8 +878,33 @@ class GameController {
     }
 
     logMessage(text) {
-        // Typing effect or instant? Instant for now for responsiveness, or simple typewriter
-        this.elements.message.textContent = text;
+        if (this.typingTimeout) {
+            clearTimeout(this.typingTimeout);
+        }
+
+        // Reset content
+        this.elements.message.innerHTML = '';
+
+        let i = 0;
+        const speed = 50; // Slower for better effect (was 30)
+
+        const typeChar = () => {
+            if (i < text.length) {
+                this.elements.message.textContent += text.charAt(i);
+                i++;
+                this.typingTimeout = setTimeout(typeChar, speed);
+            } else {
+                // Done typing
+                this.typingTimeout = null;
+                // Add blinking cursor
+                const cursorSpan = document.createElement('span');
+                cursorSpan.id = 'message-cursor';
+                cursorSpan.textContent = '▼';
+                this.elements.message.appendChild(cursorSpan);
+            }
+        };
+
+        typeChar();
     }
 
     playSound(type) {

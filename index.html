@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=17">
+    <link rel="stylesheet" href="style.css?v=3.33">
     <script>
         window.onerror = function (message, source, lineno, colno, error) {
             alert(`Error: ${message}\nLine: ${lineno}\nSource: ${source}`);
@@ -21,31 +21,22 @@
     <div id="game-container">
         <!-- Title Screen -->
         <div id="title-screen" class="screen active">
-            <div class="hero-stats-box">
-                <div class="window-frame">
-                    <p>なまえ</p>
-                    <p class="highlight">えいとくん</p>
-                </div>
-                <div class="window-frame">
-                    <div class="stat-row"><span>H P</span><span>50</span></div>
-                    <div class="stat-row"><span>M P</span><span>10</span></div>
-                    <div class="stat-row"><span>L V</span><span>1</span></div>
-                </div>
-            </div>
-
+            <div class="version">Ver 3.33</div>
             <div class="title-logo">
-                <h1>さんすう クエスト</h1>
-                <p>1ねんせいの けいさんを といて</p>
-                <p>でんせつのまもの を たおそう！</p>
+                <h1>さんすうクエスト</h1>
+                <p>もんだいを といて<br>まぼろしのいきもの UMAを たおそう</p>
             </div>
 
-            <button id="start-btn" class="pixel-btn">
-                ぼうけんを はじめる
-            </button>
+            <img id="title-hero" src="assets/hero.png" alt="勇者えいとくん">
+
+            <button id="start-btn" class="pixel-btn">ぼうけんを はじめる</button>
         </div>
 
         <!-- Battle Screen (Hidden by default) -->
         <div id="battle-screen" class="screen hidden">
+            <!-- Battle UI Elements -->
+            <!-- Removed old stats box, using new individual ones -->
+
             <!-- Player Stats (Top Left) -->
             <div id="battle-player-stats" class="window-frame">
                 <p class="name">えいとくん</p>
@@ -62,6 +53,10 @@
                 </div>
                 <div class="stat-row">
                     <span>LV</span> <span id="battle-hero-lv">1</span>
+                </div>
+                <!-- Added EXP Display -->
+                <div class="stat-row">
+                    <span>EXP</span> <span id="battle-hero-exp">0</span>
                 </div>
             </div>
 
@@ -81,7 +76,10 @@
             </div>
 
             <div id="enemy-area">
-                <div id="enemy-sprite">😈</div>
+                <!-- Removed window-frame class to remove border -->
+                <div id="enemy-window">
+                    <div id="enemy-sprite">😈</div>
+                </div>
             </div>
 
             <div id="message-window" class="window-frame">
@@ -100,21 +98,49 @@
             </div>
         </div>
 
-        <!-- Question Area (Moved to Root) -->
-        <div class="question-area hidden">
-            <div id="question-window" class="window-frame">
-                <p id="question-text" class="large-text">1 + 1 = ?</p>
+        <!-- Question Area (Rush Mode) -->
+        <div id="question-area" class="question-area hidden">
+            <div id="question-window">
+                <div id="question-text">8 + 5 = ?</div>
             </div>
-            <div id="answer-buttons" class="window-frame">
-                <button class="answer-btn">1</button>
-                <button class="answer-btn">2</button>
-                <button class="answer-btn">3</button>
-                <button class="answer-btn">4</button>
+            <div id="answer-buttons">
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
             </div>
         </div>
-        <div class="version-display">Ver 3.15</div>
     </div>
-    <script src="game.js?v=7"></script>
+    </div>
+
+    <div class="version-display">Ver 3.33</div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="bgm-title" loop>
+        <source src="assets/bgm_title.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgm-battle" loop>
+        <source src="assets/bgm_battle.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgm-boss" loop>
+        <source src="assets/bgm_boss.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-pi">
+        <source src="assets/sfx_pi.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-attack">
+        <source src="assets/sfx_attack.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-damage">
+        <source src="assets/sfx_damage.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-win">
+        <source src="assets/sfx_win.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="enemies.js?v=3.33"></script>
+    <script src="game.js?v=3.33"></script>
 </body>
 
 </html>

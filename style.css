@@ -990,15 +990,15 @@ body {
     .answer-btn {
         font-size: 1.3rem;
         /* Smaller font */
-        padding: 5px 3px 5px 25px;
-        /* Compact padding */
+        padding: 5px 3px 5px 40px;
+        /* More left padding for cursor space */
         margin-bottom: 1px;
         /* Minimal spacing */
     }
 
     .answer-btn::before {
-        left: 10px;
-        /* Adjust cursor pos */
+        left: 15px;
+        /* Move cursor slightly right too, but keep gap */
         font-size: 1rem;
     }
 

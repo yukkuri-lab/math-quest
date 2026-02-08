@@ -1023,8 +1023,8 @@ body {
     /* Force enemy to top on mobile to avoid overlap */
     #enemy-window {
         align-items: flex-start;
-        padding-top: 110px;
-        /* More space to clear Player HP */
+        padding-top: 60px;
+        /* Reduced from 110px since area is lowered */
     }
 
 
@@ -1032,9 +1032,11 @@ body {
 }
 
 /* Force enemy to top area on mobile */
+/* Force enemy to top area on mobile */
 #enemy-area {
     position: absolute;
-    top: 60px;
+    top: 12vh;
+    /* Lowered for better balance (was 60px/top) */
     left: 0;
     width: 100%;
     height: 40vh;

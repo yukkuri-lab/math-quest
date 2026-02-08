@@ -213,6 +213,14 @@ class GameController {
             this.handleSpell();
         } else if (cmd === 'item') {
             this.handleItem();
+        } else if (cmd === 'save') {
+            this.saveGame();
+            this.playSound('pi');
+            this.logMessage("ぼうけんの しょを きろくしました！");
+            setTimeout(() => {
+                this.elements.commandMenu.classList.remove('hidden');
+                this.logMessage("どうする？");
+            }, 1500);
         }
     }
 

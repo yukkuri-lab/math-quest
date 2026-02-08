@@ -105,23 +105,40 @@ class GameController {
         // Sound Test Button
         const soundTestBtn = document.getElementById('sound-test-btn');
         if (soundTestBtn) {
-            soundTestBtn.addEventListener('click', () => {
+            const runTest = () => {
                 this.bgm.unlock();
-                this.playSound('pi');
-                this.updateDebugInfo();
-            });
-            soundTestBtn.addEventListener('touchstart', () => {
-                this.bgm.unlock();
-                this.playSound('pi');
-                this.updateDebugInfo();
-            }, { passive: true });
+
+                // Direct Oscillator Test
+                try {
+                    const ctx = this.bgm.audioCtx;
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.frequency.value = 880; // High beep
+                    gain.gain.value = 0.5;
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.5);
+
+                    this.updateDebugInfo(`Test: OK (${ctx.state})`);
+                } catch (e) {
+                    this.updateDebugInfo(`Test: ERR ${e.message}`);
+                }
+            };
+
+            soundTestBtn.addEventListener('click', runTest);
+            soundTestBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent ghost click
+                runTest();
+            }, { passive: false });
         }
     }
 
-    updateDebugInfo() {
+    updateDebugInfo(msg = "") {
         const debugEl = document.getElementById('debug-info');
         if (debugEl && this.bgm.audioCtx) {
-            debugEl.innerText = `Audio: ${this.bgm.audioCtx.state}`;
+            const ctx = this.bgm.audioCtx;
+            debugEl.innerText = `Audio: ${ctx.state} | T:${ctx.currentTime.toFixed(1)} | ${msg}`;
         }
     }
 

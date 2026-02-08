@@ -67,7 +67,14 @@ class GameController {
     }
 
     init() {
+        // Start Button (Click & Touch)
+        const startHandler = (e) => {
+            // Prevent double firing if both fire
+            if (e.cancelable) e.preventDefault();
+            this.startGame();
+        };
         this.elements.startBtn.addEventListener('click', () => this.startGame());
+        this.elements.startBtn.addEventListener('touchstart', () => this.startGame(), { passive: true });
 
         // Attach event listeners to answer buttons
         this.elements.answerButtons.forEach(btn => {
@@ -89,7 +96,7 @@ class GameController {
     startGame() {
         // Init Audio Context on user interaction to fix mobile audio
         this.bgm.init();
-        this.bgm.resumeAudio();
+        this.bgm.unlock(); // Use powerful unlock
 
         this.switchScreen('battle');
         this.startBattle();
@@ -1057,7 +1064,7 @@ class GameController {
     }
 
     resetGame() {
-        if (confirm("ほんとうに データがきえます。よろしいですか？")) {
+        if (confirm("ぼうけんの しょ を けします。\nほんとうに よろしいですか？")) {
             localStorage.removeItem('mathQuestSave');
             location.reload();
         }
@@ -1083,6 +1090,26 @@ class BGMController {
     resumeAudio() {
         if (this.audioCtx && this.audioCtx.state === 'suspended') {
             this.audioCtx.resume();
+        }
+    }
+
+    unlock() {
+        if (!this.audioCtx) this.init();
+
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+
+        // Play silent buffer to force unlock logic for iOS
+        try {
+            const buffer = this.audioCtx.createBuffer(1, 1, 22050);
+            const source = this.audioCtx.createBufferSource();
+            source.buffer = buffer;
+            source.connect(this.audioCtx.destination);
+            source.start(0);
+            console.log("Audio unlocked via silent buffer");
+        } catch (e) {
+            console.error("Audio unlock failed", e);
         }
     }
 

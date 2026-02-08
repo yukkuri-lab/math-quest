@@ -1027,7 +1027,7 @@ body {
         /* More space to clear Player HP */
     }
 
-    margin-top: 0;
+
     /* Reset negative margin if needed */
 }
 
@@ -1073,7 +1073,7 @@ body {
 #battle-enemy-stats .stat-row {
     font-size: 1rem;
 }
-}
+
 
 /* Persistent Version Display */
 /* Persistent Version Display */
@@ -1086,4 +1086,9 @@ body {
     z-index: 1000;
     pointer-events: none;
     font-family: 'DotGothic16', sans-serif;
+}
+
+/* Hide persistent version on title screen to avoid duplicate */
+#title-screen.active~.version-display {
+    display: none;
 }

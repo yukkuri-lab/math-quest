@@ -469,8 +469,9 @@ body {
     /* Above Message Window */
     left: 50%;
     transform: translateX(-50%);
-    width: 240px;
-    /* Compact width */
+    width: 90%;
+    /* Widen to match message window */
+    max-width: 500px;
     height: auto;
     background-color: rgba(0, 0, 170, 0.95);
     /* Back to Deep Blue */
@@ -853,8 +854,9 @@ body {
     /* Match Command Menu */
     left: 50%;
     transform: translateX(-50%);
-    width: 240px;
+    width: 90%;
     /* Match Command Menu */
+    max-width: 500px;
     height: auto;
     background-color: rgba(0, 0, 170, 0.95);
     /* Deep Blue */

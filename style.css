@@ -967,10 +967,10 @@ body {
     #command-menu,
     .question-area {
         width: 95%;
-        padding: 0.5rem;
-        /* Less padding */
-        bottom: 120px;
-        /* Slightly lower */
+        padding: 0.3rem;
+        /* Compact padding */
+        bottom: 15vh;
+        /* Dynamic positioning */
     }
 
     #message-window {
@@ -980,14 +980,38 @@ body {
         padding: 0.5rem 1rem;
     }
 
-    .command-btn,
-    .answer-btn {
+    .command-btn {
         font-size: 1.4rem;
-        /* Smaller font */
         padding: 8px 5px 8px 30px;
-        /* Smaller touch target */
         margin-bottom: 2px;
-        /* Less spacing */
+    }
+
+    /* Compact Answer Buttons */
+    .answer-btn {
+        font-size: 1.3rem;
+        /* Smaller font */
+        padding: 5px 3px 5px 25px;
+        /* Compact padding */
+        margin-bottom: 1px;
+        /* Minimal spacing */
+    }
+
+    .answer-btn::before {
+        left: 10px;
+        /* Adjust cursor pos */
+        font-size: 1rem;
+    }
+
+    /* Compact Question Text */
+    #question-text {
+        font-size: 1.5rem;
+        /* Smaller question text */
+        margin-bottom: 0.2rem;
+    }
+
+    #question-window {
+        padding-bottom: 0.2rem;
+        margin-bottom: 0.2rem;
     }
 
     /* Restrict enemy size on mobile */

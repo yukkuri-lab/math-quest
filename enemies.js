@@ -46,7 +46,8 @@ window.enemyData = [
         "type": "宇宙人",
         "region": "小柄な人間くらい・体は灰色",
         "size": "",
-        "description": ""
+        "description": "",
+        "image": "assets/uma_gray.png"
     },
     {
         "id": "C004",
@@ -72,7 +73,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "トカゲのような姿",
         "size": "",
-        "description": ""
+        "description": "",
+        "image": "assets/uma_lizardman.png"
     },
     {
         "id": "C006",
@@ -85,7 +87,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "1.2",
         "size": "細い手足・長いゆび",
-        "description": ""
+        "description": "",
+        "image": "assets/uma_dover_demon.png"
     },
     {
         "id": "C007",
@@ -124,7 +127,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "1",
         "size": "白くて細い・足だけのような見た目",
-        "description": ""
+        "description": "",
+        "image": "assets/uma_night_crawler.png"
     },
     {
         "id": "C010",
@@ -189,7 +193,8 @@ window.enemyData = [
         "type": "宇宙/怪異",
         "region": "アメリカ",
         "size": "3",
-        "description": "大きな目・ヘルメットのような頭"
+        "description": "大きな目・ヘルメットのような頭",
+        "image": "assets/uma_flatwoods_monster.png"
     },
     {
         "id": "C015",
@@ -267,7 +272,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "アメリカ",
         "size": "1.8-2",
-        "description": "犬の頭・二本足で歩く設定"
+        "description": "犬の頭・二本足で歩く設定",
+        "image": "assets/uma_dogman.png"
     },
     {
         "id": "C021",

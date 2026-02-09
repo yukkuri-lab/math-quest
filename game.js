@@ -403,9 +403,9 @@ class GameController {
         const enemies = window.enemyData || [];
 
 
-        // Boss Battle: King Monkey (Level 1 Last Boss)
+        // Boss Battle: King Monkey (Level 1 Last Boss) -> Disabled for Debug
         // Trigger: Level 1 and close to Level Up (exp >= 8)
-        if (this.player.lv === 1 && this.player.exp >= 8 && !this.lvl1BossDefeated) {
+        if (false && this.player.lv === 1 && this.player.exp >= 8 && !this.lvl1BossDefeated) {
             return {
                 id: "BOSS_LV1",
                 name: "キング・モンキー",
@@ -420,8 +420,8 @@ class GameController {
             };
         }
 
-        // Boss Battle: Bigfoot (Level 10)
-        if (this.player.lv >= 10 && !this.bossDefeated) {
+        // Boss Battle: Bigfoot (Level 10) -> Disabled for Debug
+        if (false && this.player.lv >= 10 && !this.bossDefeated) {
             return {
                 id: "F001",
                 name: "ビッグフット",
@@ -435,10 +435,12 @@ class GameController {
         }
 
         // Habitat-based Enemy Generation
-        const habitat = this.getHabitatForLevel(this.player.lv);
+        // Habitat-based Enemy Generation -> Debug Mode (Force Town Images)
+        const habitat = "まち";
+        const debugIds = ["C001", "C003", "C005", "C006", "C009", "C014", "C020"];
 
         // Filter enemies by current habitat
-        let possibleEnemies = enemies.filter(e => e.habitat === habitat);
+        let possibleEnemies = enemies.filter(e => debugIds.includes(e.id));
 
         // Fallback: If no enemies found for habitat (e.g. data missing), use "Town" or all enemies
         if (possibleEnemies.length === 0) {
@@ -447,8 +449,8 @@ class GameController {
             if (possibleEnemies.length === 0) possibleEnemies = enemies;
         }
 
-        // Special Case: Humanoid Type UMA (Tutorial)
-        if (this.player.lv === 1 && this.player.exp === 0) {
+        // Special Case: Humanoid Type UMA (Tutorial) -> Disabled for Debug
+        if (false && this.player.lv === 1 && this.player.exp === 0) {
             const firstEnemy = possibleEnemies.find(e => e.id === "C000");
             if (firstEnemy) return { ...firstEnemy, maxHp: 16, hp: 16, exp: 3, level: 1 };
         }

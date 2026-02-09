@@ -1,0 +1,384 @@
+127.0.0.1 - - [09/Feb/2026 18:46:51] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /game.js?v=3.73 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:47:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:47:24] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /game.js?v=3.73 HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:49:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:49:42] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /game.js?v=3.73 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:06] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:13] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:54:58] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:54:58] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:36] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /game.js?v=3.73 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:38] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:40] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:40] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:55:42] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:55:42] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:16] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:16] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:20] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 18:56:21] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 18:56:21] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /game.js?v=3.73 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:36] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:37] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:37] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:39] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:39] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:26:40] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:26:40] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:20] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:20] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:21] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:21] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:27:23] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:27:23] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /game.js?v=3.73 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:15] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:15] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:55] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:55] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:28:57] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:28:57] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:08] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:10] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:10] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:12] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:12] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:30:29] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:30:29] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:06] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:08] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:08] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:09] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:09] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /style.css?v=3.80 HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /enemies.js?v=3.80 HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /game.js?v=3.80 HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:24] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:24] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:36] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:36] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:38] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:38] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /game.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:31:51] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:31:51] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:00] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:00] "GET /assets/boss_lvl1.png HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:02] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:02] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /enemies.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /game.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:32:35] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:32:35] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /enemies.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /game.js?v=3.80 HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:05] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:05] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:06] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:06] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:08] "GET /assets/uma_lizardman.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:34:09] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:34:09] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:34:35] "GET /assets/uma_mothman.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:35:45] "GET /assets/uma_flatwoods_monster.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:37:07] "GET /assets/uma_gray.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:37:53] "GET /assets/uma_dogman.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:39:23] "GET /assets/uma_dover_demon.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /enemies.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /game.js?v=3.80 HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:44] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:44] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:39:48] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:39:48] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:13] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:13] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:15] "GET /assets/uma_night_crawler.png HTTP/1.1" 200 -
+127.0.0.1 - - [09/Feb/2026 19:40:17] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:17] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/bgm_title.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/bgm_battle.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/bgm_boss.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/sfx_pi.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/sfx_attack.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/sfx_damage.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:40:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:40:22] "GET /assets/sfx_win.mp3 HTTP/1.1" 404 -
+127.0.0.1 - - [09/Feb/2026 19:41:22] code 404, message File not found
+127.0.0.1 - - [09/Feb/2026 19:41:22] "GET /favicon.ico HTTP/1.1" 404 -

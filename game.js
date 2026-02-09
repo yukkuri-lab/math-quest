@@ -71,10 +71,10 @@ class GameController {
         const unlockAudio = () => {
             this.bgm.unlock();
             // Remove listeners once unlocked
-            document.body.removeEventListener('touchstart', unlockAudio);
+            document.body.removeEventListener('touchend', unlockAudio);
             document.body.removeEventListener('click', unlockAudio);
         };
-        document.body.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+        document.body.addEventListener('touchend', unlockAudio, { once: true, passive: false });
         document.body.addEventListener('click', unlockAudio, { once: true });
 
         // Start Button (Click & Touch)
@@ -118,7 +118,6 @@ class GameController {
                 } catch (e) {
                     this.updateDebugInfo(`Test: ERR ${e.message}`);
                 }
-                this.updateDebugInfo(`Test: ERR ${e.message}`);
             }
 
             // ^ Close runTest
@@ -434,11 +433,20 @@ class GameController {
             };
         }
 
-        // Habitat-based Enemy Generation
-        const habitat = this.getHabitatForLevel(this.player.lv);
+        // Habitat-based Enemy Generation -> Debug Mode (Force New Images)
+        // const habitat = this.getHabitatForLevel(this.player.lv);
+        const habitat = "DEBUG_NEW_IMAGES";
+        const debugIds = [
+            "F001", "F003", "F005", "F006", // Forest
+            "G001", // Grassland
+            "L001", "L006", // Lake
+            "M001", "M002", "M004", // Mountain
+            "O001", // Ocean
+            "S003", "S006" // Sky
+        ];
 
-        // Filter enemies by current habitat
-        let possibleEnemies = enemies.filter(e => e.habitat === habitat);
+        // Filter enemies by debug list
+        let possibleEnemies = enemies.filter(e => debugIds.includes(e.id));
 
         // Fallback: If no enemies found for habitat (e.g. data missing), use "Town" or all enemies
         if (possibleEnemies.length === 0) {
@@ -447,8 +455,8 @@ class GameController {
             if (possibleEnemies.length === 0) possibleEnemies = enemies;
         }
 
-        // Special Case: Humanoid Type UMA (Tutorial)
-        if (this.player.lv === 1 && this.player.exp === 0) {
+        // Special Case: Humanoid Type UMA (Tutorial) -> Disabled for Debug
+        if (false && this.player.lv === 1 && this.player.exp === 0) {
             const firstEnemy = possibleEnemies.find(e => e.id === "C000");
             if (firstEnemy) return { ...firstEnemy, maxHp: 16, hp: 16, exp: 3, level: 1 };
         }

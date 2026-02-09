@@ -120,14 +120,20 @@ class GameController {
                 }
                 this.updateDebugInfo(`Test: ERR ${e.message}`);
             }
-        };
 
-        soundTestBtn.addEventListener('click', runTest);
-        soundTestBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevent ghost click
-            runTest();
-        }, { passive: false });
+            // ^ Close runTest
+
+            soundTestBtn.addEventListener('click', runTest);
+            soundTestBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent ghost click
+                runTest();
+            }, { passive: false });
+        }
+        // ^ Close if (soundTestBtn)
+
     }
+
+
 
 
     updateDebugInfo(msg = "") {

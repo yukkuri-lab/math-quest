@@ -25,6 +25,7 @@ window.enemyData = [
     {
         "id": "C002",
         "name": "モンキーマン",
+        "image": "assets/uma_monkey_man.png",
         "emoji": "👾",
         "hp": 15,
         "maxHp": 15,
@@ -52,6 +53,7 @@ window.enemyData = [
     {
         "id": "C004",
         "name": "キシュテム・ドワーフ",
+        "image": "assets/uma_kistem_dwarf.png",
         "emoji": "🧚",
         "hp": 15,
         "maxHp": 15,
@@ -93,6 +95,7 @@ window.enemyData = [
     {
         "id": "C007",
         "name": "フォウク・モンスター",
+        "image": "assets/uma_fouke_monster.png",
         "emoji": "🦍",
         "hp": 15,
         "maxHp": 15,
@@ -106,6 +109,7 @@ window.enemyData = [
     {
         "id": "C008",
         "name": "ノーム",
+        "image": "assets/uma_gnome.png",
         "emoji": "🧚",
         "hp": 15,
         "maxHp": 15,
@@ -133,6 +137,7 @@ window.enemyData = [
     {
         "id": "C010",
         "name": "ジェヴォーダンのけもの",
+        "image": "assets/uma_beast_of_gevaudan.png",
         "emoji": "🐺",
         "hp": 15,
         "maxHp": 15,
@@ -146,6 +151,7 @@ window.enemyData = [
     {
         "id": "C011",
         "name": "バウオコジ",
+        "image": "assets/uma_bauokoji.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -159,6 +165,7 @@ window.enemyData = [
     {
         "id": "C012",
         "name": "ジャドーピープル",
+        "image": "assets/uma_shadow_people.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -172,6 +179,7 @@ window.enemyData = [
     {
         "id": "C013",
         "name": "スレンダーマン",
+        "image": "assets/uma_slenderman.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -199,6 +207,7 @@ window.enemyData = [
     {
         "id": "C015",
         "name": "ビッグマン",
+        "image": "assets/uma_bigman.png",
         "emoji": "👾",
         "hp": 15,
         "maxHp": 15,
@@ -212,6 +221,7 @@ window.enemyData = [
     {
         "id": "C016",
         "name": "マナナンガル",
+        "image": "assets/uma_manananggal.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -318,6 +328,7 @@ window.enemyData = [
     {
         "id": "F002",
         "name": "マピンガアリ",
+        "image": "assets/uma_mapinguari.png",
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -345,6 +356,7 @@ window.enemyData = [
     {
         "id": "F004",
         "name": "ブキッ・ティマ・モンキーマン",
+        "image": "assets/uma_bukit_timah_monkey_man.png",
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -386,6 +398,7 @@ window.enemyData = [
     {
         "id": "F007",
         "name": "オラン・ダラム",
+        "image": "assets/uma_orang_dalam.png",
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -399,6 +412,7 @@ window.enemyData = [
     {
         "id": "F008",
         "name": "モルガン・ビースト",
+        "image": "assets/uma_mogollon_monster.png",
         "emoji": "👻",
         "hp": 25,
         "maxHp": 25,
@@ -412,6 +426,7 @@ window.enemyData = [
     {
         "id": "F009",
         "name": "ヒューマノイドがたUMA",
+        "image": "assets/uma_humanoid_input.png",
         "emoji": "👾",
         "hp": 25,
         "maxHp": 25,
@@ -439,6 +454,7 @@ window.enemyData = [
     {
         "id": "G002",
         "name": "サーポパード",
+        "image": "assets/uma_serpopard.png",
         "emoji": "🐾",
         "hp": 20,
         "maxHp": 20,
@@ -452,6 +468,7 @@ window.enemyData = [
     {
         "id": "G003",
         "name": "スクヴェイダー",
+        "image": "assets/uma_skvader.png",
         "emoji": "🐾",
         "hp": 20,
         "maxHp": 20,
@@ -465,6 +482,7 @@ window.enemyData = [
     {
         "id": "G004",
         "name": "カーバンクル",
+        "image": "assets/uma_carbuncle.png",
         "emoji": "🐾",
         "hp": 20,
         "maxHp": 20,

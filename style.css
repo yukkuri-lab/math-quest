@@ -590,17 +590,17 @@ body {
 
 /* Image styling */
 .enemy-image {
-    max-width: 120%;
+    max-width: 140%;
     /* Allow overscale */
-    max-height: 80vh;
+    max-height: 85vh;
     /* Allow taking up most of screen height */
     width: auto;
     object-fit: cover;
-    transform: scale(1.1);
-    /* 1.1x scale */
-    margin-top: -10%;
-    /* Pull up to crop head */
-    margin-bottom: -5%;
+    transform: scale(1.3);
+    /* 1.3x scale */
+    margin-top: 5%;
+    /* Center it better */
+    margin-bottom: 0%;
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
     animation: floating 2s ease-in-out infinite;
 }

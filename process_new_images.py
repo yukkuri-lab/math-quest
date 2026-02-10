@@ -27,7 +27,26 @@ ID_MAP = {
     "M004": "uma_tatzelwurm.png",
     "O001": "uma_kraken.png",
     "S003": "uma_thunderbird.png",
-    "S006": "uma_owlman.png"
+    "S006": "uma_owlman.png",
+    # New Mappings
+    "C002": "uma_monkey_man.png",
+    "C004": "uma_kistem_dwarf.png",
+    "C007": "uma_fouke_monster.png",
+    "C008": "uma_gnome.png",
+    "C010": "uma_beast_of_gevaudan.png",
+    "C011": "uma_bauokoji.png",
+    "C012": "uma_shadow_people.png",
+    "C013": "uma_slenderman.png",
+    "C015": "uma_bigman.png",
+    "C016": "uma_manananggal.png",
+    "F002": "uma_mapinguari.png",
+    "F004": "uma_bukit_timah_monkey_man.png",
+    "F007": "uma_orang_dalam.png",
+    "F008": "uma_mogollon_monster.png",
+    "F009": "uma_humanoid_input.png",
+    "G002": "uma_serpopard.png",
+    "G003": "uma_skvader.png",
+    "G004": "uma_carbuncle.png"
 }
 
 def process_images():

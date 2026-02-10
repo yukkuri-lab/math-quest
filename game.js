@@ -66,12 +66,11 @@ class GameController {
         const savedIndex = localStorage.getItem('debugSequenceIndex');
         this.debugSequenceIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
         this.debugSequence = [
-            "F001", "F003", "F005", "F006", // Forest
-            "G001", // Grassland
-            "L001", "L006", // Lake
-            "M001", "M002", "M004", // Mountain
-            "O001", // Ocean
-            "S003", "S006" // Sky
+            // New Yokai for verification
+            "C002", "C004", "C007", "C008", "C010",
+            "C011", "C012", "C013", "C015", "C016",
+            "F002", "F004", "F007", "F008", "F009",
+            "G002", "G003", "G004"
         ];
 
         // Load Save Data

@@ -312,7 +312,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "アメリカ/カナダ",
         "size": "1.5-4.5",
-        "description": "足あとが大きい設定"
+        "description": "足あとが大きい設定",
+        "image": "assets/uma_bigfoot.png"
     },
     {
         "id": "F002",
@@ -338,7 +339,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "アメリカ",
         "size": "2",
-        "description": "体毛が長い設定"
+        "description": "体毛が長い設定",
+        "image": "assets/uma_skunk_ape.png"
     },
     {
         "id": "F004",
@@ -364,7 +366,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "インドネシア",
         "size": "0.8-1.5",
-        "description": "おくびょうで逃げる設定"
+        "description": "おくびょうで逃げる設定",
+        "image": "assets/uma_orang_pendek.png"
     },
     {
         "id": "F006",
@@ -377,7 +380,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "アメリカ",
         "size": "1.8-2.3",
-        "description": "顔はオオカミ・体はクマ設定"
+        "description": "顔はオオカミ・体はクマ設定",
+        "image": "assets/uma_bearwolf.png"
     },
     {
         "id": "F007",
@@ -429,7 +433,8 @@ window.enemyData = [
         "type": "怪異/獣人",
         "region": "中南米",
         "size": "0.9-1.2",
-        "description": "家畜をおそう設定"
+        "description": "家畜をおそう設定",
+        "image": "assets/uma_chupacabra.png"
     },
     {
         "id": "G002",
@@ -520,7 +525,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "ヒマラヤ",
         "size": "1.5-6",
-        "description": "雪山の生き物として有名"
+        "description": "雪山の生き物として有名",
+        "image": "assets/uma_yeti.png"
     },
     {
         "id": "M002",
@@ -533,7 +539,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "オーストラリア",
         "size": "1.5-3",
-        "description": "目はかわいい設定も"
+        "description": "目はかわいい設定も",
+        "image": "assets/uma_yowie.png"
     },
     {
         "id": "M003",
@@ -559,7 +566,8 @@ window.enemyData = [
         "type": "怪異/獣",
         "region": "アルプス",
         "size": "0.3-2",
-        "description": "伝承の生き物"
+        "description": "伝承の生き物",
+        "image": "assets/uma_tatzelwurm.png"
     },
     {
         "id": "M005",
@@ -624,7 +632,8 @@ window.enemyData = [
         "type": "鳥",
         "region": "アメリカ",
         "size": "3-10",
-        "description": "でんせつの巨大鳥"
+        "description": "でんせつの巨大鳥",
+        "image": "assets/uma_thunderbird.png"
     },
     {
         "id": "S004",
@@ -663,7 +672,8 @@ window.enemyData = [
         "type": "怪異/鳥人",
         "region": "イギリス",
         "size": "1.5-1.7",
-        "description": "フクロウのような見た目"
+        "description": "フクロウのような見た目",
+        "image": "assets/uma_owlman.png"
     },
     {
         "id": "S007",
@@ -845,7 +855,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "世界各地",
         "size": "20-60",
-        "description": "巨大イカ/タコのような設定"
+        "description": "巨大イカ/タコのような設定",
+        "image": "assets/uma_kraken.png"
     },
     {
         "id": "O002",
@@ -962,7 +973,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "イギリス",
         "size": "10-12",
-        "description": "ネス湖で有名"
+        "description": "ネス湖で有名",
+        "image": "assets/uma_nessie.png"
     },
     {
         "id": "L002",
@@ -1027,7 +1039,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "アメリカ",
         "size": "1.2",
-        "description": "ぬめぬめ・川に出る設定"
+        "description": "ぬめぬめ・川に出る設定",
+        "image": "assets/uma_frogman.png"
     },
     {
         "id": "L007",

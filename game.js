@@ -62,6 +62,18 @@ class GameController {
         this.bgm = new BGMController();
         this.typingTimeout = null;
 
+        // Debug Sequence State
+        const savedIndex = localStorage.getItem('debugSequenceIndex');
+        this.debugSequenceIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
+        this.debugSequence = [
+            "F001", "F003", "F005", "F006", // Forest
+            "G001", // Grassland
+            "L001", "L006", // Lake
+            "M001", "M002", "M004", // Mountain
+            "O001", // Ocean
+            "S003", "S006" // Sky
+        ];
+
         // Load Save Data
         this.loadGame();
     }
@@ -206,7 +218,8 @@ class GameController {
         await sleep(1000); // 1s pause after darkness
 
         // Appear concurrently with text!
-        this.logMessage(`[${this.getHabitatForLevel(this.player.lv)}] ${this.currentEnemy.name} が あらわれた！`);
+        // Appear concurrently with text!
+        this.logMessage(`${this.currentEnemy.name} が あらわれた！`);
 
         // Fade In (Fast)
         this.elements.enemySprite.style.transition = 'opacity 0.2s ease-in';
@@ -419,8 +432,8 @@ class GameController {
             };
         }
 
-        // Boss Battle: Bigfoot (Level 10)
-        if (this.player.lv >= 10 && !this.bossDefeated) {
+        // Boss Battle: Bigfoot (Level 10) -> Disabled for Debug
+        if (false && this.player.lv >= 10 && !this.bossDefeated) {
             return {
                 id: "F001",
                 name: "ビッグフット",
@@ -429,41 +442,37 @@ class GameController {
                 maxHp: 100,
                 exp: 0, // Game Clear
                 level: 10,
-                isBoss: true
+                isBoss: true,
+                image: "assets/uma_bigfoot.png"
             };
         }
 
-        // Habitat-based Enemy Generation -> Debug Mode (Force New Images)
-        // const habitat = this.getHabitatForLevel(this.player.lv);
-        const habitat = "DEBUG_NEW_IMAGES";
-        const debugIds = [
-            "F001", "F003", "F005", "F006", // Forest
-            "G001", // Grassland
-            "L001", "L006", // Lake
-            "M001", "M002", "M004", // Mountain
-            "O001", // Ocean
-            "S003", "S006" // Sky
-        ];
+        // Habitat-based Enemy Generation -> Debug Mode (Force Sequential Order)
+        // const habitat = "DEBUG_NEW_IMAGES";
+        // const debugIds = [ ... ];
 
-        // Filter enemies by debug list
-        let possibleEnemies = enemies.filter(e => debugIds.includes(e.id));
+        // Sequential Selection logic
+        const targetId = this.debugSequence[this.debugSequenceIndex];
+        let nextEnemy = enemies.find(e => e.id === targetId);
 
-        // Fallback: If no enemies found for habitat (e.g. data missing), use "Town" or all enemies
-        if (possibleEnemies.length === 0) {
-            console.warn(`No enemies found for habitat: ${habitat}. Using fallback.`);
-            possibleEnemies = enemies.filter(e => e.habitat === "まち");
-            if (possibleEnemies.length === 0) possibleEnemies = enemies;
+        // If not found (e.g. data missing), fallback to random from sequence to avoid crash
+        if (!nextEnemy) {
+            console.warn(`Debug enemy ${targetId} not found, looping.`);
+            this.debugSequenceIndex = 0;
+            nextEnemy = enemies.find(e => e.id === this.debugSequence[0]);
         }
 
-        // Special Case: Humanoid Type UMA (Tutorial) -> Disabled for Debug
-        if (false && this.player.lv === 1 && this.player.exp === 0) {
-            const firstEnemy = possibleEnemies.find(e => e.id === "C000");
-            if (firstEnemy) return { ...firstEnemy, maxHp: 16, hp: 16, exp: 3, level: 1 };
-        }
+        // Increment index for next battle and save
+        this.debugSequenceIndex = (this.debugSequenceIndex + 1) % this.debugSequence.length;
+        localStorage.setItem('debugSequenceIndex', this.debugSequenceIndex);
 
-        // Select Random Enemy from Pool
-        const randomIndex = Math.floor(Math.random() * possibleEnemies.length);
-        const enemyTemplate = possibleEnemies[randomIndex];
+        // Select Random Enemy from Pool -> Use Sequential Selection
+        // const randomIndex = Math.floor(Math.random() * possibleEnemies.length);
+        // const enemyTemplate = possibleEnemies[randomIndex];
+        const enemyTemplate = nextEnemy;
+
+        console.log(`[DEBUG] Selected Enemy: ${enemyTemplate.name} (${enemyTemplate.id}) Image: ${enemyTemplate.image}`);
+        console.log(`[DEBUG] Selected Enemy: ${enemyTemplate.name} (${enemyTemplate.id}) Image: ${enemyTemplate.image}`);
 
         // Determine Enemy Level (Player LV +/- 1, min 1)
         let enemyLv = this.player.lv + (Math.floor(Math.random() * 3) - 1);
@@ -868,10 +877,12 @@ class GameController {
             this.playSound('win');
         }
 
-        if (this.currentEnemy.id === "F001") { // Final Boss
+        if (this.currentEnemy.id === "F001" && this.currentEnemy.isBoss) { // Final Boss (Only if Boss version)
             setTimeout(() => {
                 this.handleGameClear();
             }, 1000);
+            this.bossDefeated = true; // Mark as defeated
+            this.saveGame();
             return;
         }
 
@@ -980,6 +991,51 @@ class GameController {
                 this.resetGame();
             });
         }
+    }
+
+    handleGameClear() {
+        this.isBattleActive = false;
+        this.bgm.stop();
+        this.playSound('win');
+
+        // Hide Battle UI Elements
+        this.elements.commandMenu.classList.add('hidden');
+        if (this.elements.questionArea) this.elements.questionArea.classList.add('hidden');
+
+        // Create Ending Overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'ending-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        overlay.style.color = '#fff';
+        overlay.style.display = 'flex';
+        overlay.style.flexDirection = 'column';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.zIndex = '9999';
+        overlay.style.fontFamily = '"DotGothic16", sans-serif';
+        overlay.style.textAlign = 'center';
+
+        overlay.innerHTML = `
+            <div style="font-size: 40px; color: #ffd700; text-shadow: 2px 2px #000; margin-bottom: 30px;">GAME CLEAR!</div>
+            <div style="font-size: 18px; line-height: 1.8;">
+                でんせつの UMA ビッグフットを たおした！<br>
+                せかいに 平和が もどった！<br>
+                <br>
+                ありがとう ゆうしゃ えいと！
+            </div>
+            <button id="end-title-btn" style="margin-top: 40px; padding: 10px 20px; font-size: 18px; cursor: pointer; background: #333; color: #fff; border: 2px solid #fff; font-family: inherit;">タイトルへ</button>
+        `;
+        document.body.appendChild(overlay);
+
+        document.getElementById('end-title-btn').addEventListener('click', () => {
+            overlay.remove();
+            this.resetGame();
+        });
     }
 
     logMessage(text) {

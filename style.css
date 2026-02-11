@@ -1132,6 +1132,7 @@ body {
 }
 
 /* Responsive Adjustments */
+/* Responsive Adjustments */
 @media (max-width: 600px) {
 
     #game-container {
@@ -1149,33 +1150,33 @@ body {
         min-width: auto;
     }
 
-    /* Command Menu & Question Area - More Compact & Lower */
+    /* Command Menu & Question Area - Easier to Press */
     #command-menu,
     .question-area {
-        width: 98%;
+        width: 95%;
         /* Maximize width */
-        padding: 0.2rem;
-        bottom: 95px;
-        /* Closer to message window */
-        /* Stacked above message window (5px + 80px + gap) */
+        padding: 0.3rem;
+        bottom: 115px;
+        /* Back to 115px (more space) */
     }
 
     #message-window {
-        bottom: 5px;
-        font-size: 0.9rem;
-        height: 85px;
-        /* Slightly smaller */
-        padding: 0.5rem;
-        width: 98%;
+        bottom: 10px;
+        font-size: 1rem;
+        height: 90px;
+        /* Back to 90px */
+        padding: 0.5rem 1rem;
+        width: 95%;
         left: 50%;
         transform: translateX(-50%);
     }
 
-    /* Command Buttons - Thinner */
+    /* Command Buttons - Larger for Mobile Touch */
     .command-btn {
-        font-size: 1rem;
-        padding: 6px 5px 6px 25px;
-        /* Reduced vertical padding */
+        font-size: 1.2rem;
+        /* Larger font */
+        padding: 8px 5px 8px 30px;
+        /* Comfortable padding */
         margin-bottom: 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     }
@@ -1183,28 +1184,28 @@ body {
     .command-btn::before {
         left: 8px;
         /* Adjust arrow pos */
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .command-btn:last-child {
         border-bottom: none;
     }
 
-    /* Compact Answer Buttons */
+    /* Answer Buttons - Comfortable */
     .answer-btn {
-        font-size: 1.1rem;
-        padding: 5px 2px 5px 25px;
-        margin-bottom: 0;
+        font-size: 1.2rem;
+        padding: 6px 2px 6px 30px;
+        margin-bottom: 1px;
     }
 
     .answer-btn::before {
         left: 8px;
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     /* Question Text */
     #question-text {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         margin-bottom: 0;
         padding-top: 2px;
     }
@@ -1215,42 +1216,45 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Move Enemy Up and Shake Less Space */
+    /* Enemy Area - Balanced */
     #enemy-area {
         position: absolute;
-        top: 10vh;
-        /* Move up from 15vh */
+        top: 12vh;
+        /* Slightly higher than original 15vh but lower than 10vh */
         left: 0;
         width: 100%;
-        height: 35vh;
-        /* Reduced height */
+        height: 40vh;
+        /* Restore height */
         margin: 0;
         align-items: center;
         z-index: 5;
     }
 
     #enemy-window {
-        width: 90%;
-        height: 100%;
-        max-height: none;
-        padding-top: 0;
+        width: auto;
+        height: auto;
+        max-width: 85%;
+        aspect-ratio: 1 / 1;
+        max-height: 35vh;
+        padding: 0;
+        display: flex;
+        /* Ensure flex is active */
         align-items: center;
-        /* Center properly */
-        border: none;
-        /* Optional: remove border on mobile if too cluttered, but keeping for now */
-        background: transparent;
-        /* Remove black box effect on mobile for cleaner look? Or keep it? user said "PC is fine", maybe mobile box is okay if sized right. */
+        justify-content: center;
+
+        /* Restore Frame - Thicker for visibility */
+        border: 6px double #fff;
+        background-color: #000;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        opacity: 1;
+        /* Force opacity */
     }
 
-    /* Revert #enemy-window styling for mobile to be cleaner? 
-       Actually, let's keep the box but ensure it fits. 
-       Use flex to center image.
-    */
-
-    /* Reduce Enemy Image Size */
+    /* Enemy Image Size */
     .enemy-image {
-        max-height: 25vh;
-        /* Smaller to ensure fit */
+        max-height: 30vh;
+        /* Cap height */
         margin-top: 0;
     }
 
@@ -1261,13 +1265,13 @@ body {
 
     #battle-player-stats .name,
     #battle-enemy-name {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin-bottom: 0.2rem;
     }
 
     #battle-player-stats .stat-row,
     #battle-enemy-stats .stat-row {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     /* Adjust Title Screen for Mobile */

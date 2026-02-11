@@ -1233,9 +1233,10 @@ body {
     #enemy-window {
         width: auto;
         height: auto;
-        max-width: 85%;
+        max-width: 90%;
         aspect-ratio: 1 / 1;
-        max-height: 35vh;
+        max-height: 45vh;
+        /* Increased from 35vh */
         padding: 0;
         display: flex;
         /* Ensure flex is active */
@@ -1253,7 +1254,9 @@ body {
 
     /* Enemy Image Size */
     .enemy-image {
-        max-height: 30vh;
+        max-height: 85%;
+        /* Relative to window now */
+        max-width: 85%;
         /* Cap height */
         margin-top: 0;
     }

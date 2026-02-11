@@ -1265,13 +1265,20 @@ body {
 
     #battle-player-stats .name,
     #battle-enemy-name {
-        font-size: 0.9rem;
-        margin-bottom: 0.2rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.1rem;
     }
 
     #battle-player-stats .stat-row,
     #battle-enemy-stats .stat-row {
-        font-size: 1rem;
+        font-size: 0.8rem;
+        /* Smaller stats */
+    }
+
+    /* Specifically target Level display to not be huge */
+    #battle-enemy-lv-container {
+        font-size: 0.7rem;
+        margin-top: 2px;
     }
 
     /* Adjust Title Screen for Mobile */

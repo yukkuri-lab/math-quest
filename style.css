@@ -293,6 +293,8 @@ body {
 
 /* 1. MONSTER AREA (Dominant 65%) */
 /* 1. MONSTER AREA (Classic) */
+/* 1. MONSTER AREA (Dominant 65%) */
+/* 1. MONSTER AREA (Classic) */
 #enemy-area {
     width: 100%;
     height: auto;
@@ -302,10 +304,10 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: 80px;
-    /* More space from top stats */
-    margin-bottom: 140px;
-    /* Space for command/message */
+
+    /* Desktop optimization: Reduce margins */
+    margin-top: 20px;
+    margin-bottom: 120px;
     z-index: 5;
 }
 
@@ -314,7 +316,8 @@ body {
     max-width: 500px;
     aspect-ratio: 1 / 1;
     /* Square box */
-    max-height: 45vh;
+    max-height: 50vh;
+    /* Cap height on desktop too */
     /* Don't get too tall */
     display: flex;
     justify-content: center;
@@ -325,7 +328,8 @@ body {
     /* Double border */
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    overflow: hidden;
+    overflow: visible;
+    /* Allow glow to show */
     position: relative;
 }
 
@@ -485,19 +489,22 @@ body {
 /* Message Window - Anchored at Bottom */
 #message-window {
     position: fixed;
-    bottom: 20px;
+    bottom: 10px;
+    /* Decrease from 20px */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     /* Standardize width */
     max-width: 500px;
     /* Standardize max-width */
-    height: 100px;
+    height: 90px;
+    /* Decrease from 100px */
     display: flex;
     align-items: center;
     justify-content: flex-start;
     /* Left align text area */
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
+    /* Reduce padding */
     /* More padding on sides */
     background-color: #000;
     /* Pure Black */
@@ -506,7 +513,8 @@ body {
     border-radius: 8px;
     z-index: 1000;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    /* Slightly smaller */
     /* Slightly smaller for fitting */
     line-height: 1.4;
     text-align: left;
@@ -518,7 +526,8 @@ body {
 /* 4. COMMAND UI (Bottom 20%) */
 #command-menu {
     position: fixed;
-    bottom: 130px;
+    bottom: 110px;
+    /* Decrease from 130px to sit closer to msg window */
     /* Above Message Window */
     left: 50%;
     transform: translateX(-50%);
@@ -530,7 +539,8 @@ body {
     /* Back to Deep Blue */
     border: 3px solid #fff;
     border-radius: 12px;
-    padding: 10px;
+    padding: 5px;
+    /* Decrease padding */
     z-index: 100;
     backdrop-filter: blur(4px);
     display: flex;
@@ -547,7 +557,8 @@ body {
 }
 
 .command-btn {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    /* Slightly smaller */
     text-align: left;
     /* Left align text */
     padding-left: 2rem;
@@ -573,7 +584,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #fff;
     pointer-events: none;
 }
@@ -590,15 +601,19 @@ body {
 
 /* Image styling */
 .enemy-image {
-    max-width: 140%;
+    max-width: 120%;
+    /* Reduce scale */
     /* Allow overscale */
-    max-height: 85vh;
+    max-height: 60vh;
+    /* Cap height significantly */
     /* Allow taking up most of screen height */
     width: auto;
     object-fit: cover;
-    transform: scale(1.3);
+    transform: scale(1.1);
+    /* Reduce scale */
     /* 1.3x scale */
-    margin-top: 5%;
+    margin-top: 2%;
+    /* Reduce margin */
     /* Center it better */
     margin-bottom: 0%;
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
@@ -627,33 +642,51 @@ body {
 }
 
 /* Damage Shake Animation */
+/* Damage Shake Animation */
+/* Increase specificity to override #enemy-sprite img */
+#enemy-sprite img.damage-shake,
 .damage-shake {
     animation: damageShake 0.5s cubic-bezier(.36, .07, .19, .97) both;
-    filter: sepia(100%) hue-rotate(-50deg) saturate(600%);
-    /* Red flash */
+    /* Use !important to ensure filter overrides the default drop-shadow */
+    filter: sepia(100%) hue-rotate(-50deg) saturate(600%) drop-shadow(0 0 5px rgba(255, 50, 50, 1)) drop-shadow(0 0 15px rgba(255, 0, 0, 0.7)) !important;
+    /* Refined Red Glow */
 }
 
 @keyframes damageShake {
-
-    10%,
-    90% {
-        transform: translate3d(-4px, 0, 0);
+    0% {
+        transform: translate(0, 0) rotate(0deg);
     }
 
-    20%,
-    80% {
-        transform: translate3d(8px, 0, 0);
+    10% {
+        transform: translate(-5px, -5px) rotate(-1deg);
     }
 
-    30%,
-    50%,
-    70% {
-        transform: translate3d(-16px, 0, 0);
+    20% {
+        transform: translate(5px, 5px) rotate(1deg);
     }
 
-    40%,
+    30% {
+        transform: translate(-5px, 5px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(5px, -5px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-2px, 2px) rotate(-1deg);
+    }
+
     60% {
-        transform: translate3d(16px, 0, 0);
+        transform: translate(2px, -2px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
     }
 }
 
@@ -790,6 +823,88 @@ body {
         opacity: 1;
     }
 }
+
+/* Subtle Step Shake (1-2px) */
+.step-shake {
+    animation: stepShake 0.2s linear;
+}
+
+@keyframes stepShake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-2px, 0);
+    }
+
+    50% {
+        transform: translate(2px, 0);
+    }
+
+    75% {
+        transform: translate(-1px, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Feedback Pop (Attached to Button) */
+.feedback-pop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Simple & Bold Design */
+    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    pointer-events: none;
+    z-index: 100;
+
+    /* Subtle glow for visibility instead of heavy outline */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+
+.feedback-correct {
+    color: #2ecc71;
+    /* Paste Green */
+    animation: feedbackBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.feedback-wrong {
+    color: #ff6b6b;
+    /* Pastel Red */
+    animation: feedbackBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes feedbackBounce {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(-15deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(5deg);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(0.9) rotate(-3deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.0) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+/* Obsolete Overlay styles removed */
 
 /* Obsolete styles removed for Apple Polish Refactor */
 
@@ -1019,33 +1134,56 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 600px) {
 
+    #game-container {
+        height: 100dvh;
+        /* Use dynamic viewport height */
+        padding: 5px;
+    }
+
+    /* Adjust Status Bars to be tighter */
+    #battle-player-stats,
+    #battle-enemy-stats {
+        top: 5px;
+        /* Move up */
+        padding: 0.3rem;
+        min-width: auto;
+    }
+
+    /* Command Menu & Question Area - More Compact & Lower */
     #command-menu,
     .question-area {
-        width: 95%;
-        padding: 0.3rem;
-        /* Compact padding */
-        bottom: 115px;
-        /* Stacked above message window (10px + 90px + padding + gap) */
+        width: 98%;
+        /* Maximize width */
+        padding: 0.2rem;
+        bottom: 95px;
+        /* Closer to message window */
+        /* Stacked above message window (5px + 80px + gap) */
     }
 
     #message-window {
-        bottom: 10px;
-        font-size: 1rem;
-        height: 90px;
-        padding: 0.5rem 1rem;
-        width: 95%;
-        /* Align with Command Menu */
+        bottom: 5px;
+        font-size: 0.9rem;
+        height: 85px;
+        /* Slightly smaller */
+        padding: 0.5rem;
+        width: 98%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
+    /* Command Buttons - Thinner */
     .command-btn {
         font-size: 1rem;
-        /* Match message window */
-        padding: 8px 5px 8px 30px;
+        padding: 6px 5px 6px 25px;
         /* Reduced vertical padding */
         margin-bottom: 0;
-        /* Remove gap for borders */
         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        /* Separator line */
+    }
+
+    .command-btn::before {
+        left: 8px;
+        /* Adjust arrow pos */
+        font-size: 0.9rem;
     }
 
     .command-btn:last-child {
@@ -1055,102 +1193,106 @@ body {
     /* Compact Answer Buttons */
     .answer-btn {
         font-size: 1.1rem;
-        /* Further reduced */
-        padding: 4px 2px 4px 30px;
-        /* Tighter vertical, keep cursor space */
-        margin-bottom: 1px;
+        padding: 5px 2px 5px 25px;
+        margin-bottom: 0;
     }
 
     .answer-btn::before {
-        left: 10px;
-        /* Adjust cursor pos */
+        left: 8px;
         font-size: 0.9rem;
     }
 
-    /* Compact Question Text */
+    /* Question Text */
     #question-text {
-        font-size: 1.3rem;
-        /* Further reduced */
-        margin-bottom: 0.1rem;
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        padding-top: 2px;
     }
 
     #question-window {
-        padding-bottom: 0.1rem;
-        margin-bottom: 0.1rem;
+        padding-bottom: 2px;
+        margin-bottom: 2px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Restrict enemy size on mobile */
+    /* Move Enemy Up and Shake Less Space */
+    #enemy-area {
+        position: absolute;
+        top: 10vh;
+        /* Move up from 15vh */
+        left: 0;
+        width: 100%;
+        height: 35vh;
+        /* Reduced height */
+        margin: 0;
+        align-items: center;
+        z-index: 5;
+    }
+
+    #enemy-window {
+        width: 90%;
+        height: 100%;
+        max-height: none;
+        padding-top: 0;
+        align-items: center;
+        /* Center properly */
+        border: none;
+        /* Optional: remove border on mobile if too cluttered, but keeping for now */
+        background: transparent;
+        /* Remove black box effect on mobile for cleaner look? Or keep it? user said "PC is fine", maybe mobile box is okay if sized right. */
+    }
+
+    /* Revert #enemy-window styling for mobile to be cleaner? 
+       Actually, let's keep the box but ensure it fits. 
+       Use flex to center image.
+    */
+
+    /* Reduce Enemy Image Size */
     .enemy-image {
-        max-height: 30vh;
-        /* Slightly smaller to fit */
+        max-height: 25vh;
+        /* Smaller to ensure fit */
         margin-top: 0;
     }
 
-    /* Force enemy to top on mobile to avoid overlap */
-    #enemy-window {
-        align-items: flex-start;
-        padding-top: 60px;
-        /* Reduced from 110px since area is lowered */
+    #enemy-sprite img {
+        max-height: 90%;
+        width: auto;
     }
 
+    #battle-player-stats .name,
+    #battle-enemy-name {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+    }
 
-    /* Reset negative margin if needed */
+    #battle-player-stats .stat-row,
+    #battle-enemy-stats .stat-row {
+        font-size: 0.9rem;
+    }
+
+    /* Adjust Title Screen for Mobile */
+    #title-logo {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #title-hero {
+        max-height: 20vh;
+    }
+
+    .version {
+        display: none;
+        /* Hide version on title screen mobile to save space */
+    }
 }
 
-/* Force enemy to top area on mobile */
-/* Force enemy to top area on mobile */
-#enemy-area {
-    position: absolute;
-    top: 15vh;
-    /* Lowered for better balance (was 12vh) */
-    left: 0;
-    width: 100%;
-    height: 40vh;
-    margin: 0;
-    align-items: center;
-    z-index: 5;
-}
-
-#enemy-window {
-    width: 90%;
-    height: 100%;
-    max-height: none;
-    aspect-ratio: auto;
-    padding-top: 0;
-    align-items: center;
-}
-
-#enemy-sprite img {
-    max-height: 90%;
-    width: auto;
-}
-
-/* Compact stats for mobile */
-#battle-player-stats,
-#battle-enemy-stats {
-    padding: 0.5rem;
-    min-width: auto;
-}
-
-#battle-player-stats .name,
-#battle-enemy-name {
-    font-size: 0.9rem;
-}
-
-#battle-player-stats .stat-row,
-#battle-enemy-stats .stat-row {
-    font-size: 1rem;
-}
-
-
-/* Persistent Version Display */
 /* Persistent Version Display */
 .version-display {
     position: fixed;
-    bottom: 5px;
-    right: 5px;
+    bottom: 2px;
+    right: 2px;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     z-index: 1000;
     pointer-events: none;
     font-family: 'DotGothic16', sans-serif;
@@ -1160,3 +1302,7 @@ body {
 #title-screen.active~.version-display {
     display: none;
 }
+
+
+
+```

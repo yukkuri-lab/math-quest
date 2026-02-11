@@ -221,7 +221,7 @@ window.enemyData = [
     {
         "id": "C016",
         "name": "マナナンガル",
-        "image": "assets/uma_manananggal.png",
+        // "image": "assets/uma_manananggal.png", // Removed
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -235,6 +235,7 @@ window.enemyData = [
     {
         "id": "C017",
         "name": "レイク",
+        "image": "assets/uma_rake.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -248,6 +249,7 @@ window.enemyData = [
     {
         "id": "C018",
         "name": "トロール",
+        "image": "assets/uma_troll.png",
         "emoji": "👾",
         "hp": 15,
         "maxHp": 15,
@@ -261,6 +263,7 @@ window.enemyData = [
     {
         "id": "C019",
         "name": "ポンベロ",
+        "image": "assets/uma_pombero.png",
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -288,6 +291,7 @@ window.enemyData = [
     {
         "id": "C021",
         "name": "ボスニア・モンスター",
+        "image": "assets/uma_bosnian_monster.png",
         "emoji": "🐺",
         "hp": 15,
         "maxHp": 15,
@@ -301,6 +305,7 @@ window.enemyData = [
     {
         "id": "C022",
         "name": "つばさネコ",
+        "image": "assets/uma_winged_cat.png",
         "emoji": "🐱",
         "hp": 15,
         "maxHp": 15,
@@ -356,7 +361,7 @@ window.enemyData = [
     {
         "id": "F004",
         "name": "ブキッ・ティマ・モンキーマン",
-        "image": "assets/uma_bukit_timah_monkey_man.png",
+        // "image": "assets/uma_bukit_timah_monkey_man.png", // Removed
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -398,7 +403,7 @@ window.enemyData = [
     {
         "id": "F007",
         "name": "オラン・ダラム",
-        "image": "assets/uma_orang_dalam.png",
+        // "image": "assets/uma_orang_dalam.png", // Removed
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -426,7 +431,7 @@ window.enemyData = [
     {
         "id": "F009",
         "name": "ヒューマノイドがたUMA",
-        "image": "assets/uma_humanoid_input.png",
+        // "image": "assets/uma_humanoid_input.png", // Removed
         "emoji": "👾",
         "hp": 25,
         "maxHp": 25,
@@ -748,6 +753,7 @@ window.enemyData = [
     {
         "id": "S011",
         "name": "フライング・ヒューマノイド",
+        "image": "assets/uma_flying_humanoid.png",
         "emoji": "👾",
         "hp": 25,
         "maxHp": 25,
@@ -787,6 +793,7 @@ window.enemyData = [
     {
         "id": "S014",
         "name": "ライト・ビーイング",
+        "image": "assets/uma_light_being.png",
         "emoji": "👻",
         "hp": 25,
         "maxHp": 25,
@@ -892,6 +899,7 @@ window.enemyData = [
     {
         "id": "O003",
         "name": "ニンゲン",
+        "image": "assets/uma_ningen.png",
         "emoji": "👻",
         "hp": 40,
         "maxHp": 40,

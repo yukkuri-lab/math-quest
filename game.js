@@ -66,11 +66,9 @@ class GameController {
         const savedIndex = localStorage.getItem('debugSequenceIndex');
         this.debugSequenceIndex = savedIndex ? parseInt(savedIndex, 10) : 0;
         this.debugSequence = [
-            // New Yokai for verification
-            "C002", "C004", "C007", "C008", "C010",
-            "C011", "C012", "C013", "C015", "C016",
-            "F002", "F004", "F007", "F008", "F009",
-            "G002", "G003", "G004"
+            // Second Batch of Yokai
+            "C017", "C018", "C019", "C021",
+            "C022", "O003", "S011", "S014"
         ];
 
         // Load Save Data
@@ -206,11 +204,21 @@ class GameController {
         // 2. "Something approaching"
         this.logMessage("なにかが ちかづいてくる……");
         this.playSound('approaching'); // New SFX
+
+        // Add subtle shake
+        const container = document.getElementById('game-container');
+        if (container) {
+            container.classList.add('step-shake');
+            setTimeout(() => {
+                container.classList.remove('step-shake');
+            }, 250);
+        }
+
         await sleep(2000);
 
-        // 3. "Darkness"
-        this.logMessage("あたりが くらくなった！");
-        this.playSound('darkness'); // New SFX
+        // 3. "Darkness" -> "Something moved" -> "Bad feeling"
+        this.logMessage("いやな よかんが する…");
+        this.playSound('darkness'); // Renamed SFX trigger
         await sleep(2000);
 
         // 4. Reveal Enemy (No text)
@@ -446,31 +454,20 @@ class GameController {
             };
         }
 
-        // Habitat-based Enemy Generation -> Debug Mode (Force Sequential Order)
-        // const habitat = "DEBUG_NEW_IMAGES";
-        // const debugIds = [ ... ];
+        // Image-based Selection (Registered 47 Yokai)
+        // Filter enemies that have an 'image' property
+        const validEnemies = enemies.filter(e => e.image);
 
-        // Sequential Selection logic
-        const targetId = this.debugSequence[this.debugSequenceIndex];
-        let nextEnemy = enemies.find(e => e.id === targetId);
-
-        // If not found (e.g. data missing), fallback to random from sequence to avoid crash
-        if (!nextEnemy) {
-            console.warn(`Debug enemy ${targetId} not found, looping.`);
-            this.debugSequenceIndex = 0;
-            nextEnemy = enemies.find(e => e.id === this.debugSequence[0]);
+        let enemyTemplate;
+        if (validEnemies.length > 0) {
+            const randomIndex = Math.floor(Math.random() * validEnemies.length);
+            enemyTemplate = validEnemies[randomIndex];
+        } else {
+            // Fallback if no images found
+            const randomIndex = Math.floor(Math.random() * enemies.length);
+            enemyTemplate = enemies[randomIndex];
         }
 
-        // Increment index for next battle and save
-        this.debugSequenceIndex = (this.debugSequenceIndex + 1) % this.debugSequence.length;
-        localStorage.setItem('debugSequenceIndex', this.debugSequenceIndex);
-
-        // Select Random Enemy from Pool -> Use Sequential Selection
-        // const randomIndex = Math.floor(Math.random() * possibleEnemies.length);
-        // const enemyTemplate = possibleEnemies[randomIndex];
-        const enemyTemplate = nextEnemy;
-
-        console.log(`[DEBUG] Selected Enemy: ${enemyTemplate.name} (${enemyTemplate.id}) Image: ${enemyTemplate.image}`);
         console.log(`[DEBUG] Selected Enemy: ${enemyTemplate.name} (${enemyTemplate.id}) Image: ${enemyTemplate.image}`);
 
         // Determine Enemy Level (Player LV +/- 1, min 1)
@@ -480,11 +477,13 @@ class GameController {
         // Scale enemy stats based on ITS level
         const scale = 1 + (enemyLv - 1) * 0.15;
 
-        // Handle F009 Image Fix (same as C000)
+        // Handle F009 Image Fix (Removed by user request)
+        // let enemyImage = enemyTemplate.image;
+        // if (enemyTemplate.id === 'F009' && !enemyImage) {
+        //     enemyImage = "assets/uma_humanoid_final_03.jpg";
+        // }
+        // const enemyImage = enemyTemplate.image; // Use template image directly if no override
         let enemyImage = enemyTemplate.image;
-        if (enemyTemplate.id === 'F009' && !enemyImage) {
-            enemyImage = "assets/uma_humanoid_final_03.jpg";
-        }
 
         return {
             ...enemyTemplate,
@@ -727,10 +726,38 @@ class GameController {
             gaugeFill.className = ''; // reset
             if (hpPercent <= 20) {
                 gaugeFill.classList.add('low');
-            } else if (hpPercent <= 50) {
                 gaugeFill.classList.add('mid');
             }
         }
+    }
+
+    showFeedback(isCorrect, targetElement) {
+        // Create a dedicated feedback element
+        const feedback = document.createElement('div');
+        feedback.textContent = isCorrect ? '○' : '✕';
+        feedback.className = isCorrect ? 'feedback-pop feedback-correct' : 'feedback-pop feedback-wrong';
+
+        // Append to target or fallback into body (though target is expected)
+        if (targetElement) {
+            targetElement.appendChild(feedback);
+        } else {
+            // Fallback to overlay if no target (e.g. keyboard mode if we had one)
+            // But for now, user requested specific location.
+            const overlay = document.getElementById('feedback-overlay');
+            if (overlay) {
+                overlay.textContent = isCorrect ? '○' : '✕';
+                overlay.className = '';
+                overlay.classList.add(isCorrect ? 'feedback-correct' : 'feedback-wrong');
+                void overlay.offsetWidth;
+                setTimeout(() => overlay.className = 'hidden', 600);
+            }
+            return;
+        }
+
+        // Remove after animation
+        setTimeout(() => {
+            feedback.remove();
+        }, 600);
     }
 
     handleAnswer(btn) {
@@ -745,6 +772,7 @@ class GameController {
         if (this.isRushMode) {
             // --- RUSH MODE LOGIC ---
             if (isCorrect) {
+                this.showFeedback(true, btn);
                 this.logMessage("せいかい！");
                 this.playSound('attack');
 
@@ -779,6 +807,7 @@ class GameController {
 
             } else {
                 // Wrong Answer
+                this.showFeedback(false, btn);
                 this.logMessage("ミス！ ダメージをうけた！");
                 this.playSound('miss');
 
@@ -802,6 +831,7 @@ class GameController {
         } else {
             // --- LEGACY LOGIC (Fallback) ---
             if (isCorrect) {
+                this.showFeedback(true, btn);
                 this.logMessage("こうげき！");
                 this.playSound('attack');
 
@@ -827,6 +857,7 @@ class GameController {
                     }
                 }, 800);
             } else {
+                this.showFeedback(false, btn);
                 this.logMessage("ミス！");
                 this.playSound('miss');
                 document.getElementById('game-container').classList.add('shake');
@@ -1109,9 +1140,21 @@ class GameController {
             osc.frequency.setValueAtTime(440, now);
             osc.frequency.linearRampToValueAtTime(880, now + 0.2);
             gainNode.gain.setValueAtTime(0.1, now);
-            gainNode.gain.linearRampToValueAtTime(0.01, now + 0.5);
+            gainNode.gain.linearRampToValueAtTime(0, now + 0.2);
             osc.start(now);
-            osc.stop(now + 0.5);
+            osc.stop(now + 0.2);
+        } else if (type === 'approaching') {
+            // Low pitch thud (Footstep)
+            // Triangle wave for a muffled sound
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(100, now);
+            osc.frequency.exponentialRampToValueAtTime(50, now + 0.1);
+
+            gainNode.gain.setValueAtTime(0.3, now); // Slightly louder for impact
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+            osc.start(now);
+            osc.stop(now + 0.15);
         } else if (type === 'bgm') {
             // BGM placeholder - we probably won't do full BGM yet
         } else if (type === 'pi') {
@@ -1123,7 +1166,7 @@ class GameController {
             gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
             osc.start(now);
             osc.stop(now + 0.1);
-        } else if (type === 'approaching') {
+        } else if (type === 'darkness') {
             // Creepy sound: Low dissonant drone with pitch bend
             // Oscillator 1: Low Sawtooth
             osc.type = 'sawtooth';

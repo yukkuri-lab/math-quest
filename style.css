@@ -1233,31 +1233,29 @@ body {
     #enemy-window {
         width: auto;
         height: auto;
-        max-width: 90%;
+        max-width: 95%;
+        /* Maximize width */
         aspect-ratio: 1 / 1;
-        max-height: 45vh;
-        /* Increased from 35vh */
+        max-height: 50vh;
+        /* Maximize height */
         padding: 0;
         display: flex;
-        /* Ensure flex is active */
         align-items: center;
         justify-content: center;
 
-        /* Restore Frame - Thicker for visibility */
-        border: 6px double #fff;
+        /* Simplify Frame - Single Solid Line */
+        border: 3px solid #fff;
         background-color: #000;
         border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         opacity: 1;
-        /* Force opacity */
     }
 
-    /* Enemy Image Size */
+    /* Enemy Image Size - Maximize! */
     .enemy-image {
-        max-height: 85%;
-        /* Relative to window now */
-        max-width: 85%;
-        /* Cap height */
+        max-height: 95%;
+        /* Fill the box */
+        max-width: 95%;
         margin-top: 0;
     }
 

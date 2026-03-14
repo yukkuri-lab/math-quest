@@ -1405,3 +1405,22 @@ body {
 .shake-fast {
     animation: shakeFast 0.1s linear infinite;
 }
+
+/* UMA Pop Animation */
+.enemy-enter {
+    animation: enemyPop 0.6s ease-out forwards;
+}
+
+@keyframes enemyPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

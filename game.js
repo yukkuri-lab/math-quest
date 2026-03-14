@@ -290,89 +290,129 @@ class GameController {
         this.elements.commandMenu.classList.add('hidden');
         if (this.elements.questionArea) this.elements.questionArea.classList.add('hidden');
 
-        // --- DRAMATIC INTRO SEQUENCE (Gacha Style) ---
+        // --- DRAMATIC INTRO SEQUENCE ---
         const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+        
+        const type = this.currentEnemy.encounterType || 'beast';
+
+        // 1. エリアごとのメッセージと演出パターンの決定
+        let msg1 = "";
+        let msg2 = "";
+        let sfxMode = "";
+        let effectClass = "";
+        let effectDuration = 0;
+
+        switch (type) {
+            case 'water': // 海・水
+                msg1 = "🌊 すいめんが ざわめいている…";
+                msg2 = "💦 おおきな なみが ちかづく…";
+                sfxMode = "water_splash"; // または既存の音
+                effectClass = "shake-water";
+                effectDuration = 2000;
+                break;
+            case 'sky': // 空
+                msg1 = "🌪 きゅうに かぜが つよくなった…";
+                msg2 = "🦅 うえから こうそくで ちかづく影…";
+                sfxMode = "wind_whoosh";
+                effectClass = "flash-dark";
+                effectDuration = 200;
+                break;
+            case 'shadow': // 影・怪異
+                msg1 = "🌑 きゅうに まわりが くらくなった…";
+                msg2 = "👻 うしろに いやな けはいが する…";
+                sfxMode = "creepy_small";
+                effectClass = "shake-fast";
+                effectDuration = 1000;
+                break;
+            case 'beast': // 森・獣
+            default:
+                msg1 = "🌫️ もりが ざわざわしている…";
+                msg2 = "👣 ドシン… ドシン…";
+                sfxMode = "footstep_heavy";
+                effectClass = "shake-heavy";
+                effectDuration = 1000;
+                break;
+        }
 
         // Get Rarity (1 to 5)
         const rarity = this.currentEnemy.rarity || 1;
         const stars = "⭐".repeat(rarity);
 
-        let rarityName = "";
-        let flashColor = ""; // CSS box-shadow for gacha feel
-        let waitTime = 1000;
-        let sfxMode = "footstep_heavy";
+        // 1. エリア演出 Part 1
+        this.logMessage(msg1);
+        await sleep(1200);
 
-        switch(rarity) {
-            case 5: 
-                rarityName = "レジェンド(LR)"; 
-                flashColor = "0 0 40px #ff00ff, 0 0 80px #ff0000"; 
-                waitTime = 3000; 
-                sfxMode = "win"; 
-                break;
-            case 4: 
-                rarityName = "ウルトラレア(UR)"; 
-                flashColor = "0 0 30px #ffaa00, 0 0 60px #ffff00"; 
-                waitTime = 2500; 
-                sfxMode = "attack"; 
-                break;
-            case 3: 
-                rarityName = "スーパーレア(SSR)"; 
-                flashColor = "0 0 25px #ffffff, 0 0 50px #aaaaaa"; 
-                waitTime = 2000; 
-                sfxMode = "wind_whoosh"; 
-                break;
-            case 2: 
-                rarityName = "レア(SR)"; 
-                flashColor = "0 0 20px #00ff00"; 
-                waitTime = 1500; 
-                sfxMode = "pi"; 
-                break;
-            default: 
-                rarityName = "コモン(R)"; 
-                flashColor = "0 0 15px #00aaff"; 
-                waitTime = 1000; 
-                sfxMode = "footstep_heavy"; 
-                break;
-        }
-
-        // 1. "......"
-        this.logMessage("あやしい けはいが する……");
-        await sleep(1000);
-
-        // 2. Gacha Intro Sequence
-        this.logMessage("なにが でるかな……？");
+        // 2. エリア演出 Part 2 (効果音と画面エフェクト)
+        this.logMessage(msg2);
         this.playSound(sfxMode);
 
-        // Gacha Flash Effect on Enemy Window
+        const container = document.getElementById('game-container');
+        if (container && effectClass) {
+            container.classList.add(effectClass);
+            setTimeout(() => {
+                container.classList.remove(effectClass);
+            }, effectDuration);
+        }
+
+        // レア度ガチャ的な溜め
+        let rarityName = "";
+        let waitTime = 1200;
+        let flashColor = "";
+        
+        // ガチャの色や揺れ
+        if (rarity === 5) {
+            rarityName = "レジェンド(LR)";
+            flashColor = "0 0 40px #ff00ff, 0 0 80px #ff0000";
+            waitTime = 1500;
+            await sleep(800);
+            this.logMessage("！！！！");
+            document.body.classList.add('camera-shake');
+            this.playSound('damage');
+            setTimeout(() => document.body.classList.remove('camera-shake'), 800);
+            await sleep(800);
+        } else if (rarity === 4) {
+            rarityName = "ウルトラレア(UR)";
+            flashColor = "0 0 30px #ffaa00, 0 0 60px #ffff00";
+            waitTime = 1000;
+            await sleep(800);
+            this.logMessage("！！！！");
+            document.body.classList.add('camera-shake');
+            this.playSound('damage');
+            setTimeout(() => document.body.classList.remove('camera-shake'), 600);
+            await sleep(800);
+        } else if (rarity === 3) {
+            rarityName = "スーパーレア(SSR)";
+            flashColor = "0 0 25px #ffffff, 0 0 50px #aaaaaa";
+            waitTime = 800;
+            await sleep(1000);
+        } else if (rarity === 2) {
+            rarityName = "レア(SR)";
+            flashColor = "0 0 20px #00ff00";
+            waitTime = 800;
+            await sleep(1000);
+        } else {
+            rarityName = "コモン(R)";
+            flashColor = "0 0 15px #00aaff";
+            waitTime = 500;
+            await sleep(1000);
+        }
+        
         const enemyWindow = document.getElementById('enemy-window');
         let originalShadow = "";
-        if (enemyWindow) {
+        if (enemyWindow && rarity >= 2) {
             originalShadow = enemyWindow.style.boxShadow;
             enemyWindow.style.boxShadow = flashColor;
             enemyWindow.style.transition = "box-shadow 0.2s ease-in";
         }
 
-        if (rarity >= 3) {
-            // Screen shake
-            document.body.classList.add('camera-shake');
-            setTimeout(() => document.body.classList.remove('camera-shake'), 500);
-        }
-        if (rarity >= 4) {
-             await sleep(800);
-             this.logMessage("！！！！");
-             this.playSound('damage'); // Warning sound
-             document.body.classList.add('camera-shake');
-             setTimeout(() => document.body.classList.remove('camera-shake'), 800);
-        }
-
         await sleep(waitTime);
         
-        if (enemyWindow) {
+        if (enemyWindow && rarity >= 2) {
             enemyWindow.style.boxShadow = originalShadow;
         }
 
         // 3. Reveal Enemy
-        this.logMessage(`${stars} ${rarityName}\n${this.currentEnemy.name} が あらわれた！`);
+        this.logMessage(`✨ ${stars.replace(/⭐/g, '★')} ${rarityName}\n${this.currentEnemy.name} が あらわれた！`);
 
         // Fade In (Fast)
         this.elements.enemySprite.style.transition = 'opacity 0.2s ease-in';
@@ -380,13 +420,12 @@ class GameController {
         this.elements.enemySprite.style.opacity = '1';
         if (this.elements.enemyStats) this.elements.enemyStats.style.opacity = '1';
 
+        // 敵画像のCSSアニメーション発動
+        this.elements.enemySprite.classList.add('enemy-enter');
+
         // Update Name with stars in UI if exists
         const nameEl = document.getElementById('battle-enemy-name');
-        if (nameEl) nameEl.innerHTML = `<span style="font-size: 0.6em; color: #ffeb3b">${stars}</span><br>${this.currentEnemy.name}`;
-
-        // Camera Shake Effect
-        document.body.classList.add('camera-shake');
-        setTimeout(() => document.body.classList.remove('camera-shake'), 500);
+        if (nameEl) nameEl.innerHTML = `<span style="font-size: 0.6em; color: #ffeb3b">${stars.replace(/⭐/g, '★')}</span><br>${this.currentEnemy.name}`;
 
         // BGM Start
         if (this.currentEnemy.isBoss || rarity === 5) {
@@ -395,10 +434,15 @@ class GameController {
             this.bgm.play('battle');
         }
 
-        this.playSound('pi'); // Alert sound
+        // Appear SFX -> try appear.mp3, fallback to alert sound
+        const appearAudio = new Audio("assets/sfx/appear.mp3");
+        appearAudio.play().catch(e => {
+            this.playSound('pi'); // Alert sound
+        });
 
         // Dramatic Pause before Command Menu (User requested "short dramatic pause")
         await sleep(1000);
+        this.elements.enemySprite.classList.remove('enemy-enter');
 
         // 6. Start Battle
         this.isBattleActive = true;

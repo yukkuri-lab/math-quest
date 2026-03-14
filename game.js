@@ -37,21 +37,35 @@ function openEncyclopedia(){
     html += '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; height: 60vh; overflow-y: auto;">';
 
     window.enemyData.forEach(e => {
+        let rarity = 1;
+        if (e.isBoss || e.id === 'F001' || e.id.startsWith('BOSS')) {
+            rarity = 5;
+        } else if (e.hp >= 30) {
+            rarity = 4;
+        } else if (e.hp >= 25) {
+            rarity = 3;
+        } else if (e.hp >= 20) {
+            rarity = 2;
+        }
+        const stars = "⭐".repeat(rarity);
+
         if(captured.includes(e.id)){
             // 画像がない場合のフォールバック（絵文字など）
             let imageTag = e.image ? `<img src="${e.image}" width="80" style="height: 80px; object-fit: contain;">` : `<div style="font-size: 40px; text-align: center;">${e.emoji || '❓'}</div>`;
             
             html += `
-            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center;">
-                ${imageTag}
+            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; position: relative;">
+                <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-size: 12px; color: #ffeb3b; text-shadow: 1px 1px 0 #000;">${stars}</div>
+                <div style="margin-top: 10px;">${imageTag}</div>
                 <h3 style="font-size: 14px; margin: 5px 0;">${e.name}</h3>
                 <p style="font-size: 10px;">${e.description || 'なぞの いきもの'}</p>
             </div>
             `;
         } else {
             html += `
-            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555;">
-                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 40px;">❓</div>
+            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555; position: relative;">
+                <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-size: 12px; opacity: 0.5;">${stars}</div>
+                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 40px; margin-top: 10px;">❓</div>
                 <h3 style="font-size: 14px; margin: 5px 0;">????</h3>
             </div>
             `;
@@ -275,83 +289,89 @@ class GameController {
         this.elements.commandMenu.classList.add('hidden');
         if (this.elements.questionArea) this.elements.questionArea.classList.add('hidden');
 
-        // --- DRAMATIC INTRO SEQUENCE ---
+        // --- DRAMATIC INTRO SEQUENCE (Gacha Style) ---
         const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-        // Default to beast if undefined
-        const type = this.currentEnemy.encounterType || 'beast';
+        // Get Rarity (1 to 5)
+        const rarity = this.currentEnemy.rarity || 1;
+        const stars = "⭐".repeat(rarity);
+
+        let rarityName = "";
+        let flashColor = ""; // CSS box-shadow for gacha feel
+        let waitTime = 1000;
+        let sfxMode = "footstep_heavy";
+
+        switch(rarity) {
+            case 5: 
+                rarityName = "レジェンド(LR)"; 
+                flashColor = "0 0 40px #ff00ff, 0 0 80px #ff0000"; 
+                waitTime = 3000; 
+                sfxMode = "win"; 
+                break;
+            case 4: 
+                rarityName = "ウルトラレア(UR)"; 
+                flashColor = "0 0 30px #ffaa00, 0 0 60px #ffff00"; 
+                waitTime = 2500; 
+                sfxMode = "attack"; 
+                break;
+            case 3: 
+                rarityName = "スーパーレア(SSR)"; 
+                flashColor = "0 0 25px #ffffff, 0 0 50px #aaaaaa"; 
+                waitTime = 2000; 
+                sfxMode = "wind_whoosh"; 
+                break;
+            case 2: 
+                rarityName = "レア(SR)"; 
+                flashColor = "0 0 20px #00ff00"; 
+                waitTime = 1500; 
+                sfxMode = "pi"; 
+                break;
+            default: 
+                rarityName = "コモン(R)"; 
+                flashColor = "0 0 15px #00aaff"; 
+                waitTime = 1000; 
+                sfxMode = "footstep_heavy"; 
+                break;
+        }
 
         // 1. "......"
-        this.logMessage("......");
+        this.logMessage("あやしい けはいが する……");
         await sleep(1000);
 
-        // 2. Type-Specific Sequence
-        let message1 = "";
-        let message2 = "";
-        let sfx = "";
-        let effectClass = "";
-        let effectDuration = 0;
+        // 2. Gacha Intro Sequence
+        this.logMessage("なにが でるかな……？");
+        this.playSound(sfxMode);
 
-        switch (type) {
-            case 'beast': // Forest/Beast (Heavy)
-                message1 = "くさむらが ゆれた……";
-                message2 = "おもい あしおとが ちかづく";
-                sfx = "footstep_heavy";
-                effectClass = "shake-heavy";
-                effectDuration = 300;
-                break;
-            case 'water': // Water (Gentle)
-                message1 = "みずが ざわめいている……";
-                message2 = "なみに うごきが ある";
-                sfx = "water_splash";
-                effectClass = "shake-water";
-                effectDuration = 2000;
-                break;
-            case 'sky': // Sky (Wind)
-                message1 = "かぜが つよくなった……";
-                message2 = "うえから けはいが する";
-                sfx = "wind_whoosh";
-                effectClass = "flash-dark";
-                effectDuration = 200;
-                break;
-            case 'shadow': // Shadow (Eerie)
-                message1 = "うしろに けはいが する……";
-                message2 = "なにかに みられている";
-                sfx = "creepy_small";
-                effectClass = "shake-fast";
-                effectDuration = 100;
-                break;
-            default:
-                message1 = "なにかが ちかづいてくる……";
-                message2 = "いやな よかんが する";
-                sfx = "footstep_heavy";
+        // Gacha Flash Effect on Enemy Window
+        const enemyWindow = document.getElementById('enemy-window');
+        let originalShadow = "";
+        if (enemyWindow) {
+            originalShadow = enemyWindow.style.boxShadow;
+            enemyWindow.style.boxShadow = flashColor;
+            enemyWindow.style.transition = "box-shadow 0.2s ease-in";
         }
 
-        // Show Message 1
-        this.logMessage(message1);
-        await sleep(1500);
-
-        // Show Message 2 + SFX + Effect
-        this.logMessage(message2);
-        this.playSound(sfx);
-
-        // Apple visual effect
-        const container = document.getElementById('game-container');
-        if (container && effectClass) {
-            container.classList.add(effectClass);
-            setTimeout(() => {
-                container.classList.remove(effectClass);
-            }, effectDuration);
+        if (rarity >= 3) {
+            // Screen shake
+            document.body.classList.add('camera-shake');
+            setTimeout(() => document.body.classList.remove('camera-shake'), 500);
+        }
+        if (rarity >= 4) {
+             await sleep(800);
+             this.logMessage("！！！！");
+             this.playSound('damage'); // Warning sound
+             document.body.classList.add('camera-shake');
+             setTimeout(() => document.body.classList.remove('camera-shake'), 800);
         }
 
-        await sleep(2000);
+        await sleep(waitTime);
+        
+        if (enemyWindow) {
+            enemyWindow.style.boxShadow = originalShadow;
+        }
 
         // 3. Reveal Enemy
-
-
-        // Appear concurrently with text!
-        // Appear concurrently with text!
-        this.logMessage(`${this.currentEnemy.name} が あらわれた！`);
+        this.logMessage(`${stars} ${rarityName}\n${this.currentEnemy.name} が あらわれた！`);
 
         // Fade In (Fast)
         this.elements.enemySprite.style.transition = 'opacity 0.2s ease-in';
@@ -359,18 +379,21 @@ class GameController {
         this.elements.enemySprite.style.opacity = '1';
         if (this.elements.enemyStats) this.elements.enemyStats.style.opacity = '1';
 
+        // Update Name with stars in UI if exists
+        const nameEl = document.getElementById('battle-enemy-name');
+        if (nameEl) nameEl.innerHTML = `<span style="font-size: 0.6em; color: #ffeb3b">${stars}</span><br>${this.currentEnemy.name}`;
+
         // Camera Shake Effect
         document.body.classList.add('camera-shake');
         setTimeout(() => document.body.classList.remove('camera-shake'), 500);
 
         // BGM Start
-        if (this.currentEnemy.isBoss) {
+        if (this.currentEnemy.isBoss || rarity === 5) {
             this.bgm.play('boss');
         } else {
             this.bgm.play('battle');
         }
 
-        this.playSound('pi'); // Alert sound
         this.playSound('pi'); // Alert sound
 
         // Dramatic Pause before Command Menu (User requested "short dramatic pause")
@@ -643,13 +666,25 @@ class GameController {
         // const enemyImage = enemyTemplate.image; // Use template image directly if no override
         let enemyImage = enemyTemplate.image;
 
+        let rarity = 1;
+        if (enemyTemplate.isBoss || enemyTemplate.id === 'F001' || enemyTemplate.id.startsWith('BOSS')) {
+            rarity = 5;
+        } else if (enemyTemplate.hp >= 30) {
+            rarity = 4;
+        } else if (enemyTemplate.hp >= 25) {
+            rarity = 3;
+        } else if (enemyTemplate.hp >= 20) {
+            rarity = 2;
+        }
+
         return {
             ...enemyTemplate,
             image: enemyImage,
             maxHp: Math.floor(enemyTemplate.hp * scale),
             hp: Math.floor(enemyTemplate.hp * scale),
             exp: Math.floor(enemyTemplate.exp * scale),
-            level: enemyLv
+            level: enemyLv,
+            rarity: rarity
         };
     }
 

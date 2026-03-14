@@ -19,6 +19,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+let captured = JSON.parse(localStorage.getItem("capturedUMA") || "[]");
+
+function captureEnemy(enemyId){
+    if(!captured.includes(enemyId)){
+        captured.push(enemyId);
+        localStorage.setItem("capturedUMA", JSON.stringify(captured));
+        return true; // 新規登録された場合はtrueを返す
+    }
+    return false; // 既に登録されている場合はfalseを返す
+}
+
+function openEncyclopedia(){
+    let html = "<h2>UMAずかん</h2>";
+    
+    // スタイル調整のためのコンテナ
+    html += '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; height: 60vh; overflow-y: auto;">';
+
+    window.enemyData.forEach(e => {
+        if(captured.includes(e.id)){
+            // 画像がない場合のフォールバック（絵文字など）
+            let imageTag = e.image ? `<img src="${e.image}" width="80" style="height: 80px; object-fit: contain;">` : `<div style="font-size: 40px; text-align: center;">${e.emoji || '❓'}</div>`;
+            
+            html += `
+            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center;">
+                ${imageTag}
+                <h3 style="font-size: 14px; margin: 5px 0;">${e.name}</h3>
+                <p style="font-size: 10px;">${e.description || 'なぞの いきもの'}</p>
+            </div>
+            `;
+        } else {
+            html += `
+            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555;">
+                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 40px;">❓</div>
+                <h3 style="font-size: 14px; margin: 5px 0;">????</h3>
+            </div>
+            `;
+        }
+    });
+
+    html += '</div>';
+    
+    // 閉じるボタン
+    html += '<div style="text-align: center; margin-top: 15px;"><button onclick="document.getElementById(\'encyclopedia-screen\').classList.add(\'hidden\'); document.getElementById(\'title-screen\').classList.remove(\'hidden\');" class="pixel-btn small-btn">もどる</button></div>';
+
+    document.getElementById("encyclopedia-content").innerHTML = html;
+}
+
 class GameController {
     constructor() {
         // UI Elements
@@ -73,6 +120,11 @@ class GameController {
 
         // Load Save Data
         this.loadGame();
+
+        // Ensure defeatedEnemies is initialized if new game or old save
+        if (!this.defeatedEnemies) {
+            this.defeatedEnemies = [];
+        }
     }
 
     init() {
@@ -104,6 +156,20 @@ class GameController {
         this.elements.commandBtns.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleCommand(e.target.dataset.cmd));
         });
+
+        // Setup Encyclopedia Button
+        const encBtn = document.getElementById('enc-btn');
+        if (encBtn) {
+            encBtn.addEventListener('click', () => {
+                this.switchScreen('encyclopedia');
+                openEncyclopedia();
+            });
+            encBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.switchScreen('encyclopedia');
+                openEncyclopedia();
+            }, { passive: false });
+        }
 
         // Reset Button
         const resetBtn = document.getElementById('reset-btn');
@@ -171,8 +237,23 @@ class GameController {
             s.classList.add('hidden');
             s.classList.remove('active');
         });
-        this.screens[screenName].classList.remove('hidden');
-        this.screens[screenName].classList.add('active');
+
+        // 汎用画面切り替えロジック
+        if(this.screens[screenName]) {
+            this.screens[screenName].classList.remove('hidden');
+            this.screens[screenName].classList.add('active');
+        } else {
+            // Screensオブジェクトにない場合は直接DOMから探す
+            const screenEl = document.getElementById(`${screenName}-screen`);
+            if (screenEl) {
+                document.querySelectorAll('.screen').forEach(s => {
+                    s.classList.add('hidden');
+                    s.classList.remove('active');
+                });
+                screenEl.classList.remove('hidden');
+                screenEl.classList.add('active');
+            }
+        }
     }
 
     // --- Battle Logic ---
@@ -197,32 +278,76 @@ class GameController {
         // --- DRAMATIC INTRO SEQUENCE ---
         const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+        // Default to beast if undefined
+        const type = this.currentEnemy.encounterType || 'beast';
+
         // 1. "......"
         this.logMessage("......");
+        await sleep(1000);
+
+        // 2. Type-Specific Sequence
+        let message1 = "";
+        let message2 = "";
+        let sfx = "";
+        let effectClass = "";
+        let effectDuration = 0;
+
+        switch (type) {
+            case 'beast': // Forest/Beast (Heavy)
+                message1 = "くさむらが ゆれた……";
+                message2 = "おもい あしおとが ちかづく";
+                sfx = "footstep_heavy";
+                effectClass = "shake-heavy";
+                effectDuration = 300;
+                break;
+            case 'water': // Water (Gentle)
+                message1 = "みずが ざわめいている……";
+                message2 = "なみに うごきが ある";
+                sfx = "water_splash";
+                effectClass = "shake-water";
+                effectDuration = 2000;
+                break;
+            case 'sky': // Sky (Wind)
+                message1 = "かぜが つよくなった……";
+                message2 = "うえから けはいが する";
+                sfx = "wind_whoosh";
+                effectClass = "flash-dark";
+                effectDuration = 200;
+                break;
+            case 'shadow': // Shadow (Eerie)
+                message1 = "うしろに けはいが する……";
+                message2 = "なにかに みられている";
+                sfx = "creepy_small";
+                effectClass = "shake-fast";
+                effectDuration = 100;
+                break;
+            default:
+                message1 = "なにかが ちかづいてくる……";
+                message2 = "いやな よかんが する";
+                sfx = "footstep_heavy";
+        }
+
+        // Show Message 1
+        this.logMessage(message1);
         await sleep(1500);
 
-        // 2. "Something approaching"
-        this.logMessage("なにかが ちかづいてくる……");
-        this.playSound('approaching'); // New SFX
+        // Show Message 2 + SFX + Effect
+        this.logMessage(message2);
+        this.playSound(sfx);
 
-        // Add subtle shake
+        // Apple visual effect
         const container = document.getElementById('game-container');
-        if (container) {
-            container.classList.add('step-shake');
+        if (container && effectClass) {
+            container.classList.add(effectClass);
             setTimeout(() => {
-                container.classList.remove('step-shake');
-            }, 250);
+                container.classList.remove(effectClass);
+            }, effectDuration);
         }
 
         await sleep(2000);
 
-        // 3. "Darkness" -> "Something moved" -> "Bad feeling"
-        this.logMessage("いやな よかんが する…");
-        this.playSound('darkness'); // Renamed SFX trigger
-        await sleep(2000);
+        // 3. Reveal Enemy
 
-        // 4. Reveal Enemy (No text)
-        await sleep(1000); // 1s pause after darkness
 
         // Appear concurrently with text!
         // Appear concurrently with text!
@@ -439,18 +564,23 @@ class GameController {
             };
         }
 
-        // Boss Battle: Bigfoot (Level 10) -> Disabled for Debug
-        if (false && this.player.lv >= 10 && !this.bossDefeated) {
+        // Boss Battle: Bigfoot (Forest Master - Final Boss)
+        // Trigger: Defeated all Forest Youkai (F002-F009)
+        const forestYoukaiIds = ["F002", "F003", "F004", "F005", "F006", "F007", "F008", "F009"];
+        const allForestYoukaiDefeated = forestYoukaiIds.every(id => this.defeatedEnemies && this.defeatedEnemies.includes(id));
+
+        if (allForestYoukaiDefeated && !this.forestBossDefeated) {
             return {
                 id: "F001",
-                name: "ビッグフット",
+                name: "森の主 ビッグフット",
                 emoji: "🦶",
-                hp: 100,
-                maxHp: 100,
+                hp: 150, // Strengthened for Final Boss
+                maxHp: 150,
                 exp: 0, // Game Clear
-                level: 10,
+                level: 15,
                 isBoss: true,
-                image: "assets/uma_bigfoot.png"
+                encounterType: "beast", // Ensure heavy shake effect
+                image: "assets/uma_bigfoot_lastboss.png"
             };
         }
 
@@ -458,14 +588,42 @@ class GameController {
         // Filter enemies that have an 'image' property
         const validEnemies = enemies.filter(e => e.image);
 
+        // Initialize history if needed
+        if (!this.recentEnemyIds) {
+            this.recentEnemyIds = [];
+        }
+
         let enemyTemplate;
-        if (validEnemies.length > 0) {
-            const randomIndex = Math.floor(Math.random() * validEnemies.length);
-            enemyTemplate = validEnemies[randomIndex];
-        } else {
-            // Fallback if no images found
-            const randomIndex = Math.floor(Math.random() * enemies.length);
-            enemyTemplate = enemies[randomIndex];
+        let candidates = validEnemies.length > 0 ? validEnemies : enemies;
+
+        // Filter out recent enemies
+        // We try to exclude the last 4 enemies.
+        // If that leaves us with no candidates (or very few), we relax the constraint.
+        let filteredCandidates = candidates.filter(e => !this.recentEnemyIds.includes(e.id));
+
+        if (filteredCandidates.length === 0) {
+            // If we ran out of new enemies, reset history or just pick from full list
+            // Let's just pick from full candidates but maybe still try to avoid the VERY last one
+            if (this.recentEnemyIds.length > 0) {
+                const lastOne = this.recentEnemyIds[this.recentEnemyIds.length - 1];
+                filteredCandidates = candidates.filter(e => e.id !== lastOne);
+            } else {
+                filteredCandidates = candidates;
+            }
+        }
+
+        // If still empty (should be rare/impossible unless only 1 enemy exists), fallback
+        if (filteredCandidates.length === 0) {
+            filteredCandidates = candidates;
+        }
+
+        const randomIndex = Math.floor(Math.random() * filteredCandidates.length);
+        enemyTemplate = filteredCandidates[randomIndex];
+
+        // Update History
+        this.recentEnemyIds.push(enemyTemplate.id);
+        if (this.recentEnemyIds.length > 4) {
+            this.recentEnemyIds.shift(); // Keep only last 4
         }
 
         console.log(`[DEBUG] Selected Enemy: ${enemyTemplate.name} (${enemyTemplate.id}) Image: ${enemyTemplate.image}`);
@@ -598,78 +756,69 @@ class GameController {
     }
 
     generateMathProblem(level) {
-        let n1, n2, operator, answer, question;
+        const questions = [
+            { q: "8 + 7", a: 15 },
+            { q: "9 + 6", a: 15 },
+            { q: "7 + 8", a: 15 },
+            { q: "6 + 9", a: 15 },
+            { q: "5 + 8", a: 13 },
 
-        // Level 1-2: Addition sum <= 10
-        // Level 3-4: Subtraction (start <= 10, result >= 0)
-        // Level 5-6: Addition sum <= 20, Subtraction (start <= 20)
-        // Level 7+: Missing Operand (? + 2 = 5)
+            { q: "14 - 7", a: 7 },
+            { q: "15 - 6", a: 9 },
+            { q: "13 - 5", a: 8 },
+            { q: "16 - 8", a: 8 },
+            { q: "17 - 9", a: 8 },
 
-        const type = Math.random();
+            { q: "12 + 5", a: 17 },
+            { q: "13 + 6", a: 19 },
+            { q: "14 + 7", a: 21 },
+            { q: "15 + 8", a: 23 },
+            { q: "16 + 7", a: 23 },
 
-        // Determine Mode based on Level
-        let mode = 'add';
-        if (level >= 3) {
-            if (level >= 7) mode = 'mix_missing'; // 50% mixed
-            else mode = 'mix';
-        }
+            { q: "18 + 5", a: 23 },
+            { q: "17 + 6", a: 23 },
+            { q: "19 + 4", a: 23 },
+            { q: "14 + 9", a: 23 },
+            { q: "13 + 8", a: 21 },
 
-        // Logic
-        if (mode === 'mix' || mode === 'mix_missing') {
-            mode = Math.random() > 0.5 ? 'add' : 'sub';
-        }
+            { q: "21 + 5", a: 26 },
+            { q: "23 + 6", a: 29 },
+            { q: "24 + 7", a: 31 },
+            { q: "26 + 5", a: 31 },
+            { q: "28 + 4", a: 32 },
 
-        // Generate Numbers
-        let max = 10;
-        if (level >= 5) max = 20;
-        if (level >= 10) max = 30; // Boss level difficulty
+            { q: "22 - 5", a: 17 },
+            { q: "25 - 7", a: 18 },
+            { q: "27 - 8", a: 19 },
+            { q: "29 - 6", a: 23 },
+            { q: "24 - 9", a: 15 },
 
-        if (mode === 'add') {
-            n1 = Math.floor(Math.random() * (max + 1));
-            n2 = Math.floor(Math.random() * (max - n1 + 1));
-            answer = n1 + n2;
-            operator = "+";
-            question = `${n1} + ${n2} = ?`;
-        } else {
-            // Sub
-            n1 = Math.floor(Math.random() * (max + 1));
-            n2 = Math.floor(Math.random() * (n1 + 1));
-            answer = n1 - n2;
-            operator = "-";
-            question = `${n1} - ${n2} = ?`;
-        }
+            { q: "ビッグフットの あしあとが 8こ。あとで 7こ みつかった。ぜんぶで？", a: 15 },
+            { q: "ネッシーの くびが 10m。しっぽが 6m。あわせて？", a: 16 },
+            { q: "クラーケンの あしは 8ほん。2ひきいたら？", a: 16 },
+            { q: "スカイフィッシュが 12ひき。5ひき にげた。のこり？", a: 7 },
+            { q: "ドラゴンの きんかが 15まい。8まい つかった。のこり？", a: 7 },
 
-        // Missing Operand Logic (Level 7+)
-        if (level >= 7 && Math.random() > 0.6) {
-            // 40% chance of missing operand
-            if (mode === 'add') {
-                // n1 + n2 = answer
-                if (Math.random() > 0.5) {
-                    // ? + n2 = answer
-                    question = `? + ${n2} = ${answer}`; // Answer is n1
-                    answer = n1;
-                } else {
-                    // n1 + ? = answer
-                    question = `${n1} + ? = ${answer}`; // Answer is n2
-                    answer = n2;
-                }
-            } else {
-                // n1 - n2 = answer
-                if (Math.random() > 0.5) {
-                    // ? - n2 = answer
-                    question = `? - ${n2} = ${answer}`; // Answer is n1
-                    answer = n1;
-                } else {
-                    // n1 - ? = answer
-                    question = `${n1} - ? = ${answer}`; // Answer is n2
-                    answer = n2;
-                }
-            }
-        }
+            { q: "16 + 9", a: 25 },
+            { q: "17 + 8", a: 25 },
+            { q: "18 + 7", a: 25 },
+            { q: "19 + 6", a: 25 },
+
+            { q: "27 - 9", a: 18 },
+            { q: "28 - 7", a: 21 },
+            { q: "29 - 8", a: 21 },
+
+            { q: "24 + 9", a: 33 },
+            { q: "23 + 8", a: 31 },
+            { q: "26 + 7", a: 33 }
+        ];
+
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const selected = questions[randomIndex];
 
         return {
-            question: question,
-            answer: answer
+            question: selected.q,
+            answer: selected.a
         };
     }
 
@@ -794,7 +943,16 @@ class GameController {
                     this.updateEnemyStats(); // Ensure display is 0
 
                     this.elements.enemySprite.classList.add('enemy-defeat'); // Trigger Animation
-                    this.logMessage(`${this.currentEnemy.name}を たおした！`);
+                    
+                    // UMA捕獲判定
+                    const isNewCapture = captureEnemy(this.currentEnemy.id);
+                    
+                    if(isNewCapture) {
+                        this.logMessage(`✨ UMAゲット！ \n${this.currentEnemy.name} が ずかんに とうろくされた！`);
+                        this.playSound('win'); // 特別な音を鳴らす
+                    } else {
+                        this.logMessage(`${this.currentEnemy.name}を たおした！`);
+                    }
 
                     // Skip remaining questions
                     this.rushCount = this.rushMax; // Force end
@@ -850,8 +1008,18 @@ class GameController {
                     this.logMessage(`${this.currentEnemy.name}に ${damage}の ダメージ！`);
                     if (this.currentEnemy.hp <= 0) {
                         this.elements.enemySprite.classList.add('enemy-defeat');
-                        this.logMessage(`${this.currentEnemy.name}を たおした！`);
-                        setTimeout(() => this.winBattle(), 3000);
+                        
+                        // UMA捕獲判定
+                        const isNewCapture = captureEnemy(this.currentEnemy.id);
+                        
+                        if(isNewCapture) {
+                            this.logMessage(`✨ UMAゲット！ \n${this.currentEnemy.name} が ずかんに とうろくされた！`);
+                            this.playSound('win'); // 特別な音を鳴らす
+                        } else {
+                            this.logMessage(`${this.currentEnemy.name}を たおした！`);
+                        }
+                        
+                        setTimeout(() => this.winBattle(), 4000);
                     } else {
                         setTimeout(() => this.enemyAttack(), 1000);
                     }
@@ -897,7 +1065,9 @@ class GameController {
     }
 
     winBattle() {
-        this.logMessage(`${this.currentEnemy.name}を たおした！`);
+        // ここでのメッセージ表示はRUSHモードと重複する可能性があるため削除または条件付きにする
+        // 今は捕獲演出でメッセージが上書きされるため、ここで再表示すると演出が消えてしまうのを防ぐ
+        // this.logMessage(`${this.currentEnemy.name}を たおした！`);
         this.playSound('attack'); // Victory sound placeholder
 
         // Check Boss Defeated
@@ -907,13 +1077,20 @@ class GameController {
             this.playSound('win');
         }
 
-        if (this.currentEnemy.id === "F001" && this.currentEnemy.isBoss) { // Final Boss (Only if Boss version)
-            setTimeout(() => {
-                this.handleGameClear();
-            }, 1000);
-            this.bossDefeated = true; // Mark as defeated
+        if (this.currentEnemy.id === "F001" && this.currentEnemy.isBoss) { // Forest Master
+            this.forestBossDefeated = true; // Mark as defeated
             this.saveGame();
+
+            setTimeout(() => {
+                this.handleStage1Clear();
+            }, 1000);
             return;
+        }
+
+        // Track Defeated Enemies (For Forest Boss Trigger)
+        if (!this.defeatedEnemies) this.defeatedEnemies = [];
+        if (!this.defeatedEnemies.includes(this.currentEnemy.id)) {
+            this.defeatedEnemies.push(this.currentEnemy.id);
         }
 
         // EXP Logic
@@ -1068,6 +1245,52 @@ class GameController {
         });
     }
 
+    handleStage1Clear() {
+        this.isBattleActive = false;
+        this.bgm.stop();
+        this.playSound('win');
+
+        // Hide Battle UI Elements
+        this.elements.commandMenu.classList.add('hidden');
+        if (this.elements.questionArea) this.elements.questionArea.classList.add('hidden');
+
+        // Create Stage Clear Overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'stage-clear-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.85)';
+        overlay.style.color = '#fff';
+        overlay.style.display = 'flex';
+        overlay.style.flexDirection = 'column';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.zIndex = '9999';
+        overlay.style.fontFamily = '"DotGothic16", sans-serif';
+        overlay.style.textAlign = 'center';
+
+        overlay.innerHTML = `
+            <div style="font-size: 32px; color: #00ff00; text-shadow: 2px 2px #000; margin-bottom: 20px;">STAGE 1 CLEAR!</div>
+            <div style="font-size: 18px; line-height: 1.8;">
+                森の主 ビッグフットを たおした！<br>
+                つぎの ステージへ すすもう！<br>
+            </div>
+            <button id="next-stage-btn" class="pixel-btn" style="margin-top: 30px;">つぎへ</button>
+        `;
+        document.body.appendChild(overlay);
+
+        document.getElementById('next-stage-btn').addEventListener('click', () => {
+            overlay.remove();
+            this.bgm.play('battle'); // Resume BGM or Map BGM logic? For now Battle/Title
+            this.switchScreen('title'); // Or just back to menu?
+            // Actually, usually we just go back to title or continue loop.
+            // Let's go back to title to save properly and let user Start again to see new habitat.
+        });
+    }
+
     logMessage(text) {
         if (this.typingTimeout) {
             clearTimeout(this.typingTimeout);
@@ -1212,7 +1435,8 @@ class GameController {
         const saveData = {
             player: this.player,
             lvl1BossDefeated: this.lvl1BossDefeated || false,
-            bossDefeated: this.bossDefeated || false
+            forestBossDefeated: this.forestBossDefeated || false,
+            defeatedEnemies: this.defeatedEnemies || []
         };
         localStorage.setItem('mathQuestSave', JSON.stringify(saveData));
         console.log("Game Saved", saveData);
@@ -1227,7 +1451,8 @@ class GameController {
                     this.player = { ...this.player, ...saveData.player };
                 }
                 this.lvl1BossDefeated = saveData.lvl1BossDefeated || false;
-                this.bossDefeated = saveData.bossDefeated || false;
+                this.forestBossDefeated = saveData.forestBossDefeated || false;
+                this.defeatedEnemies = saveData.defeatedEnemies || [];
                 console.log("Game Loaded", saveData);
                 return true;
             } catch (e) {
@@ -1351,6 +1576,82 @@ class BGMController {
             this.playNote(440, t, 0.1);
             this.playNote(554, t + 0.1, 0.1);
             this.playNote(659, t + 0.2, 0.4);
+        } else if (type === 'footstep_heavy') {
+            // Low thud
+            osc.frequency.setValueAtTime(100, t);
+            osc.frequency.exponentialRampToValueAtTime(30, t + 0.15);
+            osc.type = 'triangle';
+            gain.gain.setValueAtTime(0.5, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+            osc.start(t);
+            osc.stop(t + 0.15);
+        } else if (type === 'water_splash') {
+            // Gentle splash bubble
+            osc.frequency.setValueAtTime(400, t);
+            osc.frequency.linearRampToValueAtTime(200, t + 0.2);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.3, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+            osc.start(t);
+            osc.stop(t + 0.3);
+        } else if (type === 'wind_whoosh') {
+            // Low sweeping noise-like (simulated with low freq sine sweep)
+            osc.frequency.setValueAtTime(100, t);
+            osc.frequency.linearRampToValueAtTime(300, t + 0.2);
+            osc.frequency.linearRampToValueAtTime(50, t + 0.4);
+            osc.type = 'triangle'; // rougher than sine
+            gain.gain.setValueAtTime(0.0, t);
+            gain.gain.linearRampToValueAtTime(0.2, t + 0.2);
+            gain.gain.linearRampToValueAtTime(0.0, t + 0.4);
+            osc.start(t);
+            osc.stop(t + 0.4);
+        } else if (type === 'creepy_small') {
+            // High pitch dissonance
+            osc.frequency.setValueAtTime(2000, t);
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.05, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+            osc.start(t);
+            osc.stop(t + 0.1);
+
+            // Second tone for dissonance
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.type = 'sawtooth';
+            osc2.frequency.setValueAtTime(2100, t); // slightly off
+            gain2.gain.setValueAtTime(0.05, t);
+            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+            osc2.start(t);
+            osc2.stop(t + 0.1);
+        } else if (type === 'attack') {
+            // Heavy Impact "Do-ka"
+            // 1. "Do" - Low punch
+            osc.frequency.setValueAtTime(150, t);
+            osc.frequency.exponentialRampToValueAtTime(10, t + 0.1);
+            osc.type = 'square';
+            gain.gain.setValueAtTime(0.8, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+            osc.start(t);
+            osc.stop(t + 0.15);
+
+            // 2. "Ka" - Noise Burst
+            const bufferSize = ctx.sampleRate * 0.1; // 0.1 sec
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            const noiseGain = ctx.createGain();
+            noise.connect(noiseGain);
+            noiseGain.connect(ctx.destination);
+
+            noiseGain.gain.setValueAtTime(0.5, t);
+            noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+            noise.start(t);
         }
     }
 

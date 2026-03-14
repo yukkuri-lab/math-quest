@@ -1320,6 +1320,92 @@ body {
     display: none;
 }
 
+/* Encounter Effects */
+
+/* 1. Heavy (Beast) - Slow Left-Right Shake */
+@keyframes shakeHeavy {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+.shake-heavy {
+    animation: shakeHeavy 0.3s ease-in-out infinite;
+}
+
+/* 2. Water - Gentle Up-Down Shake */
+@keyframes shakeWater {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(1px);
+    }
+}
+
+.shake-water {
+    animation: shakeWater 2s ease-in-out infinite;
+}
+
+/* 3. Sky - Flash Dark */
+@keyframes flashDark {
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(0.3);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+.flash-dark {
+    animation: flashDark 0.2s ease-in-out;
+}
+
+/* 4. Shadow - Fast Jitter */
+@keyframes shakeFast {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(1px, 1px);
+    }
+
+    50% {
+        transform: translate(-1px, -1px);
+    }
+
+    75% {
+        transform: translate(1px, -1px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.shake-fast {
+    animation: shakeFast 0.1s linear infinite;
+}
+
 
 
 ```

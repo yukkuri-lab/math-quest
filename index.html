@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.110">
+    <link rel="stylesheet" href="style.css?v=3.200">
+
     <script>
         window.onerror = function (message, source, lineno, colno, error) {
             alert(`Error: ${message}\nLine: ${lineno}\nSource: ${source}`);
@@ -21,7 +22,8 @@
     <div id="game-container">
         <!-- Title Screen -->
         <div id="title-screen" class="screen active">
-            <div class="version">Ver 3.110</div>
+            <div class="version">Ver 3.200</div>
+
             <div class="title-logo">
                 <h1>さんすうクエスト</h1>
                 <p>もんだいを といて<br>まぼろしのいきもの UMAを たおそう</p>
@@ -31,6 +33,7 @@
 
             <div class="title-buttons">
                 <button id="start-btn" class="pixel-btn">ぼうけんにでる</button>
+                <button id="enc-btn" class="pixel-btn" style="background-color: #2a3d66; border-color: #55ffff; font-size: 1.5rem;">📖 UMAずかん</button>
                 <div style="display: flex; gap: 10px;">
                     <button id="sound-test-btn" class="pixel-btn small-btn">おと テスト</button>
                     <button id="reset-btn" class="pixel-btn small-btn">さいしょから</button>
@@ -124,8 +127,16 @@
         </div>
     </div>
     </div>
+    
+    <!-- Encyclopedia Screen (Hidden by default) -->
+    <div id="encyclopedia-screen" class="screen hidden" style="background-color: #111; padding: 20px;">
+        <div id="encyclopedia-content" class="window-frame" style="height: 90vh; overflow-y: hidden;">
+            <!-- Content injected by JS -->
+        </div>
+    </div>
 
-    <div class="version-display">Ver 3.110</div>
+    <div class="version-display">Ver 3.200</div>
+
     </div>
 
     <!-- Audio Elements -->
@@ -151,8 +162,8 @@
         <source src="assets/sfx_win.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="enemies.js?v=3.110"></script>
-    <script src="game.js?v=3.110"></script>
+    <script src="enemies.js?v=3.200"></script>
+    <script src="game.js?v=3.200"></script>
 </body>
 
 </html>

@@ -6,7 +6,8 @@ window.enemyData = [
         "image": "assets/uma_humanoid_final_03.jpg",
         "hp": 16,
         "exp": 3,
-        "level": 1
+        "level": 1,
+        "encounterType": "shadow"
     },
     {
         "id": "C001",
@@ -20,7 +21,8 @@ window.enemyData = [
         "region": "目が赤い・毛が生えている設定",
         "size": "",
         "description": "",
-        "image": "assets/uma_mothman.png"
+        "image": "assets/uma_mothman.png",
+        "encounterType": "shadow"
     },
     {
         "id": "C002",
@@ -34,7 +36,8 @@ window.enemyData = [
         "type": "ひと型",
         "region": "100人以上が目撃などの設定",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "C003",
@@ -48,7 +51,8 @@ window.enemyData = [
         "region": "小柄な人間くらい・体は灰色",
         "size": "",
         "description": "",
-        "image": "assets/uma_gray.png"
+        "image": "assets/uma_gray.png",
+        "encounterType": "shadow"
     },
     {
         "id": "C004",
@@ -62,7 +66,8 @@ window.enemyData = [
         "type": "小人",
         "region": "0.5",
         "size": "頭が大きい赤ちゃんのよう",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C005",
@@ -76,7 +81,8 @@ window.enemyData = [
         "region": "トカゲのような姿",
         "size": "",
         "description": "",
-        "image": "assets/uma_lizardman.png"
+        "image": "assets/uma_lizardman.png",
+        "encounterType": "beast"
     },
     {
         "id": "C006",
@@ -90,7 +96,8 @@ window.enemyData = [
         "region": "1.2",
         "size": "細い手足・長いゆび",
         "description": "",
-        "image": "assets/uma_dover_demon.png"
+        "image": "assets/uma_dover_demon.png",
+        "encounterType": "shadow"
     },
     {
         "id": "C007",
@@ -104,7 +111,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "2",
         "size": "長い毛・におい設定",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "C008",
@@ -118,7 +126,8 @@ window.enemyData = [
         "type": "小人",
         "region": "1",
         "size": "ヨーロッパなどの伝承系",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C009",
@@ -132,7 +141,8 @@ window.enemyData = [
         "region": "1",
         "size": "白くて細い・足だけのような見た目",
         "description": "",
-        "image": "assets/uma_night_crawler.png"
+        "image": "assets/uma_night_crawler.png",
+        "encounterType": "shadow"
     },
     {
         "id": "C010",
@@ -146,7 +156,8 @@ window.enemyData = [
         "type": "獣",
         "region": "フランス",
         "size": "1.7",
-        "description": "おおかみのような設定"
+        "description": "おおかみのような設定",
+        "encounterType": "beast"
     },
     {
         "id": "C011",
@@ -160,7 +171,8 @@ window.enemyData = [
         "type": "怪異/こうもり系",
         "region": "コウモリ/サル/犬のような姿と言われる",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C012",
@@ -174,7 +186,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "アメリカ",
         "size": "1.7-2",
-        "description": "人を体調不良にしたり家電をゆらす設定"
+        "description": "人を体調不良にしたり家電をゆらす設定",
+        "encounterType": "shadow"
     },
     {
         "id": "C013",
@@ -188,7 +201,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "1.8-3",
         "size": "背が高く顔や鼻がない設定",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C014",
@@ -202,7 +216,8 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "3",
         "description": "大きな目・ヘルメットのような頭",
-        "image": "assets/uma_flatwoods_monster.png"
+        "image": "assets/uma_flatwoods_monster.png",
+        "encounterType": "shadow"
     },
     {
         "id": "C015",
@@ -216,12 +231,12 @@ window.enemyData = [
         "type": "ひと型",
         "region": "アメリカ",
         "size": "1.8",
-        "description": "体は人間・顔はブタ風"
+        "description": "体は人間・顔はブタ風",
+        "encounterType": "beast"
     },
     {
         "id": "C016",
         "name": "マナナンガル",
-        // "image": "assets/uma_manananggal.png", // Removed
         "emoji": "👻",
         "hp": 15,
         "maxHp": 15,
@@ -230,7 +245,8 @@ window.enemyData = [
         "type": "怪異/吸血系",
         "region": "フィリピン",
         "size": "夜にコウモリの羽で飛ぶ設定",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C017",
@@ -244,7 +260,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "アメリカ",
         "size": "2",
-        "description": "家にしのびこみ泣く人の声など設定"
+        "description": "家にしのびこみ泣く人の声など設定",
+        "encounterType": "shadow"
     },
     {
         "id": "C018",
@@ -258,7 +275,8 @@ window.enemyData = [
         "type": "小型UMA",
         "region": "0.15-0.5",
         "size": "空中に現れる設定",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "C019",
@@ -272,7 +290,8 @@ window.enemyData = [
         "type": "小人/怪異",
         "region": "0.5",
         "size": "イタズラや家の中に入る設定",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "C020",
@@ -286,7 +305,8 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "1.8-2",
         "description": "犬の頭・二本足で歩く設定",
-        "image": "assets/uma_dogman.png"
+        "image": "assets/uma_dogman.png",
+        "encounterType": "beast"
     },
     {
         "id": "C021",
@@ -300,7 +320,8 @@ window.enemyData = [
         "type": "獣",
         "region": "ボスニア・ヘルツェゴビナ",
         "size": "0.5",
-        "description": "イタチ＋カエルの特徴設定"
+        "description": "イタチ＋カエルの特徴設定",
+        "encounterType": "beast"
     },
     {
         "id": "C022",
@@ -314,7 +335,8 @@ window.enemyData = [
         "type": "動物",
         "region": "世界各地",
         "size": "0.5",
-        "description": "鳥のような翼で空を飛ぶネコ"
+        "description": "鳥のような翼で空を飛ぶネコ",
+        "encounterType": "beast"
     },
     {
         "id": "F001",
@@ -328,7 +350,8 @@ window.enemyData = [
         "region": "アメリカ/カナダ",
         "size": "1.5-4.5",
         "description": "足あとが大きい設定",
-        "image": "assets/uma_bigfoot.png"
+        "image": "assets/uma_bigfoot.png",
+        "encounterType": "beast"
     },
     {
         "id": "F002",
@@ -342,7 +365,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "ブラジル",
         "size": "1-2",
-        "description": "2本足で立って歩く設定"
+        "description": "2本足で立って歩く設定",
+        "encounterType": "beast"
     },
     {
         "id": "F003",
@@ -356,12 +380,12 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "2",
         "description": "体毛が長い設定",
-        "image": "assets/uma_skunk_ape.png"
+        "image": "assets/uma_skunk_ape.png",
+        "encounterType": "beast"
     },
     {
         "id": "F004",
         "name": "ブキッ・ティマ・モンキーマン",
-        // "image": "assets/uma_bukit_timah_monkey_man.png", // Removed
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -370,7 +394,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "シンガポール",
         "size": "1-2",
-        "description": "森の奥にひそむ設定"
+        "description": "森の奥にひそむ設定",
+        "encounterType": "beast"
     },
     {
         "id": "F005",
@@ -384,7 +409,8 @@ window.enemyData = [
         "region": "インドネシア",
         "size": "0.8-1.5",
         "description": "おくびょうで逃げる設定",
-        "image": "assets/uma_orang_pendek.png"
+        "image": "assets/uma_orang_pendek.png",
+        "encounterType": "beast"
     },
     {
         "id": "F006",
@@ -398,12 +424,12 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "1.8-2.3",
         "description": "顔はオオカミ・体はクマ設定",
-        "image": "assets/uma_bearwolf.png"
+        "image": "assets/uma_bearwolf.png",
+        "encounterType": "beast"
     },
     {
         "id": "F007",
         "name": "オラン・ダラム",
-        // "image": "assets/uma_orang_dalam.png", // Removed
         "emoji": "🦍",
         "hp": 25,
         "maxHp": 25,
@@ -412,7 +438,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "マレーシア",
         "size": "1.2-4",
-        "description": "ジャングルにひそむ設定"
+        "description": "ジャングルにひそむ設定",
+        "encounterType": "beast"
     },
     {
         "id": "F008",
@@ -426,12 +453,12 @@ window.enemyData = [
         "type": "獣/怪異",
         "region": "アメリカ",
         "size": "白い体・細い手足・光る目設定",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "F009",
         "name": "ヒューマノイドがたUMA",
-        // "image": "assets/uma_humanoid_input.png", // Removed
         "emoji": "👾",
         "hp": 25,
         "maxHp": 25,
@@ -440,7 +467,8 @@ window.enemyData = [
         "type": "ひと型",
         "region": "ブラジル",
         "size": "0.5",
-        "description": "頭の大きい人のような姿"
+        "description": "頭の大きい人のような姿",
+        "encounterType": "beast"
     },
     {
         "id": "G001",
@@ -454,7 +482,8 @@ window.enemyData = [
         "region": "中南米",
         "size": "0.9-1.2",
         "description": "家畜をおそう設定",
-        "image": "assets/uma_chupacabra.png"
+        "image": "assets/uma_chupacabra.png",
+        "encounterType": "beast"
     },
     {
         "id": "G002",
@@ -468,7 +497,8 @@ window.enemyData = [
         "type": "動物",
         "region": "エジプト/ケニア",
         "size": "首が長くヒョウ顔設定",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "G003",
@@ -482,7 +512,8 @@ window.enemyData = [
         "type": "動物",
         "region": "スウェーデン",
         "size": "0.5-0.8",
-        "description": "ウサギ＋鳥の混ざった設定"
+        "description": "ウサギ＋鳥の混ざった設定",
+        "encounterType": "beast"
     },
     {
         "id": "G004",
@@ -496,7 +527,8 @@ window.enemyData = [
         "type": "動物/精霊",
         "region": "パラグアイ",
         "size": "0.07-0.10",
-        "description": "ひたいの宝石が設定"
+        "description": "ひたいの宝石が設定",
+        "encounterType": "beast"
     },
     {
         "id": "G005",
@@ -509,7 +541,8 @@ window.enemyData = [
         "type": "怪異/虫",
         "region": "コンゴ周辺",
         "size": "1.5",
-        "description": "タランチュラの巨大版設定"
+        "description": "タランチュラの巨大版設定",
+        "encounterType": "shadow"
     },
     {
         "id": "G006",
@@ -522,7 +555,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "台湾",
         "size": "1-2",
-        "description": "人をさらう設定"
+        "description": "人をさらう設定",
+        "encounterType": "shadow"
     },
     {
         "id": "G007",
@@ -535,7 +569,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "中国",
         "size": "0.3",
-        "description": "目がある・せいれい設定"
+        "description": "目がある・せいれい設定",
+        "encounterType": "shadow"
     },
     {
         "id": "M001",
@@ -549,7 +584,8 @@ window.enemyData = [
         "region": "ヒマラヤ",
         "size": "1.5-6",
         "description": "雪山の生き物として有名",
-        "image": "assets/uma_yeti.png"
+        "image": "assets/uma_yeti.png",
+        "encounterType": "beast"
     },
     {
         "id": "M002",
@@ -563,7 +599,8 @@ window.enemyData = [
         "region": "オーストラリア",
         "size": "1.5-3",
         "description": "目はかわいい設定も",
-        "image": "assets/uma_yowie.png"
+        "image": "assets/uma_yowie.png",
+        "encounterType": "beast"
     },
     {
         "id": "M003",
@@ -576,7 +613,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "ベネズエラ",
         "size": "1.5-1.6",
-        "description": "谷川で写真が公開された設定"
+        "description": "谷川で写真が公開された設定",
+        "encounterType": "beast"
     },
     {
         "id": "M004",
@@ -590,7 +628,8 @@ window.enemyData = [
         "region": "アルプス",
         "size": "0.3-2",
         "description": "伝承の生き物",
-        "image": "assets/uma_tatzelwurm.png"
+        "image": "assets/uma_tatzelwurm.png",
+        "encounterType": "beast"
     },
     {
         "id": "M005",
@@ -603,7 +642,8 @@ window.enemyData = [
         "type": "怪異/獣",
         "region": "アメリカ",
         "size": "6",
-        "description": "山の岩場にひそむ設定"
+        "description": "山の岩場にひそむ設定",
+        "encounterType": "beast"
     },
     {
         "id": "M006",
@@ -616,7 +656,8 @@ window.enemyData = [
         "type": "怪異/獣",
         "region": "アメリカ",
         "size": "1.5",
-        "description": "ビッグフット(8ページ)の子ども説など"
+        "description": "ビッグフット(8ページ)の子ども説など",
+        "encounterType": "beast"
     },
     {
         "id": "S001",
@@ -629,7 +670,8 @@ window.enemyData = [
         "type": "鳥",
         "region": "複数国",
         "size": "3-10",
-        "description": "つめやくちばしでさらう設定"
+        "description": "つめやくちばしでさらう設定",
+        "encounterType": "sky"
     },
     {
         "id": "S002",
@@ -642,7 +684,8 @@ window.enemyData = [
         "type": "怪異/コウモリ",
         "region": "3-10",
         "size": "大きな翼で飛ぶ設定",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S003",
@@ -656,7 +699,8 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "3-10",
         "description": "でんせつの巨大鳥",
-        "image": "assets/uma_thunderbird.png"
+        "image": "assets/uma_thunderbird.png",
+        "encounterType": "sky"
     },
     {
         "id": "S004",
@@ -669,7 +713,8 @@ window.enemyData = [
         "type": "怪異/翼竜",
         "region": "アフリカ",
         "size": "1.5-2",
-        "description": "翼竜のような設定"
+        "description": "翼竜のような設定",
+        "encounterType": "sky"
     },
     {
         "id": "S005",
@@ -682,7 +727,8 @@ window.enemyData = [
         "type": "怪異/コウモリ",
         "region": "セネガル",
         "size": "1.2",
-        "description": "家くらいまで体をかえる設定"
+        "description": "家くらいまで体をかえる設定",
+        "encounterType": "sky"
     },
     {
         "id": "S006",
@@ -696,7 +742,8 @@ window.enemyData = [
         "region": "イギリス",
         "size": "1.5-1.7",
         "description": "フクロウのような見た目",
-        "image": "assets/uma_owlman.png"
+        "image": "assets/uma_owlman.png",
+        "encounterType": "sky"
     },
     {
         "id": "S007",
@@ -709,7 +756,8 @@ window.enemyData = [
         "type": "怪異/コウモリ",
         "region": "インドネシア",
         "size": "子どもをさらう設定",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S008",
@@ -722,7 +770,8 @@ window.enemyData = [
         "type": "怪異/翼竜",
         "region": "カメルーン",
         "size": "大きな翼で山をすべる設定",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S009",
@@ -735,7 +784,8 @@ window.enemyData = [
         "type": "怪異/翼竜",
         "region": "パプアニューギニア",
         "size": "1-3",
-        "description": "人の死体を食べる設定"
+        "description": "人の死体を食べる設定",
+        "encounterType": "sky"
     },
     {
         "id": "S010",
@@ -748,7 +798,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "プエルトリコ",
         "size": "チュパカブラ(9ページ)と同じ説も",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S011",
@@ -762,7 +813,8 @@ window.enemyData = [
         "type": "ひと型",
         "region": "複数国",
         "size": "1-3",
-        "description": "空から降りて襲う設定"
+        "description": "空から降りて襲う設定",
+        "encounterType": "sky"
     },
     {
         "id": "S012",
@@ -775,7 +827,8 @@ window.enemyData = [
         "type": "動物",
         "region": "イタリア/米国/メキシコ",
         "size": "動画にとられたが謎が多い設定",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S013",
@@ -788,7 +841,8 @@ window.enemyData = [
         "type": "怪異/虫",
         "region": "世界各地",
         "size": "1-10",
-        "description": "空を飛ぶ虫のような設定"
+        "description": "空を飛ぶ虫のような設定",
+        "encounterType": "sky"
     },
     {
         "id": "S014",
@@ -802,7 +856,8 @@ window.enemyData = [
         "type": "怪異/発光",
         "region": "光る存在の設定",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S015",
@@ -815,7 +870,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "世界各地",
         "size": "0.3-30",
-        "description": "日本の映像でも話題になった設定"
+        "description": "日本の映像でも話題になった設定",
+        "encounterType": "sky"
     },
     {
         "id": "S016",
@@ -828,7 +884,8 @@ window.enemyData = [
         "type": "怪異/ヘビ",
         "region": "メキシコ/米国",
         "size": "5",
-        "description": "体をくねらせ空をただよう設定"
+        "description": "体をくねらせ空をただよう設定",
+        "encounterType": "sky"
     },
     {
         "id": "S017",
@@ -841,7 +898,8 @@ window.enemyData = [
         "type": "怪異/巨大いもむし",
         "region": "メキシコ",
         "size": "25-30",
-        "description": "巨大イモムシの姿で空を飛ぶ設定"
+        "description": "巨大イモムシの姿で空を飛ぶ設定",
+        "encounterType": "sky"
     },
     {
         "id": "S018",
@@ -854,7 +912,8 @@ window.enemyData = [
         "type": "怪異/竜",
         "region": "昔の空想生物として紹介されることも",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "S019",
@@ -867,7 +926,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "メキシコ",
         "size": "黒い糸のようなものを吐く設定",
-        "description": ""
+        "description": "",
+        "encounterType": "sky"
     },
     {
         "id": "O001",
@@ -881,7 +941,8 @@ window.enemyData = [
         "region": "世界各地",
         "size": "20-60",
         "description": "巨大イカ/タコのような設定",
-        "image": "assets/uma_kraken.png"
+        "image": "assets/uma_kraken.png",
+        "encounterType": "water"
     },
     {
         "id": "O002",
@@ -894,7 +955,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "世界各地",
         "size": "15-60",
-        "description": "大むかしから目撃が多い設定"
+        "description": "大むかしから目撃が多い設定",
+        "encounterType": "water"
     },
     {
         "id": "O003",
@@ -908,7 +970,8 @@ window.enemyData = [
         "type": "怪異/人型",
         "region": "北極/南極",
         "size": "10-20",
-        "description": "白い体・手はひれ設定"
+        "description": "白い体・手はひれ設定",
+        "encounterType": "water"
     },
     {
         "id": "O004",
@@ -921,7 +984,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "世界各地",
         "size": "6-24",
-        "description": "毛のようなもの・正体不明設定"
+        "description": "毛のようなもの・正体不明設定",
+        "encounterType": "water"
     },
     {
         "id": "O005",
@@ -934,7 +998,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "イギリス",
         "size": "4-18",
-        "description": "首が長い海の怪物設定"
+        "description": "首が長い海の怪物設定",
+        "encounterType": "water"
     },
     {
         "id": "O006",
@@ -947,7 +1012,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "カナダ",
         "size": "9-15",
-        "description": "首にたてがみ設定"
+        "description": "首にたてがみ設定",
+        "encounterType": "water"
     },
     {
         "id": "O007",
@@ -960,7 +1026,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "黒海",
         "size": "10-40",
-        "description": "昔からの目撃・記録設定"
+        "description": "昔からの目撃・記録設定",
+        "encounterType": "water"
     },
     {
         "id": "O008",
@@ -973,7 +1040,8 @@ window.enemyData = [
         "type": "海の怪物",
         "region": "ニュージーランド",
         "size": "10",
-        "description": "1977年に死体が見つかった設定"
+        "description": "1977年に死体が見つかった設定",
+        "encounterType": "water"
     },
     {
         "id": "O009",
@@ -986,7 +1054,8 @@ window.enemyData = [
         "type": "怪異/水棲",
         "region": "中国",
         "size": "12",
-        "description": "頭に角・毛がある設定"
+        "description": "頭に角・毛がある設定",
+        "encounterType": "water"
     },
     {
         "id": "L001",
@@ -1000,7 +1069,8 @@ window.enemyData = [
         "region": "イギリス",
         "size": "10-12",
         "description": "ネス湖で有名",
-        "image": "assets/uma_nessie.png"
+        "image": "assets/uma_nessie.png",
+        "encounterType": "water"
     },
     {
         "id": "L002",
@@ -1013,7 +1083,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "カナダ",
         "size": "5-10",
-        "description": "顔が馬やヤギに似る設定"
+        "description": "顔が馬やヤギに似る設定",
+        "encounterType": "water"
     },
     {
         "id": "L003",
@@ -1026,7 +1097,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "カナダ",
         "size": "5-12",
-        "description": "細長い体を上下にくねらせる設定"
+        "description": "細長い体を上下にくねらせる設定",
+        "encounterType": "water"
     },
     {
         "id": "L004",
@@ -1039,7 +1111,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "コンゴ",
         "size": "5-8",
-        "description": "こうらと丸み・長さ4-5m設定"
+        "description": "こうらと丸み・長さ4-5m設定",
+        "encounterType": "water"
     },
     {
         "id": "L005",
@@ -1052,7 +1125,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "アメリカ",
         "size": "5",
-        "description": "こおりがついたままの見た目設定"
+        "description": "こおりがついたままの見た目設定",
+        "encounterType": "water"
     },
     {
         "id": "L006",
@@ -1066,7 +1140,8 @@ window.enemyData = [
         "region": "アメリカ",
         "size": "1.2",
         "description": "ぬめぬめ・川に出る設定",
-        "image": "assets/uma_frogman.png"
+        "image": "assets/uma_frogman.png",
+        "encounterType": "water"
     },
     {
         "id": "L007",
@@ -1079,7 +1154,8 @@ window.enemyData = [
         "type": "怪異",
         "region": "アイルランド",
         "size": "2-3",
-        "description": "水かき・泳ぎが得意設定"
+        "description": "水かき・泳ぎが得意設定",
+        "encounterType": "water"
     },
     {
         "id": "L008",
@@ -1092,7 +1168,8 @@ window.enemyData = [
         "type": "怪異/ヘビ",
         "region": "東南アジア",
         "size": "10-70",
-        "description": "大きなヘビ・角がある設定"
+        "description": "大きなヘビ・角がある設定",
+        "encounterType": "water"
     },
     {
         "id": "L009",
@@ -1105,7 +1182,8 @@ window.enemyData = [
         "type": "動物/怪異",
         "region": "アフリカ",
         "size": "12-30",
-        "description": "太いどう体の設定"
+        "description": "太いどう体の設定",
+        "encounterType": "water"
     },
     {
         "id": "L010",
@@ -1118,7 +1196,8 @@ window.enemyData = [
         "type": "獣人",
         "region": "ブラジル",
         "size": "1.5-2",
-        "description": "角がある・武器を持つ設定"
+        "description": "角がある・武器を持つ設定",
+        "encounterType": "water"
     },
     {
         "id": "L011",
@@ -1131,7 +1210,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "ノルウェー",
         "size": "6-10",
-        "description": "鳴き声のような音設定"
+        "description": "鳴き声のような音設定",
+        "encounterType": "water"
     },
     {
         "id": "L012",
@@ -1144,7 +1224,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "コンゴ",
         "size": "8-15",
-        "description": "恐竜のような姿設定"
+        "description": "恐竜のような姿設定",
+        "encounterType": "water"
     },
     {
         "id": "L013",
@@ -1157,7 +1238,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "アメリカ",
         "size": "6-15",
-        "description": "湖にすむ恐れられる設定"
+        "description": "湖にすむ恐れられる設定",
+        "encounterType": "water"
     },
     {
         "id": "L014",
@@ -1170,7 +1252,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "アメリカ",
         "size": "4.5-18",
-        "description": "首が長い・写真の真偽議論"
+        "description": "首が長い・写真の真偽議論",
+        "encounterType": "water"
     },
     {
         "id": "L015",
@@ -1183,7 +1266,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "アイルランド",
         "size": "5-20",
-        "description": "長い首・中にはこぶ設定"
+        "description": "長い首・中にはこぶ設定",
+        "encounterType": "water"
     },
     {
         "id": "L016",
@@ -1196,7 +1280,8 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "アイスランド",
         "size": "14",
-        "description": "長い尾でうずまき設定"
+        "description": "長い尾でうずまき設定",
+        "encounterType": "water"
     },
     {
         "id": "R001",
@@ -1209,7 +1294,8 @@ window.enemyData = [
         "type": "怪異/虫",
         "region": "モンゴル",
         "size": "0.5-1.2",
-        "description": "電気を出す設定"
+        "description": "電気を出す設定",
+        "encounterType": "shadow"
     },
     {
         "id": "R002",
@@ -1222,7 +1308,8 @@ window.enemyData = [
         "type": "怪異/鳥",
         "region": "村をおそう設定",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "R003",
@@ -1235,7 +1322,8 @@ window.enemyData = [
         "type": "獣",
         "region": "フランス",
         "size": "(C010と同じ)",
-        "description": ""
+        "description": "",
+        "encounterType": "beast"
     },
     {
         "id": "R004",
@@ -1248,7 +1336,8 @@ window.enemyData = [
         "type": "怪異/ひと型",
         "region": "(C001と同じ)",
         "size": "",
-        "description": ""
+        "description": "",
+        "encounterType": "shadow"
     },
     {
         "id": "R005",
@@ -1261,6 +1350,7 @@ window.enemyData = [
         "type": "湖の怪物",
         "region": "ロシア",
         "size": "6-20",
-        "description": "湖にひきずりこむ設定"
+        "description": "湖にひきずりこむ設定",
+        "encounterType": "beast"
     }
 ];

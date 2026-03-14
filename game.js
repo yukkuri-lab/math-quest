@@ -617,8 +617,22 @@ class GameController {
             this.recentEnemyIds = [];
         }
 
+        // レベルに応じた出現制限（序盤はいきなり強いレアキャラが出ないようにする）
+        let maxHpAllowance = 15; // Lv1: コモン (HP15)
+        if (this.player.lv >= 2) maxHpAllowance = 20; // Lv2: レアまで (HP20)
+        if (this.player.lv >= 3) maxHpAllowance = 25; // Lv3: スーパーレアまで (HP25)
+        if (this.player.lv >= 4) maxHpAllowance = 999; // Lv4以降: すべての敵を解放
+
         let enemyTemplate;
         let candidates = validEnemies.length > 0 ? validEnemies : enemies;
+        
+        // レベル制限とボス除外フィルタを適用
+        candidates = candidates.filter(e => e.hp <= maxHpAllowance && !e.isBoss && e.id !== 'F001');
+
+        if (candidates.length === 0) {
+            // 万が一該当データがなければ全敵から
+            candidates = validEnemies.length > 0 ? validEnemies : enemies;
+        }
 
         // Filter out recent enemies
         // We try to exclude the last 4 enemies.

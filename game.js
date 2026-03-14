@@ -54,8 +54,8 @@ function openEncyclopedia(){
             let imageTag = e.image ? `<img src="${e.image}" width="80" style="height: 80px; object-fit: contain;">` : `<div style="font-size: 50px; color: #fff; text-shadow: 2px 2px 0 #000; display: flex; align-items: center; justify-content: center; height: 80px;">？</div>`;
             
             html += `
-            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
-                <div style="position: absolute; top: 2px; left: 0px; width: 100%; text-align: center; font-size: 14px; text-shadow: 1px 1px 0 #000;">${stars}</div>
+            <div class="window-frame" style="padding: 10px; width: 140px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="position: absolute; top: 2px; left: 0px; width: 100%; text-align: center; font-size: 14px; text-shadow: 1px 1px 0 #000; z-index: 10;">${stars}</div>
                 <div style="margin-top: 20px; flex: 1; display: flex; justify-content: center; align-items: center;">${imageTag}</div>
                 <h3 style="font-size: 14px; margin: 5px 0 0 0; line-height: 1.2;">${e.name}</h3>
                 <p style="font-size: 10px; margin-top: 5px; color: #ccc;">${e.description || 'なぞの いきもの'}</p>
@@ -64,9 +64,9 @@ function openEncyclopedia(){
         } else {
             // 未発見の場合は絵文字を使わずテキストの「？」を使う
             html += `
-            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="window-frame" style="padding: 10px; width: 140px; text-align: center; color: #555; position: relative; display: flex; flex-direction: column; justify-content: space-between; border-color: #555; box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px #555;">
                 <div style="position: absolute; top: 2px; left: 0px; width: 100%; text-align: center; font-size: 14px; opacity: 0.5;">${stars}</div>
-                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 50px; margin-top: 20px; color: #ff3333; text-shadow: 2px 2px 0 #000; font-weight: bold;">？</div>
+                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 50px; margin-top: 20px; color: #555; font-weight: bold;">？</div>
                 <h3 style="font-size: 14px; margin: 5px 0 0 0;">????</h3>
             </div>
             `;

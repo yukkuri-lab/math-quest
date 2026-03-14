@@ -915,36 +915,60 @@ class GameController {
         // 今たたかっている敵の名前を取得（不明な場合は「謎のUMA」）
         const enemyName = this.currentEnemy ? this.currentEnemy.name : "なぞのUMA";
 
-        // 文章問題（とどめ用）- 今の敵の名前を使って動的に作る
+        // 文章問題（とどめ用）- バリエーションを増やす
         const wordQuestions = [
-            { q: `${enemyName}の てがかりを 8こ みつけた。あとで 7こ みつけた。ぜんぶで？`, a: 15 },
-            { q: `${enemyName}の パワーが 16 あがったあと、さらに 9 あがった。あわせて？`, a: 25 },
-            { q: `${enemyName}を さがすひとが 10にん いた。あとから 8にん きた。ぜんぶで？`, a: 18 },
-            { q: `${enemyName}の しゃしんを 12まい とった。5まい ブレていた。きれいに とれたのは？`, a: 7 },
-            { q: `${enemyName}から 15m はなれていた。8m ちかづいてきた。いま 何m はなれてる？`, a: 7 },
-            { q: `${enemyName}の ニュースが 9こ あった。きょう 6こ ふえた。ぜんぶで？`, a: 15 }
+            { id: 1, q: `${enemyName}の てがかりを 8こ みつけた。あとで 7こ みつけた。ぜんぶで？`, a: 15 },
+            { id: 2, q: `${enemyName}の パワーが 16 あがったあと、さらに 9 あがった。あわせて？`, a: 25 },
+            { id: 3, q: `${enemyName}を さがすひとが 10にん いた。あとから 8にん きた。ぜんぶで 何にん？`, a: 18 },
+            { id: 4, q: `${enemyName}の しゃしんを 12まい とった。5まい ブレていた。きれいに とれたのは？`, a: 7 },
+            { id: 5, q: `${enemyName}から 15m はなれていた。8m ちかづいてきた。いま 何m はなれてる？`, a: 7 },
+            { id: 6, q: `${enemyName}の ニュースが 9こ あった。きょう 6こ ふえた。ぜんぶで？`, a: 15 },
+            { id: 7, q: `${enemyName}の なきごえが 14かい きこえた。あとから 7かい きこえた。あわせて？`, a: 21 },
+            { id: 8, q: `${enemyName}の ひみつを 13こ しった。あとで 6こ わかった。ぜんぶで？`, a: 19 },
+            { id: 9, q: `${enemyName}の どうがを 11こ みた。きのう 8こ みた。ぜんぶで？`, a: 19 },
+            { id: 10, q: `${enemyName}から 20m にげた。そこから 6m すすんできた。いま はなれてるキョリは？`, a: 14 }
         ];
 
         // 戦闘の「最後（とどめ）」かどうかを判定
         let isFinalPhase = false;
         if (this.currentEnemy) {
-            // 最初の一撃ではなく、かつHPが減っている状態（最大HPの40%以下 または 15以下）
             const isDamaged = this.currentEnemy.hp < this.currentEnemy.maxHp;
             const isLowHp = this.currentEnemy.hp <= 15 || this.currentEnemy.hp <= (this.currentEnemy.maxHp * 0.4);
-            
             if (isDamaged && isLowHp) {
                 isFinalPhase = true;
             }
         }
 
-        // 最後の問題は文章問題になる確率を上げる（100%でも良いが、バリエーションのため一旦100%で設定）
-        let targetList = normalQuestions;
-        if (isFinalPhase) {
-            targetList = wordQuestions;
+        // 過去に出題した文章問題の履歴（直近5回分）
+        if (!this.recentWordQuestions) {
+            this.recentWordQuestions = [];
         }
 
-        const randomIndex = Math.floor(Math.random() * targetList.length);
-        const selected = targetList[randomIndex];
+        let selected;
+        
+        if (isFinalPhase) {
+            // 直近出た問題を除外する
+            let availableWords = wordQuestions.filter(q => !this.recentWordQuestions.includes(q.id));
+            
+            // もし弾きすぎて候補がなくなったら履歴をリセット
+            if (availableWords.length === 0) {
+                this.recentWordQuestions = [];
+                availableWords = wordQuestions;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableWords.length);
+            selected = availableWords[randomIndex];
+
+            // 履歴を更新（最大5つまで覚える）
+            this.recentWordQuestions.push(selected.id);
+            if (this.recentWordQuestions.length > 5) {
+                this.recentWordQuestions.shift(); 
+            }
+        } else {
+            // 普通の計算問題（通常フェーズ）
+            const randomIndex = Math.floor(Math.random() * normalQuestions.length);
+            selected = normalQuestions[randomIndex];
+        }
 
         return {
             question: selected.q,

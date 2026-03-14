@@ -31,10 +31,10 @@ function captureEnemy(enemyId){
 }
 
 function openEncyclopedia(){
-    let html = "<h2>UMAずかん</h2>";
+    let html = "<h2 style='text-align: center; margin-bottom: 10px;'>UMAずかん</h2>";
     
-    // スタイル調整のためのコンテナ
-    html += '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; height: 60vh; overflow-y: auto;">';
+    // スクロール可能なコンテナ
+    html += '<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 10px; flex: 1; overflow-y: auto;">';
 
     window.enemyData.forEach(e => {
         let rarity = 1;
@@ -47,26 +47,27 @@ function openEncyclopedia(){
         } else if (e.hp >= 20) {
             rarity = 2;
         }
-        const stars = "⭐".repeat(rarity);
+        const stars = "<span style='color: #ffeb3b;'>★</span>".repeat(rarity);
 
         if(captured.includes(e.id)){
-            // 画像がない場合のフォールバック（絵文字など）
-            let imageTag = e.image ? `<img src="${e.image}" width="80" style="height: 80px; object-fit: contain;">` : `<div style="font-size: 40px; text-align: center;">${e.emoji || '❓'}</div>`;
+            // 画像がない場合のフォールバック（テキストなど）
+            let imageTag = e.image ? `<img src="${e.image}" width="80" style="height: 80px; object-fit: contain;">` : `<div style="font-size: 50px; color: #fff; text-shadow: 2px 2px 0 #000; display: flex; align-items: center; justify-content: center; height: 80px;">？</div>`;
             
             html += `
-            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; position: relative;">
-                <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-size: 12px; color: #ffeb3b; text-shadow: 1px 1px 0 #000;">${stars}</div>
-                <div style="margin-top: 10px;">${imageTag}</div>
-                <h3 style="font-size: 14px; margin: 5px 0;">${e.name}</h3>
-                <p style="font-size: 10px;">${e.description || 'なぞの いきもの'}</p>
+            <div style="border: 2px solid #fff; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="position: absolute; top: 2px; left: 0px; width: 100%; text-align: center; font-size: 14px; text-shadow: 1px 1px 0 #000;">${stars}</div>
+                <div style="margin-top: 20px; flex: 1; display: flex; justify-content: center; align-items: center;">${imageTag}</div>
+                <h3 style="font-size: 14px; margin: 5px 0 0 0; line-height: 1.2;">${e.name}</h3>
+                <p style="font-size: 10px; margin-top: 5px; color: #ccc;">${e.description || 'なぞの いきもの'}</p>
             </div>
             `;
         } else {
+            // 未発見の場合は絵文字を使わずテキストの「？」を使う
             html += `
-            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555; position: relative;">
-                <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-size: 12px; opacity: 0.5;">${stars}</div>
-                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 40px; margin-top: 10px;">❓</div>
-                <h3 style="font-size: 14px; margin: 5px 0;">????</h3>
+            <div style="border: 2px solid #555; border-radius: 8px; padding: 10px; width: 140px; background-color: rgba(0,0,0,0.8); text-align: center; color: #555; position: relative; display: flex; flex-direction: column; justify-content: space-between;">
+                <div style="position: absolute; top: 2px; left: 0px; width: 100%; text-align: center; font-size: 14px; opacity: 0.5;">${stars}</div>
+                <div style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 50px; margin-top: 20px; color: #ff3333; text-shadow: 2px 2px 0 #000; font-weight: bold;">？</div>
+                <h3 style="font-size: 14px; margin: 5px 0 0 0;">????</h3>
             </div>
             `;
         }
@@ -74,8 +75,8 @@ function openEncyclopedia(){
 
     html += '</div>';
     
-    // 閉じるボタン
-    html += '<div style="text-align: center; margin-top: 15px;"><button onclick="document.getElementById(\'encyclopedia-screen\').classList.add(\'hidden\'); document.getElementById(\'title-screen\').classList.remove(\'hidden\');" class="pixel-btn small-btn">もどる</button></div>';
+    // 固定された「もどる」ボタン
+    html += '<div style="text-align: center; margin-top: 15px; padding-bottom: 10px;"><button onclick="document.getElementById(\'encyclopedia-screen\').classList.add(\'hidden\'); document.getElementById(\'title-screen\').classList.remove(\'hidden\');" class="pixel-btn small-btn" style="width: 80%; max-width: 300px; padding: 10px;">もどる</button></div>';
 
     document.getElementById("encyclopedia-content").innerHTML = html;
 }

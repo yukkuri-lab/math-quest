@@ -523,6 +523,11 @@ class GameController {
 
         // Update UI
         this.elements.questionText.textContent = this.currentProblem.question;
+        if (this.currentProblem.question.length > 20) {
+            this.elements.questionText.classList.add('long-text');
+        } else {
+            this.elements.questionText.classList.remove('long-text');
+        }
         this.setupAnswerButtons(this.currentProblem);
 
         if (this.elements.questionArea) {
@@ -836,6 +841,11 @@ class GameController {
 
         // Display Problem
         this.elements.questionText.textContent = problem.question;
+        if (problem.question.length > 20) {
+            this.elements.questionText.classList.add('long-text');
+        } else {
+            this.elements.questionText.classList.remove('long-text');
+        }
 
         // Setup Answer Buttons
         this.setupAnswerButtons(problem);

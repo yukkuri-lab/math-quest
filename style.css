@@ -1026,8 +1026,8 @@ body {
     /* Match Command Menu */
     max-width: 500px;
     height: auto;
-    background-color: rgba(0, 0, 170, 0.95);
-    /* Deep Blue */
+    background-color: rgba(0, 0, 170, 0.7);
+    /* Deep Blue, slightly transparent so enemy is visible */
     border: 3px solid #fff;
     /* 3px border */
     border-radius: 12px;
@@ -1061,6 +1061,14 @@ body {
     text-shadow: 2px 2px 0 #000;
     letter-spacing: 2px;
     font-weight: bold;
+}
+
+#question-text.long-text {
+    font-size: 1.1rem;
+    text-align: left;
+    padding: 0.5rem;
+    line-height: 1.4;
+    letter-spacing: 1px;
 }
 
 #answer-buttons {

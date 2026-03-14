@@ -850,7 +850,8 @@ class GameController {
     }
 
     generateMathProblem(level) {
-        const questions = [
+        // 通常の計算問題
+        const normalQuestions = [
             { q: "8 + 7", a: 15 },
             { q: "9 + 6", a: 15 },
             { q: "7 + 8", a: 15 },
@@ -887,12 +888,6 @@ class GameController {
             { q: "29 - 6", a: 23 },
             { q: "24 - 9", a: 15 },
 
-            { q: "ビッグフットの あしあとが 8こ。あとで 7こ みつかった。ぜんぶで？", a: 15 },
-            { q: "ネッシーの くびが 10m。しっぽが 6m。あわせて？", a: 16 },
-            { q: "クラーケンの あしは 8ほん。2ひきいたら？", a: 16 },
-            { q: "スカイフィッシュが 12ひき。5ひき にげた。のこり？", a: 7 },
-            { q: "ドラゴンの きんかが 15まい。8まい つかった。のこり？", a: 7 },
-
             { q: "16 + 9", a: 25 },
             { q: "17 + 8", a: 25 },
             { q: "18 + 7", a: 25 },
@@ -907,8 +902,39 @@ class GameController {
             { q: "26 + 7", a: 33 }
         ];
 
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        const selected = questions[randomIndex];
+        // 今たたかっている敵の名前を取得（不明な場合は「謎のUMA」）
+        const enemyName = this.currentEnemy ? this.currentEnemy.name : "なぞのUMA";
+
+        // 文章問題（とどめ用）- 今の敵の名前を使って動的に作る
+        const wordQuestions = [
+            { q: `${enemyName}の まわりに あしあとが 8こ。あとで 7こ みつかった。ぜんぶで？`, a: 15 },
+            { q: `${enemyName}が 16m すすんだあと、さらに 9m すすんだ。あわせて何m？`, a: 25 },
+            { q: `${enemyName}を 10にんが さがしていた。あとから 8にん きた。ぜんぶで 何にん？`, a: 18 },
+            { q: `${enemyName}の しゃしんを 12まい とった。5まい ブレていた。きれいに とれたのは？`, a: 7 },
+            { q: `${enemyName}から 15m はなれていた。8m ちかづいた。いま 何m はなれてる？`, a: 7 },
+            { q: `${enemyName}が リンゴを 9こ たべた。まだ 6こ のこってる。はじめは 何こ？`, a: 15 }
+        ];
+
+        // 戦闘の「最後（とどめ）」かどうかを判定
+        let isFinalPhase = false;
+        if (this.currentEnemy) {
+            // 最初の一撃ではなく、かつHPが減っている状態（最大HPの40%以下 または 15以下）
+            const isDamaged = this.currentEnemy.hp < this.currentEnemy.maxHp;
+            const isLowHp = this.currentEnemy.hp <= 15 || this.currentEnemy.hp <= (this.currentEnemy.maxHp * 0.4);
+            
+            if (isDamaged && isLowHp) {
+                isFinalPhase = true;
+            }
+        }
+
+        // 最後の問題は文章問題になる確率を上げる（100%でも良いが、バリエーションのため一旦100%で設定）
+        let targetList = normalQuestions;
+        if (isFinalPhase) {
+            targetList = wordQuestions;
+        }
+
+        const randomIndex = Math.floor(Math.random() * targetList.length);
+        const selected = targetList[randomIndex];
 
         return {
             question: selected.q,

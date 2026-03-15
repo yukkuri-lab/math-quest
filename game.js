@@ -805,11 +805,19 @@ class GameController {
             this.recentEnemyIds = [];
         }
 
-        // レベルに応じた出現制限（序盤はいきなり強いレアキャラが出ないようにする）
-        let maxHpAllowance = 15; // Lv1: コモン (HP15)
-        if (this.player.lv >= 2) maxHpAllowance = 20; // Lv2: レアまで (HP20)
-        if (this.player.lv >= 3) maxHpAllowance = 25; // Lv3: スーパーレアまで (HP25)
-        if (this.player.lv >= 4) maxHpAllowance = 999; // Lv4以降: すべての敵を解放
+        // 世界を選んでいる場合はHP制限を世界に合わせて設定
+        // 世界選択なし（デフォルト）はレベルベースの制限を使う
+        let maxHpAllowance;
+        if (this.currentWorld) {
+            // 世界選択時: その世界の敵が全員出るようにHP上限を大きくする
+            maxHpAllowance = 999; // 世界フィルタ済みなので HP制限は不要
+        } else {
+            // 世界未選択（旧挙動）: レベルに応じた制限
+            if (this.player.lv >= 4) maxHpAllowance = 999;
+            else if (this.player.lv >= 3) maxHpAllowance = 25;
+            else if (this.player.lv >= 2) maxHpAllowance = 20;
+            else maxHpAllowance = 15;
+        }
 
         let enemyTemplate;
         let candidates = validEnemies.length > 0 ? validEnemies : enemies;

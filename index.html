@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.504">
+    <link rel="stylesheet" href="style.css?v=3.505">
 
     <script>
         window.onerror = function (message, source, lineno, colno, error) {
@@ -22,7 +22,7 @@
     <div id="game-container">
         <!-- Title Screen -->
         <div id="title-screen" class="screen active">
-            <div class="version">Ver 3.504</div>
+            <div class="version">Ver 3.505</div>
 
             <div class="title-logo">
                 <h1>さんすうクエスト</h1>
@@ -39,8 +39,7 @@
                     <button id="reset-btn" class="pixel-btn small-btn">さいしょから</button>
                 </div>
             </div>
-            <div id="debug-info" style="position: absolute; bottom: 5px; right: 5px; font-size: 10px; opacity: 0.5;">
-                Audio: Init</div>
+            <div id="debug-info" style="display:none;"></div>
         </div>
 
         <!-- Map Screen (World Selection) -->
@@ -143,7 +142,7 @@
 
     </div>
 
-    <div class="version-display">Ver 3.504</div>    <!-- Audio Elements -->
+    <div class="version-display">Ver 3.505</div>    <!-- Audio Elements -->
     <audio id="bgm-title" loop>
         <source src="assets/bgm_title.mp3" type="audio/mpeg">
     </audio>
@@ -166,8 +165,8 @@
         <source src="assets/sfx_win.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="enemies.js?v=3.504"></script>
-    <script src="game.js?v=3.504"></script>
+    <script src="enemies.js?v=3.505"></script>
+    <script src="game.js?v=3.505"></script>
 </body>
 
 </html>

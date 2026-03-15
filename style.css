@@ -1173,13 +1173,96 @@ body {
 }
 
 .map-btn:hover {
-    background-color: #333;
-    transform: scale(1.05);
+    background-color: rgba(255,255,255,0.15);
+    transform: scale(1.04);
+    border-color: #ffeb3b;
+}
+
+.map-btn-locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #111;
+}
+
+.map-btn-locked:hover {
+    transform: none;
+    border-color: #fff;
 }
 
 .map-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+}
+
+.map-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.map-type {
+    font-size: 0.8rem;
+    color: #aae;
+    margin-bottom: 4px;
+}
+
+.map-clear {
+    font-size: 0.8rem;
+    color: #ffe000;
+}
+
+.map-unlock-hint {
+    font-size: 0.75rem;
+    color: #f88;
+    margin-top: 4px;
+}
+
+/* ===== 世界解放演出 ===== */
+.world-unlock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(ellipse at center, #002244 0%, #000 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: levelupFadeIn 0.4s ease-out;
+}
+
+.world-unlock-overlay.world-unlock-fadeout {
+    animation: levelupFadeOut 0.6s ease-in forwards;
+}
+
+.world-unlock-star {
+    font-size: 3rem;
+    animation: lvPop 0.6s cubic-bezier(0.3, 1.5, 0.5, 1) 0.1s both;
     margin-bottom: 10px;
+}
+
+.world-unlock-text {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.6rem;
+    color: #adf;
+    text-shadow: 0 0 20px #88f, 2px 2px 0 #000;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.3s both;
+}
+
+.world-unlock-name {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 3.5rem;
+    color: #ffe000;
+    text-shadow: 0 0 30px #ffaa00, 3px 3px 0 #000;
+    margin: 10px 0;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.55s both;
+}
+
+.world-unlock-sub {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.6rem;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.8s both;
 }
 
 /* Ensure hidden works */

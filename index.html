@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3.401">
+    <link rel="stylesheet" href="style.css?v=3.500">
 
     <script>
         window.onerror = function (message, source, lineno, colno, error) {
@@ -22,7 +22,7 @@
     <div id="game-container">
         <!-- Title Screen -->
         <div id="title-screen" class="screen active">
-            <div class="version">Ver 3.401</div>
+            <div class="version">Ver 3.500</div>
 
             <div class="title-logo">
                 <h1>さんすうクエスト</h1>
@@ -45,26 +45,11 @@
 
         <!-- Map Screen (World Selection) -->
         <div id="map-screen" class="screen hidden">
-            <h2 class="map-title">どこに いく？</h2>
-            <div class="map-grid">
-                <button class="pixel-btn map-btn" data-area="beast">
-                    <span class="map-icon">🌲</span>
-                    <span class="map-name">もり (ビースト)</span>
-                </button>
-                <button class="pixel-btn map-btn" data-area="water">
-                    <span class="map-icon">🌊</span>
-                    <span class="map-name">みず (ウォーター)</span>
-                </button>
-                <button class="pixel-btn map-btn" data-area="sky">
-                    <span class="map-icon">🌪</span>
-                    <span class="map-name">そら (スカイ)</span>
-                </button>
-                <button class="pixel-btn map-btn" data-area="shadow">
-                    <span class="map-icon">🌑</span>
-                    <span class="map-name">かげ (シャドウ)</span>
-                </button>
+            <h2 class="map-title">🗺 せかいを えらぼう！</h2>
+            <div class="map-grid" id="map-grid">
+                <!-- JavaScript で動的に生成 -->
             </div>
-            <button id="map-back-btn" class="pixel-btn small-btn" style="margin-top: 30px;">タイトルにもどる</button>
+            <button id="map-back-btn" class="pixel-btn small-btn" style="margin-top: 20px;">タイトルにもどる</button>
         </div>
 
         <!-- Battle Screen (Hidden by default) -->
@@ -158,7 +143,7 @@
 
     </div>
 
-    <div class="version-display">Ver 3.401</div>    <!-- Audio Elements -->
+    <div class="version-display">Ver 3.500</div>    <!-- Audio Elements -->
     <audio id="bgm-title" loop>
         <source src="assets/bgm_title.mp3" type="audio/mpeg">
     </audio>
@@ -181,8 +166,8 @@
         <source src="assets/sfx_win.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="enemies.js?v=3.401"></script>
-    <script src="game.js?v=3.401"></script>
+    <script src="enemies.js?v=3.500"></script>
+    <script src="game.js?v=3.500"></script>
 </body>
 
 </html>

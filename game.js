@@ -238,13 +238,119 @@ class GameController {
         this.bgm.init();
         this.bgm.unlock(); // Use powerful unlock
 
+        // タイトル -> マップ画面へ
+        this.showMapScreen();
+    }
+
+    // マップ画面を表示し、各世界ボタンを動的生成
+    showMapScreen() {
+        this.switchScreen('map');
+        this.buildMapUI();
+    }
+
+    buildMapUI() {
+        // 小学生画面の世界定義
+        const worlds = [
+            {
+                id: 'beast',
+                icon: '🌲',
+                name: '🌲 もり',
+                sub: 'たし算',
+                theme: '#1a4a1a',
+                unlockRequires: 0,   // 最初から解放済
+            },
+            {
+                id: 'water',
+                icon: '🌊',
+                name: '🌊 みず',
+                sub: 'ひき算',
+                theme: '#0a2a4a',
+                unlockRequires: 3,   // もりを3回クリア
+            },
+            {
+                id: 'sky',
+                icon: '🌪',
+                name: '🌪 そら',
+                sub: '2ケたのけいさん',
+                theme: '#0a1a3a',
+                unlockRequires: 3,   // みずを3回クリア
+            },
+            {
+                id: 'shadow',
+                icon: '🌑',
+                name: '🌑 かげ',
+                sub: 'もんだい',
+                theme: '#1a001a',
+                unlockRequires: 3,   // そらを3回クリア
+            }
+        ];
+
+        // 各世界のクリア次数を起算
+        const clears = this.worldClears || {};
+
+        // ロック解除チェック（順番に
+        // beast -> water -> sky -> shadow の順
+        const isUnlocked = (worldId) => {
+            const world = worlds.find(w => w.id === worldId);
+            if (!world || world.unlockRequires === 0) return true;
+            const prevWorld = worlds[worlds.indexOf(world) - 1];
+            return (clears[prevWorld.id] || 0) >= world.unlockRequires;
+        };
+
+        const grid = document.getElementById('map-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        worlds.forEach(world => {
+            const unlocked = isUnlocked(world.id);
+            const clearCount = clears[world.id] || 0;
+            const nextUnlockCount = unlocked ? null : worlds.find(w => w.id === world.id)?.unlockRequires;
+            const prevWorldId = worlds[worlds.indexOf(worlds.find(w => w.id === world.id)) - 1]?.id;
+            const prevClears = prevWorldId ? (clears[prevWorldId] || 0) : 0;
+
+            const btn = document.createElement('button');
+            btn.className = `map-btn${unlocked ? '' : ' map-btn-locked'}`;
+            btn.dataset.area = world.id;
+            btn.style.setProperty('--world-color', world.theme);
+
+            if (unlocked) {
+                btn.innerHTML = `
+                    <span class="map-icon">${world.icon}</span>
+                    <span class="map-name">${world.name}</span>
+                    <span class="map-type">${world.sub}</span>
+                    <span class="map-clear">★ ${clearCount}回クリア</span>
+                `;
+                btn.addEventListener('click', () => this.selectWorld(world.id));
+                btn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.selectWorld(world.id);
+                }, { passive: false });
+            } else {
+                const needed = world.unlockRequires - prevClears;
+                btn.innerHTML = `
+                    <span class="map-icon">&#128274;</span>
+                    <span class="map-name">${world.name}</span>
+                    <span class="map-unlock-hint">あと ${needed}回クリアで ひらく！</span>
+                `;
+                btn.disabled = true;
+            }
+
+            grid.appendChild(btn);
+        });
+
+        // 「Tabletにもどる」ボタン
+        const backBtn = document.getElementById('map-back-btn');
+        if (backBtn) {
+            backBtn.onclick = () => this.switchScreen('title');
+        }
+    }
+
+    selectWorld(worldId) {
+        this.currentWorld = worldId;
+        this.bgm.init();
+        this.bgm.unlock();
         this.switchScreen('battle');
         this.startBattle();
-
-        // Setup BGs if they exist
-        document.getElementById('title-screen').style.backgroundImage = "url('assets/title_bg.png')";
-        document.getElementById('title-screen').style.backgroundImage = "url('assets/title_bg.png')";
-        // document.getElementById('battle-screen').style.backgroundImage = "url('assets/battle_bg.png')"; // User requested simple dark bg
     }
 
     switchScreen(screenName) {
@@ -659,7 +765,14 @@ class GameController {
 
         // Image-based Selection (Registered 47 Yokai)
         // Filter enemies that have an 'image' property
-        const validEnemies = enemies.filter(e => e.image);
+        let validEnemies = enemies.filter(e => e.image);
+
+        // 選択中の世界に合わせて敏をフィルタ
+        const world = this.currentWorld || 'beast';
+        const worldFilteredEnemies = validEnemies.filter(e => e.encounterType === world);
+        if (worldFilteredEnemies.length > 0) {
+            validEnemies = worldFilteredEnemies;
+        }
 
         // Initialize history if needed
         if (!this.recentEnemyIds) {
@@ -1273,8 +1386,17 @@ class GameController {
 
         // EXP Logic
         this.player.exp += this.currentEnemy.exp;
-        this.showExpPopup(this.currentEnemy.exp); // EXP 取得ポップアップを表示
+        this.showExpPopup(this.currentEnemy.exp);
         this.updatePlayerStats(); // Ensure UI updates immediately
+
+        // 世界クリアカウントを記録
+        if (!this.worldClears) this.worldClears = {};
+        const world = this.currentWorld || 'beast';
+        this.worldClears[world] = (this.worldClears[world] || 0) + 1;
+
+        // 新しい世界の解放チェック
+        this.checkWorldUnlock();
+
         this.saveGame(); // Auto-save
 
         // Item Drop Logic
@@ -1651,15 +1773,62 @@ class GameController {
     }
     // --- Save System ---
 
+    // 新しい世界の解放演出をチェック
+    checkWorldUnlock() {
+        const worldOrder = ['beast', 'water', 'sky', 'shadow'];
+        const worldNames = {
+            beast: '🌲 もり',
+            water: '🌊 みず',
+            sky: '🌪 そら',
+            shadow: '🌑 かげ'
+        };
+        const unlockAt = { water: 3, sky: 3, shadow: 3 };
+        const clears = this.worldClears || {};
+
+        worldOrder.forEach((worldId, i) => {
+            if (i === 0) return; // もりは最初から解放済
+            const prevWorldId = worldOrder[i - 1];
+            const threshold = unlockAt[worldId] || 3;
+            const prevClears = clears[prevWorldId] || 0;
+
+            // はじめて閾値に達したときだけ演出する
+            const key = `worldUnlocked_${worldId}`;
+            if (prevClears === threshold && !this[key]) {
+                this[key] = true;
+                this.showWorldUnlockedEffect(worldNames[worldId]);
+            }
+        });
+    }
+
+    // 世界解放演出（全画面オーバーレイ）
+    showWorldUnlockedEffect(worldName) {
+        const overlay = document.createElement('div');
+        overlay.className = 'world-unlock-overlay';
+        overlay.innerHTML = `
+            <div class="world-unlock-star">&#10024;</div>
+            <div class="world-unlock-text">あたらしい せかい！</div>
+            <div class="world-unlock-name">${worldName}</div>
+            <div class="world-unlock-sub">が ひらいた！</div>
+        `;
+        document.getElementById('game-container').appendChild(overlay);
+
+        this.playSound('win');
+
+        setTimeout(() => {
+            overlay.classList.add('world-unlock-fadeout');
+            setTimeout(() => overlay.remove(), 600);
+        }, 3500);
+    }
+
     saveGame() {
         const saveData = {
             player: this.player,
             lvl1BossDefeated: this.lvl1BossDefeated || false,
             forestBossDefeated: this.forestBossDefeated || false,
-            defeatedEnemies: this.defeatedEnemies || []
+            defeatedEnemies: this.defeatedEnemies || [],
+            worldClears: this.worldClears || {}   // 世界クリア数も保存
         };
         localStorage.setItem('mathQuestSave', JSON.stringify(saveData));
-        console.log("Game Saved", saveData);
     }
 
     loadGame() {
@@ -1673,7 +1842,7 @@ class GameController {
                 this.lvl1BossDefeated = saveData.lvl1BossDefeated || false;
                 this.forestBossDefeated = saveData.forestBossDefeated || false;
                 this.defeatedEnemies = saveData.defeatedEnemies || [];
-                console.log("Game Loaded", saveData);
+                this.worldClears = saveData.worldClears || {};  // 世界クリア数もロード
                 return true;
             } catch (e) {
                 console.error("Save Data Corrupt", e);

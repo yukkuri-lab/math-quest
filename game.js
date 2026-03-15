@@ -380,26 +380,20 @@ class GameController {
     }
 
     switchScreen(screenName) {
-        Object.values(this.screens).forEach(s => {
+        // DOM内の全 .screen を先に非表示（マップ画面も含めて全部隠す）
+        document.querySelectorAll('.screen').forEach(s => {
             s.classList.add('hidden');
             s.classList.remove('active');
         });
 
-        // 汎用画面切り替えロジック
-        if(this.screens[screenName]) {
-            this.screens[screenName].classList.remove('hidden');
-            this.screens[screenName].classList.add('active');
-        } else {
-            // Screensオブジェクトにない場合は直接DOMから探す
-            const screenEl = document.getElementById(`${screenName}-screen`);
-            if (screenEl) {
-                document.querySelectorAll('.screen').forEach(s => {
-                    s.classList.add('hidden');
-                    s.classList.remove('active');
-                });
-                screenEl.classList.remove('hidden');
-                screenEl.classList.add('active');
-            }
+        // 対象画面を表示
+        const targetId = screenName + '-screen';
+        const targetEl = document.getElementById(targetId)
+            || (this.screens[screenName]);   // フォールバック
+
+        if (targetEl) {
+            targetEl.classList.remove('hidden');
+            targetEl.classList.add('active');
         }
     }
 

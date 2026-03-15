@@ -1273,6 +1273,7 @@ class GameController {
 
         // EXP Logic
         this.player.exp += this.currentEnemy.exp;
+        this.showExpPopup(this.currentEnemy.exp); // EXP 取得ポップアップを表示
         this.updatePlayerStats(); // Ensure UI updates immediately
         this.saveGame(); // Auto-save
 
@@ -1316,27 +1317,68 @@ class GameController {
         if (this.player.exp >= nextLevelExp) {
             this.player.lv++;
             this.player.maxHp += 10; // Increase Max HP
-            this.player.hp = this.player.maxHp; // Full Heal
-            this.player.mp = Math.min(this.player.mp + 5, 50); // Restore MP slightly (cap at 50 for now)
+            this.player.hp = this.player.maxHp; // フルHP回復
+            this.player.mp = Math.min(this.player.mp + 5, 50);
 
             this.updatePlayerStats();
-            this.logMessage(`レベルが ${this.player.lv} に あがった！`);
-            this.saveGame(); // Auto-save
-            this.playSound('attack'); // Placeholder for Level up sound
+            this.saveGame(); // オートセーブ
+            this.playSound('win'); // レベルアップ効果音
 
-            // Visual Effect
-            const levelUpText = document.createElement('div');
-            levelUpText.className = 'level-up-text';
-            levelUpText.textContent = 'LEVEL UP!';
-            document.getElementById('battle-screen').appendChild(levelUpText);
+            // ===== 全画面レベルアップ演出 =====
+            const overlay = document.createElement('div');
+            overlay.className = 'levelup-overlay';
 
+            // 星を散らすアニメ要素
+            const stars = ['⭐','✨','🌟','💫','⭐','✨','🌟'];
+            stars.forEach((s, i) => {
+                const star = document.createElement('span');
+                star.className = 'levelup-star';
+                star.textContent = s;
+                star.style.left = `${Math.random() * 90}%`;
+                star.style.animationDelay = `${i * 0.12}s`;
+                overlay.appendChild(star);
+            });
+
+            // メインテキスト
+            const lvText = document.createElement('div');
+            lvText.className = 'levelup-lv';
+            lvText.textContent = `LV ${this.player.lv}`;
+            overlay.appendChild(lvText);
+
+            const msgText = document.createElement('div');
+            msgText.className = 'levelup-msg';
+            msgText.textContent = 'ぼく つよくなった！';
+            overlay.appendChild(msgText);
+
+            const subText = document.createElement('div');
+            subText.className = 'levelup-sub';
+            subText.textContent = `HP が ふえた！（HP+10）`;
+            overlay.appendChild(subText);
+
+            document.getElementById('game-container').appendChild(overlay);
+
+            // 3秒後に演出を消す
             setTimeout(() => {
-                levelUpText.remove();
-            }, 2000);
+                overlay.classList.add('levelup-fadeout');
+                setTimeout(() => overlay.remove(), 500);
+            }, 2800);
 
             return true;
         }
         return false;
+    }
+
+    // EXP 取得時の小ポップアップ
+    showExpPopup(expAmount) {
+        const popup = document.createElement('div');
+        popup.className = 'exp-popup';
+        popup.textContent = `EXP +${expAmount}`;
+        // プレイヤーのHPパネル付近に表示
+        const statsEl = document.getElementById('battle-player-stats');
+        if (statsEl) {
+            statsEl.appendChild(popup);
+            setTimeout(() => popup.remove(), 1200);
+        }
     }
 
     handleGameOver() {

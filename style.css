@@ -1132,6 +1132,56 @@ body {
     color: #ffeb3b;
 }
 
+/* Map Screen */
+#map-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+}
+
+.map-title {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.map-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px;
+    font-size: 1.2rem;
+    background-color: #000;
+    border: 3px solid #fff;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.map-btn:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+.map-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
 /* Ensure hidden works */
 .question-area.hidden,
 #command-menu.hidden {
@@ -1431,4 +1481,99 @@ body {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* ===== レベルアップ演出 ===== */
+.levelup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(ellipse at center, #1a0044 0%, #000 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: levelupFadeIn 0.3s ease-out;
+}
+
+.levelup-overlay.levelup-fadeout {
+    animation: levelupFadeOut 0.5s ease-in forwards;
+}
+
+@keyframes levelupFadeIn {
+    from { opacity: 0; transform: scale(1.05); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes levelupFadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* キラキラ星 */
+.levelup-star {
+    position: absolute;
+    top: -10%;
+    font-size: 2rem;
+    animation: starFall 1.8s ease-in forwards;
+}
+
+@keyframes starFall {
+    0%   { top: -10%; opacity: 1; }
+    100% { top: 110%;  opacity: 0.3; }
+}
+
+/* LV番号テキスト */
+.levelup-lv {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 5rem;
+    color: #ffe000;
+    text-shadow: 0 0 30px #ffaa00, 3px 3px 0 #000;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.2s both;
+    letter-spacing: 4px;
+}
+
+@keyframes lvPop {
+    0%   { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* セリフ */
+.levelup-msg {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 20px;
+    text-shadow: 2px 2px 0 #000;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.5s both;
+}
+
+.levelup-sub {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.2rem;
+    color: #aaffaa;
+    margin-top: 12px;
+    text-shadow: 1px 1px 0 #000;
+    animation: lvPop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.8s both;
+}
+
+/* ===== EXP 取得ポップアップ ===== */
+.exp-popup {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.1rem;
+    color: #ffe000;
+    text-shadow: 1px 1px 0 #000;
+    pointer-events: none;
+    animation: expFloat 1.2s ease-out forwards;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+@keyframes expFloat {
+    0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-40px); }
 }

@@ -1226,25 +1226,25 @@ body {
     /* Enemy Area - Balanced */
     #enemy-area {
         position: absolute;
-        top: 12vh;
-        /* Slightly higher than original 15vh but lower than 10vh */
+        top: 8vh;
+        /* Move up higher! */
         left: 0;
         width: 100%;
-        height: 40vh;
-        /* Restore height */
+        height: auto;
+        /* Fit content */
         margin: 0;
         align-items: center;
         z-index: 5;
     }
 
     #enemy-window {
-        /* Explicitly calculated size to be as big as possible */
-        width: 85vw;
+        /* Explicitly calculated size to be as big as possible without overlapping menus */
+        width: 80vw;
         /* Fallback */
-        width: min(90vw, 50vh);
-        height: 85vw;
+        width: min(90vw, 42vh);
+        height: 80vw;
         /* Fallback */
-        height: min(90vw, 50vh);
+        height: min(90vw, 42vh);
 
         padding: 0;
         display: flex;
@@ -1264,7 +1264,7 @@ body {
         width: 100%;
         height: 100%;
         object-fit: contain;
-        transform: scale(0.95);
+        transform: scale(0.9);
         /* Slight padding via scale */
         margin-top: 0;
         max-width: none;
@@ -1272,7 +1272,8 @@ body {
     }
 
     #enemy-sprite img {
-        max-height: 90%;
+        max-height: 85%;
+        max-width: 85%;
         width: auto;
     }
 

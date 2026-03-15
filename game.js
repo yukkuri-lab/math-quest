@@ -411,6 +411,13 @@ class GameController {
         this.currentEnemy = this.generateEnemy();
         this.updateEnemyDisplay(); // Set enemy data (but we will hide it)
 
+        // ===== デバッグ表示（原因調査用・後で消す） =====
+        const dbg = document.createElement('div');
+        dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff0;color:#000;font-size:12px;z-index:99999;padding:4px;text-align:center;';
+        dbg.textContent = `世界:${this.currentWorld || 'なし'} / 敵:${this.currentEnemy?.name}(${this.currentEnemy?.encounterType})`;
+        document.body.appendChild(dbg);
+        setTimeout(() => dbg.remove(), 5000);
+
         // Hide Enemy & Interface initially
         this.elements.enemySprite.style.transition = 'none'; // Instant hide
         this.elements.enemySprite.style.opacity = '0';

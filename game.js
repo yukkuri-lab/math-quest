@@ -233,13 +233,12 @@ class GameController {
             }
 
             soundTestBtn.addEventListener('click', (e) => {
-                e.preventDefault(); // Click prevent default is safe
+                // Remove preventDefault to ensure event is "trusted" by some browsers
                 runTest();
             });
             
-            // Allow touchend to also trigger it for iOS
+            // Allow touchend to also trigger it for iOS/Chrome
             soundTestBtn.addEventListener('touchend', (e) => {
-                // Do not prevent default here to avoid blocking iOS audio context
                 runTest();
             }, { passive: true });
         }

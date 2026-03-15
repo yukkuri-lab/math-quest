@@ -2043,12 +2043,9 @@ class BGMController {
 
     playSFX(type) {
         if (!this.audioCtx) this.init();
+        // suspend状態なら再開を試みる（ただしスキップはしない）
         if (this.audioCtx.state === 'suspended') {
             this.audioCtx.resume();
-            if (this.audioCtx.state === 'suspended') {
-                console.log("[playSFX] AudioContext is suspended. Skipping SFX:", type);
-                return;
-            }
         }
 
         const ctx = this.audioCtx;
@@ -2060,22 +2057,22 @@ class BGMController {
         gain.connect(ctx.destination);
 
         if (type === 'pi') {
-            // Cursor move / Select
+            // Cursor move / Select - 音量を大きく、sineで聞こえやすく
             osc.frequency.setValueAtTime(880, t);
-            osc.type = 'square';
-            gain.gain.setValueAtTime(0.1, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-            osc.start(t);
-            osc.stop(t + 0.1);
-        } else if (type === 'decision') {
-            // Confirm
-            osc.frequency.setValueAtTime(1200, t);
-            osc.frequency.exponentialRampToValueAtTime(1800, t + 0.1);
-            osc.type = 'square';
-            gain.gain.setValueAtTime(0.1, t);
-            gain.gain.linearRampToValueAtTime(0, t + 0.15);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.6, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
             osc.start(t);
             osc.stop(t + 0.15);
+        } else if (type === 'decision') {
+            // Confirm - 音量を大きく、sineで聞こえやすく
+            osc.frequency.setValueAtTime(880, t);
+            osc.frequency.exponentialRampToValueAtTime(1320, t + 0.15);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.6, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.2);
+            osc.start(t);
+            osc.stop(t + 0.2);
         } else if (type === 'damage') {
             // Damage
             osc.frequency.setValueAtTime(150, t);

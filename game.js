@@ -814,13 +814,20 @@ class GameController {
         let enemyTemplate;
         let candidates = validEnemies.length > 0 ? validEnemies : enemies;
         
-        // レベル制限とボス除外フィルタを適用
-        candidates = candidates.filter(e => e.hp <= maxHpAllowance && !e.isBoss && e.id !== 'F001');
+        // レベル制限とボス除外フィルタを適用（世界フィルタ済みリストに対して）
+        let levelCandidates = candidates.filter(e => e.hp <= maxHpAllowance && !e.isBoss && e.id !== 'F001');
 
-        if (candidates.length === 0) {
-            // 万が一該当データがなければ全敵から
-            candidates = validEnemies.length > 0 ? validEnemies : enemies;
+        if (levelCandidates.length === 0) {
+            // HP制限に合う敵がいなければ、世界フィルタを維持したままHP制限を解除
+            levelCandidates = candidates.filter(e => !e.isBoss && e.id !== 'F001');
         }
+
+        if (levelCandidates.length === 0) {
+            // 最終フォールバック（世界の敵が全くいないケース）
+            levelCandidates = enemies.filter(e => !e.isBoss && e.id !== 'F001');
+        }
+
+        candidates = levelCandidates;
 
         // Filter out recent enemies
         // We try to exclude the last 4 enemies.

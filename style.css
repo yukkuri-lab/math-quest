@@ -1295,9 +1295,9 @@ body {
     .question-area {
         width: 95%;
         /* Maximize width */
-        padding: 0.3rem;
-        bottom: 115px;
-        /* Back to 115px (more space) */
+        padding: 0.2rem 0.3rem;
+        bottom: 100px;
+        /* 問題エリアを下に下げて妖怪スペースを確保 */
     }
 
     #message-window {
@@ -1333,9 +1333,9 @@ body {
 
     /* Answer Buttons - Comfortable */
     .answer-btn {
-        font-size: 1.2rem;
-        padding: 6px 2px 6px 30px;
-        margin-bottom: 1px;
+        font-size: 1.1rem;
+        padding: 3px 2px 3px 28px;
+        margin-bottom: 0;
     }
 
     .answer-btn::before {
@@ -1345,14 +1345,20 @@ body {
 
     /* Question Text */
     #question-text {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         margin-bottom: 0;
-        padding-top: 2px;
+        padding-top: 0;
+    }
+
+    #question-text.long-text {
+        font-size: 1.0rem;
+        line-height: 1.5;
+        padding: 0.2rem 0.4rem;
     }
 
     #question-window {
-        padding-bottom: 2px;
-        margin-bottom: 2px;
+        padding-bottom: 1px;
+        margin-bottom: 1px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
@@ -1371,20 +1377,15 @@ body {
     }
 
     #enemy-window {
-        /* Explicitly calculated size to be as big as possible without overlapping menus */
-        width: 80vw;
-        /* Fallback */
-        width: min(90vw, 42vh);
-        height: 80vw;
-        /* Fallback */
-        height: min(90vw, 42vh);
+        /* 妖怪ウィンドウを少し大きく */
+        width: min(85vw, 38vh);
+        height: min(85vw, 38vh);
 
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        /* Simplify Frame - Single Solid Line */
         border: 3px solid #fff;
         background-color: #000;
         border-radius: 12px;

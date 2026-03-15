@@ -144,23 +144,32 @@ class GameController {
 
     init() {
         // Global Audio Unlock (Aggressive)
-        const unlockAudio = () => {
+        const unlockAudio = (e) => {
+            if (e && e.type === 'touchstart') return; // Do not create AudioContext on touchstart
+            
+            this.updateDebugInfo("Unlocking...");
             this.bgm.unlock();
-            // Remove listeners once unlocked
-            document.body.removeEventListener('touchend', unlockAudio);
-            document.body.removeEventListener('click', unlockAudio);
+            
+            if (this.bgm.audioCtx && this.bgm.audioCtx.state === 'running') {
+                // Remove listeners once unlocked successfully
+                document.body.removeEventListener('touchstart', unlockAudio);
+                document.body.removeEventListener('touchend', unlockAudio);
+                document.body.removeEventListener('click', unlockAudio);
+                this.updateDebugInfo("Unlocked OK");
+            } else {
+                this.updateDebugInfo("Unlock pending...");
+            }
         };
-        document.body.addEventListener('touchend', unlockAudio, { once: true, passive: false });
+        document.body.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+        document.body.addEventListener('touchend', unlockAudio, { once: true, passive: true });
         document.body.addEventListener('click', unlockAudio, { once: true });
 
         // Start Button (Click & Touch)
         const startHandler = (e) => {
             // Prevent double firing if both fire
-            if (e.cancelable) e.preventDefault();
             this.startGame();
         };
         this.elements.startBtn.addEventListener('click', startHandler);
-        this.elements.startBtn.addEventListener('touchstart', startHandler, { passive: false });
 
         // Attach event listeners to answer buttons
         this.elements.answerButtons.forEach(btn => {
@@ -179,11 +188,6 @@ class GameController {
                 this.switchScreen('encyclopedia');
                 openEncyclopedia();
             });
-            encBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                this.switchScreen('encyclopedia');
-                openEncyclopedia();
-            }, { passive: false });
         }
 
         // Reset Button
@@ -210,13 +214,16 @@ class GameController {
                 }
             }
 
-            // ^ Close runTest
-
-            soundTestBtn.addEventListener('click', runTest);
-            soundTestBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Prevent ghost click
+            soundTestBtn.addEventListener('click', (e) => {
+                e.preventDefault(); // Click prevent default is safe
                 runTest();
-            }, { passive: false });
+            });
+            
+            // Allow touchend to also trigger it for iOS
+            soundTestBtn.addEventListener('touchend', (e) => {
+                // Do not prevent default here to avoid blocking iOS audio context
+                runTest();
+            }, { passive: true });
         }
         // ^ Close if (soundTestBtn)
 
@@ -227,9 +234,18 @@ class GameController {
 
     updateDebugInfo(msg = "") {
         const debugEl = document.getElementById('debug-info');
-        if (debugEl && this.bgm.audioCtx) {
-            const ctx = this.bgm.audioCtx;
-            debugEl.innerText = `Audio: ${ctx.state} | T:${ctx.currentTime.toFixed(1)} | ${msg}`;
+        if (debugEl) {
+            let state = "NULL";
+            let time = "0.0";
+            if (this.bgm && this.bgm.audioCtx) {
+                state = this.bgm.audioCtx.state;
+                time = this.bgm.audioCtx.currentTime.toFixed(1);
+            }
+            debugEl.innerText = `[Debug] Audio: ${state} | T:${time} | ${msg}`;
+            debugEl.style.display = 'block';
+            debugEl.style.fontSize = '0.8rem';
+            debugEl.style.color = '#0f0';
+            debugEl.style.marginTop = '10px';
         }
     }
 
@@ -336,10 +352,6 @@ class GameController {
                     <span class="map-clear">★ ${clearCount}回クリア</span>
                 `;
                 btn.addEventListener('click', () => this.selectWorld(world.id));
-                btn.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    this.selectWorld(world.id);
-                }, { passive: false });
             } else {
                 const needed = world.unlockRequires - prevClears;
                 btn.innerHTML = `
@@ -1428,10 +1440,24 @@ class GameController {
         if (!this.worldClears) this.worldClears = {};
         const world = this.currentWorld || 'beast';
         this.worldClears[world] = (this.worldClears[world] || 0) + 1;
+        const currentClears = this.worldClears[world];
+
+        // 次の世界の情報を取得
+        const worldOrder = ['beast', 'water', 'sky', 'shadow'];
+        const nextWorldIndex = worldOrder.indexOf(world) + 1;
+        const nextWorldId = worldOrder[nextWorldIndex];
+        
+        if (nextWorldId) {
+            const needed = 3;
+            if (currentClears < needed) {
+                this.logMessage(`✨ クリア！ あと ${needed - currentClears}回で つぎのせかい！`);
+            } else if (currentClears === needed) {
+                this.logMessage(`✨ おめでとう！ つぎのせかい が ひらいた！`);
+            }
+        }
 
         // 新しい世界の解放チェック
         this.checkWorldUnlock();
-
         this.saveGame(); // Auto-save
 
         // Item Drop Logic
@@ -1457,13 +1483,46 @@ class GameController {
 
             setTimeout(() => {
                 const nextDelay = leveledUp ? 2500 : 500;
+                
+                // 次の行動を選択させる（オートで進ませない）
+                this.logMessage("どうする？");
+                this.elements.commandMenu.classList.remove('hidden');
+                
+                // コマンドボタンの中身を「つぎの敵」「マップへ戻る」に一時的に書き換える
+                // （簡易的にやるため、既存のボタンを再利用）
+                const btns = this.elements.commandBtns;
+                if (btns.length >= 2) {
+                    const originalTexts = Array.from(btns).map(b => b.innerHTML);
+                    
+                    btns[0].innerHTML = "⚔️ つぎの てき";
+                    btns[1].innerHTML = "🗺️ マップへ もどる";
+                    
+                    const nextHandler = () => {
+                        btns.forEach((b, i) => b.innerHTML = originalTexts[i]); // 戻す
+                        btns[0].removeEventListener('click', nextHandler);
+                        btns[1].removeEventListener('click', mapHandler);
+                        this.startBattle();
+                    };
+                    
+                    const mapHandler = () => {
+                        btns.forEach((b, i) => b.innerHTML = originalTexts[i]); // 戻す
+                        btns[0].removeEventListener('click', nextHandler);
+                        btns[1].removeEventListener('click', mapHandler);
+                        this.showMapScreen();
+                    };
+                    
+                    btns[0].addEventListener('click', nextHandler);
+                    btns[1].addEventListener('click', mapHandler);
 
-                if (droppedItem) {
-                    this.logMessage(`${droppedItem.name} を 手に入れた！`);
-                    this.playSound('attack'); // Item get sound
-                    setTimeout(() => this.startBattle(), 2000);
-                } else {
-                    setTimeout(() => this.startBattle(), nextDelay);
+                    // 逃げる、アイテムボタンは隠す
+                    for(let i=2; i<btns.length; i++) btns[i].style.display = 'none';
+                    
+                    // 元に戻すためのクリーンアップ関数をセット
+                    this.restoreCommandMenu = () => {
+                        for(let i=1; i<btns.length; i++) btns[i].style.display = '';
+                        btns[0].removeEventListener('click', nextHandler);
+                        btns[1].removeEventListener('click', mapHandler);
+                    };
                 }
             }, 1500);
         }, 1500);
@@ -1819,6 +1878,7 @@ class GameController {
         };
         const unlockAt = { water: 3, sky: 3, shadow: 3 };
         const clears = this.worldClears || {};
+        if (!this.worldUnlockedEvents) this.worldUnlockedEvents = {};
 
         worldOrder.forEach((worldId, i) => {
             if (i === 0) return; // もりは最初から解放済
@@ -1826,11 +1886,11 @@ class GameController {
             const threshold = unlockAt[worldId] || 3;
             const prevClears = clears[prevWorldId] || 0;
 
-            // はじめて閾値に達したときだけ演出する
-            const key = `worldUnlocked_${worldId}`;
-            if (prevClears === threshold && !this[key]) {
-                this[key] = true;
+            // 閾値以上かつ、まだ演出を出していない場合
+            if (prevClears >= threshold && !this.worldUnlockedEvents[worldId]) {
+                this.worldUnlockedEvents[worldId] = true;
                 this.showWorldUnlockedEffect(worldNames[worldId]);
+                this.saveGame(); // フラグを保存
             }
         });
     }
@@ -1861,7 +1921,8 @@ class GameController {
             lvl1BossDefeated: this.lvl1BossDefeated || false,
             forestBossDefeated: this.forestBossDefeated || false,
             defeatedEnemies: this.defeatedEnemies || [],
-            worldClears: this.worldClears || {}   // 世界クリア数も保存
+            worldClears: this.worldClears || {},
+            worldUnlockedEvents: this.worldUnlockedEvents || {}
         };
         localStorage.setItem('mathQuestSave', JSON.stringify(saveData));
     }
@@ -1877,7 +1938,8 @@ class GameController {
                 this.lvl1BossDefeated = saveData.lvl1BossDefeated || false;
                 this.forestBossDefeated = saveData.forestBossDefeated || false;
                 this.defeatedEnemies = saveData.defeatedEnemies || [];
-                this.worldClears = saveData.worldClears || {};  // 世界クリア数もロード
+                this.worldClears = saveData.worldClears || {};
+                this.worldUnlockedEvents = saveData.worldUnlockedEvents || {};
                 return true;
             } catch (e) {
                 console.error("Save Data Corrupt", e);
@@ -1922,18 +1984,20 @@ class BGMController {
     unlock() {
         if (!this.audioCtx) this.init();
 
-        if (this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
-        }
-
-        // Play silent buffer to force unlock logic for iOS
         try {
+            if (this.audioCtx.state === 'suspended') {
+                this.audioCtx.resume().then(() => {
+                    console.log("Audio unlocked via resume()");
+                }).catch(e => console.log("resume() failed", e));
+            }
+
+            // Play silent buffer to force unlock logic for iOS
             const buffer = this.audioCtx.createBuffer(1, 1, 22050);
             const source = this.audioCtx.createBufferSource();
             source.buffer = buffer;
             source.connect(this.audioCtx.destination);
             source.start(0);
-            console.log("Audio unlocked via silent buffer");
+            console.log("Silent buffer played");
 
             // Also warm up HTML5 Audio elements
             const audios = document.querySelectorAll('audio');
@@ -1953,7 +2017,13 @@ class BGMController {
 
     playSFX(type) {
         if (!this.audioCtx) this.init();
-        if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+            if (this.audioCtx.state === 'suspended') {
+                console.log("[playSFX] AudioContext is suspended. Skipping SFX:", type);
+                return;
+            }
+        }
 
         const ctx = this.audioCtx;
         const t = ctx.currentTime;
@@ -2080,6 +2150,8 @@ class BGMController {
     }
 
     playNote(freq, time, duration) {
+        if (this.audioCtx.state === 'suspended') return;
+        
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
         osc.connect(gain);
@@ -2133,8 +2205,8 @@ class BGMController {
     }
 
     playTone(freq, duration, type = 'square', vol = 0.1) {
-        if (!this.isPlaying && type !== 'square') return; // Fanfare allows playing even if isPlaying is false? No, logic needs check.
-        // Actually playTone creates its own osc, so it's fire-and-forget mostly.
+        if (!this.isPlaying && type !== 'square') return; 
+        if (this.audioCtx.state === 'suspended') return; // Do not queue if suspended
 
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
@@ -2212,6 +2284,8 @@ class BGMController {
 
         notes.forEach(note => {
             setTimeout(() => {
+                if (this.audioCtx.state === 'suspended') return;
+                
                 // Manually play tone without isPlaying check dependencies ideally
                 const osc = this.audioCtx.createOscillator();
                 const gain = this.audioCtx.createGain();

@@ -145,13 +145,31 @@ class GameController {
     init() {
         // Global Audio Unlock (Aggressive)
         const unlockAudio = (e) => {
-            if (e && e.type === 'touchstart') return; // Do not create AudioContext on touchstart
+            // Do not preventDefault or handle touchstart for AudioContext
+            if (e && e.type === 'touchstart') return;
             
-            this.updateDebugInfo("Unlocking...");
+            this.updateDebugInfo(`Unlocking (${e ? e.type : 'manual'})...`);
+            
+            // 1. Web Audio API Unlock
             this.bgm.unlock();
             
+            // 2. HTML5 Audio Unlock (Aggressive)
+            const allAudios = document.querySelectorAll('audio');
+            allAudios.forEach(audio => {
+                const oldVol = audio.volume;
+                audio.volume = 0;
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        audio.pause();
+                        audio.volume = oldVol;
+                    }).catch(err => {
+                        console.log("Direct unlock failed for", audio.id, err);
+                    });
+                }
+            });
+
             if (this.bgm.audioCtx && this.bgm.audioCtx.state === 'running') {
-                // Remove listeners once unlocked successfully
                 document.body.removeEventListener('touchstart', unlockAudio);
                 document.body.removeEventListener('touchend', unlockAudio);
                 document.body.removeEventListener('click', unlockAudio);
@@ -160,9 +178,9 @@ class GameController {
                 this.updateDebugInfo("Unlock pending...");
             }
         };
-        document.body.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
-        document.body.addEventListener('touchend', unlockAudio, { once: true, passive: true });
-        document.body.addEventListener('click', unlockAudio, { once: true });
+        document.body.addEventListener('touchstart', unlockAudio, { passive: true });
+        document.body.addEventListener('touchend', unlockAudio, { passive: true });
+        document.body.addEventListener('click', unlockAudio);
 
         // Start Button (Click & Touch)
         const startHandler = (e) => {

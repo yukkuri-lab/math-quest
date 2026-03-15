@@ -143,63 +143,57 @@ class GameController {
     }
 
     init() {
-        // Global Audio Unlock (Aggressive)
+        // ===== グローバルタッチ/クリックによるオーディオ解除 =====
+        // Chrome on iOS: AudioContext の作成・resume は
+        // ユーザー操作イベントの「最初の同期処理」である必要がある。
+        // ここでは body への汎用リスナーを置くが、実際の音再生は
+        // soundTestBtn / startBtn ハンドラ内で直接行う。
         const unlockAudio = (e) => {
-            // Do not preventDefault or handle touchstart for AudioContext
             if (e && e.type === 'touchstart') return;
-            
-            this.updateDebugInfo(`Unlocking (${e ? e.type : 'manual'})...`);
-            
-            // 1. Web Audio API Unlock
-            this.bgm.unlock();
-            
-            // 2. HTML5 Audio Unlock (Aggressive)
-            const allAudios = document.querySelectorAll('audio');
-            allAudios.forEach(audio => {
-                const oldVol = audio.volume;
-                audio.volume = 0;
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        audio.pause();
-                        audio.volume = oldVol;
-                    }).catch(err => {
-                        console.log("Direct unlock failed for", audio.id, err);
-                    });
-                }
-            });
-
-            if (this.bgm.audioCtx && this.bgm.audioCtx.state === 'running') {
-                document.body.removeEventListener('touchstart', unlockAudio);
-                document.body.removeEventListener('touchend', unlockAudio);
-                document.body.removeEventListener('click', unlockAudio);
-                this.updateDebugInfo("Unlocked OK");
-            } else {
-                this.updateDebugInfo("Unlock pending...");
+            // AudioContextをまだ作っていなければここで作る
+            if (!this.bgm.audioCtx) {
+                const AC = window.AudioContext || window.webkitAudioContext;
+                this.bgm.audioCtx = new AC();
             }
+            if (this.bgm.audioCtx.state === 'suspended') {
+                this.bgm.audioCtx.resume();
+            }
+            this.updateDebugInfo(`Unlock: ${this.bgm.audioCtx.state} (${e ? e.type : '?'})`);
         };
         document.body.addEventListener('touchstart', unlockAudio, { passive: true });
         document.body.addEventListener('touchend', unlockAudio, { passive: true });
         document.body.addEventListener('click', unlockAudio);
 
-        // Start Button (Click & Touch)
-        const startHandler = (e) => {
-            // Prevent double firing if both fire
+        // ===== スタートボタン =====
+        this.elements.startBtn.addEventListener('click', () => {
+            // Chrome対策: ユーザー操作の最初にAudioContext作成・再開
+            if (!this.bgm.audioCtx) {
+                const AC = window.AudioContext || window.webkitAudioContext;
+                this.bgm.audioCtx = new AC();
+            }
+            if (this.bgm.audioCtx.state === 'suspended') {
+                this.bgm.audioCtx.resume();
+            }
             this.startGame();
-        };
-        this.elements.startBtn.addEventListener('click', startHandler);
+        });
 
-        // Attach event listeners to answer buttons
+        // ===== 回答ボタン =====
         this.elements.answerButtons.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleAnswer(e.target));
         });
 
-        // Attach event listeners to command buttons
+        // ===== コマンドボタン =====
         this.elements.commandBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleCommand(e.target.dataset.cmd));
+            btn.addEventListener('click', (e) => {
+                // コマンド操作でもAudioContextを起こす
+                if (this.bgm.audioCtx && this.bgm.audioCtx.state === 'suspended') {
+                    this.bgm.audioCtx.resume();
+                }
+                this.handleCommand(e.target.dataset.cmd);
+            });
         });
 
-        // Setup Encyclopedia Button
+        // ===== UMAずかんボタン =====
         const encBtn = document.getElementById('enc-btn');
         if (encBtn) {
             encBtn.addEventListener('click', () => {
@@ -208,41 +202,56 @@ class GameController {
             });
         }
 
-        // Reset Button
+        // ===== リセットボタン =====
         const resetBtn = document.getElementById('reset-btn');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetGame());
         }
 
-        // Sound Test Button
+        // ===== おとテストボタン =====
+        // Chrome on iOS 対策: AudioContext の作成と resume() を
+        // このイベントハンドラの「一番最初」に同期実行する（最重要）
         const soundTestBtn = document.getElementById('sound-test-btn');
         if (soundTestBtn) {
             const runTest = () => {
-                this.bgm.unlock();
-
-                try {
-                    const ctx = this.bgm.audioCtx;
-                    // Play both to test
-                    this.bgm.playSFX('decision');
-                    setTimeout(() => this.bgm.playSFX('pi'), 200);
-
-                    this.updateDebugInfo(`Test: SFX OK (${ctx.state})`);
-                } catch (e) {
-                    this.updateDebugInfo(`Test: ERR ${e.message}`);
+                // ★ STEP1: AudioContext を同期的に作成・再開（Chrome必須）
+                if (!this.bgm.audioCtx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    this.bgm.audioCtx = new AC();
                 }
-            }
+                if (this.bgm.audioCtx.state === 'suspended') {
+                    this.bgm.audioCtx.resume();
+                }
 
-            soundTestBtn.addEventListener('click', (e) => {
-                // Remove preventDefault to ensure event is "trusted" by some browsers
+                // ★ STEP2: 状態をデバッグ表示
+                this.updateDebugInfo(`Ctx: ${this.bgm.audioCtx.state}`);
+
+                // ★ STEP3: 音を鳴らす
+                try {
+                    this.bgm.playSFX('decision');
+                    setTimeout(() => {
+                        if (this.bgm.audioCtx && this.bgm.audioCtx.state === 'running') {
+                            this.bgm.playSFX('pi');
+                        }
+                        this.updateDebugInfo(`Final: ${this.bgm.audioCtx ? this.bgm.audioCtx.state : 'null'}`);
+                    }, 300);
+                } catch (err) {
+                    this.updateDebugInfo(`ERR: ${err.message}`);
+                }
+            };
+
+            // ダブル発火防止
+            let lastFiredAt = 0;
+            const guardedRunTest = () => {
+                const now = Date.now();
+                if (now - lastFiredAt < 300) return;
+                lastFiredAt = now;
                 runTest();
-            });
-            
-            // Allow touchend to also trigger it for iOS/Chrome
-            soundTestBtn.addEventListener('touchend', (e) => {
-                runTest();
-            }, { passive: true });
+            };
+
+            soundTestBtn.addEventListener('click', guardedRunTest);
+            soundTestBtn.addEventListener('touchend', guardedRunTest, { passive: true });
         }
-        // ^ Close if (soundTestBtn)
 
     }
 

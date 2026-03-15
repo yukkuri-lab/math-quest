@@ -245,6 +245,21 @@ class GameController {
     // マップ画面を表示し、各世界ボタンを動的生成
     showMapScreen() {
         this.switchScreen('map');
+
+        // position:fixed のバトルUI要素を全て非表示にする
+        // （switchScreenだけでは消えないため明示的に隠す）
+        const battleUIs = [
+            '.question-area',
+            '#command-menu',
+            '#message-window',
+            '#battle-player-stats',
+            '#battle-enemy-stats'
+        ];
+        battleUIs.forEach(selector => {
+            const el = document.querySelector(selector);
+            if (el) el.style.display = 'none';
+        });
+
         this.buildMapUI();
     }
 
@@ -349,6 +364,17 @@ class GameController {
         this.currentWorld = worldId;
         this.bgm.init();
         this.bgm.unlock();
+
+        // showMapScreen で非表示にしたバトルUI要素を復元
+        const battleUIs = [
+            '#battle-player-stats',
+            '#battle-enemy-stats'
+        ];
+        battleUIs.forEach(selector => {
+            const el = document.querySelector(selector);
+            if (el) el.style.display = '';
+        });
+
         this.switchScreen('battle');
         this.startBattle();
     }

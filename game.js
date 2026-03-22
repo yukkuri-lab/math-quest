@@ -219,9 +219,9 @@ class GameController {
                     const AC = window.AudioContext || window.webkitAudioContext;
                     this.bgm.audioCtx = new AC();
                 }
-                if (this.bgm.audioCtx.state === 'suspended') {
-                    this.bgm.audioCtx.resume();
-                }
+                
+                // ここで必ずunlockを呼ぶ（iOSの無音バッファ処理を実行）
+                this.bgm.unlock();
 
                 // ★ STEP2: 状態をデバッグ表示
                 this.updateDebugInfo(`Ctx: ${this.bgm.audioCtx.state}`);
@@ -2024,6 +2024,10 @@ class BGMController {
             source.connect(this.audioCtx.destination);
             source.start(0);
             console.log("Silent buffer played");
+
+            // iOS WebKit Magic Trick: Play silent HTML5 audio explicitly
+            const magicAudio = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=');
+            magicAudio.play().catch(e => console.log('Magic Audio unlock failed', e));
 
             // Also warm up HTML5 Audio elements
             const audios = document.querySelectorAll('audio');

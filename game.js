@@ -240,17 +240,7 @@ class GameController {
                 }
             };
 
-            // ダブル発火防止
-            let lastFiredAt = 0;
-            const guardedRunTest = () => {
-                const now = Date.now();
-                if (now - lastFiredAt < 300) return;
-                lastFiredAt = now;
-                runTest();
-            };
-
-            soundTestBtn.addEventListener('click', guardedRunTest);
-            soundTestBtn.addEventListener('touchend', guardedRunTest, { passive: true });
+            soundTestBtn.addEventListener('click', runTest);
         }
 
     }

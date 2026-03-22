@@ -2043,151 +2043,84 @@ class BGMController {
 
     playSFX(type) {
         if (!this.audioCtx) this.init();
-        // suspend状態なら再開を試みる（ただしスキップはしない）
         if (this.audioCtx.state === 'suspended') {
             this.audioCtx.resume();
         }
 
         const ctx = this.audioCtx;
-        const t = ctx.currentTime + 0.05; // わずかな遅延を入れてiOSのスキップバグを回避
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
 
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+        const playOsc = (oscType, freq, vol, duration) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = oscType;
+            osc.frequency.value = freq;
+            gain.gain.value = vol;
+            osc.start();
+            setTimeout(() => { try { osc.stop(); } catch(e){} }, duration * 1000);
+        };
 
         if (type === 'pi') {
-            // Cursor move / Select - 音量を大きく、sineで聞こえやすく
-            osc.frequency.setValueAtTime(880, t);
-            osc.type = 'sine';
-            gain.gain.setValueAtTime(0.6, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-            osc.start(t);
-            osc.stop(t + 0.15);
+            playOsc('sine', 880, 0.6, 0.15);
         } else if (type === 'decision') {
-            // Confirm - 音量を大きく、sineで聞こえやすく
-            osc.frequency.setValueAtTime(880, t);
-            osc.frequency.exponentialRampToValueAtTime(1320, t + 0.15);
-            osc.type = 'sine';
-            gain.gain.setValueAtTime(0.6, t);
-            gain.gain.linearRampToValueAtTime(0, t + 0.2);
-            osc.start(t);
-            osc.stop(t + 0.2);
+            playOsc('sine', 1320, 0.6, 0.2);
         } else if (type === 'damage') {
-            // Damage
-            osc.frequency.setValueAtTime(150, t);
-            osc.frequency.linearRampToValueAtTime(100, t + 0.2);
-            osc.type = 'sawtooth';
-            gain.gain.setValueAtTime(0.3, t);
-            gain.gain.linearRampToValueAtTime(0, t + 0.2);
-            osc.start(t);
-            osc.stop(t + 0.2);
+            playOsc('sawtooth', 150, 0.3, 0.2);
         } else if (type === 'win') {
-            // Win Fanfare (Simple)
-            this.playNote(523.25, t, 0.1); // C5
-            this.playNote(523.25, t + 0.1, 0.1); // C5
-            this.playNote(523.25, t + 0.2, 0.1); // C5
-            this.playNote(659.25, t + 0.3, 0.4); // E5
+            this.playNote(523.25, 0.1); 
+            setTimeout(() => this.playNote(523.25, 0.1), 100);
+            setTimeout(() => this.playNote(523.25, 0.1), 200);
+            setTimeout(() => this.playNote(659.25, 0.4), 300);
         } else if (type === 'start') {
-            // Game Start
-            this.playNote(440, t, 0.1);
-            this.playNote(554, t + 0.1, 0.1);
-            this.playNote(659, t + 0.2, 0.4);
+            this.playNote(440, 0.1);
+            setTimeout(() => this.playNote(554, 0.1), 100);
+            setTimeout(() => this.playNote(659, 0.4), 200);
         } else if (type === 'footstep_heavy') {
-            // Low thud
-            osc.frequency.setValueAtTime(100, t);
-            osc.frequency.exponentialRampToValueAtTime(30, t + 0.15);
-            osc.type = 'triangle';
-            gain.gain.setValueAtTime(0.5, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-            osc.start(t);
-            osc.stop(t + 0.15);
+            playOsc('triangle', 60, 0.5, 0.15);
         } else if (type === 'water_splash') {
-            // Gentle splash bubble
-            osc.frequency.setValueAtTime(400, t);
-            osc.frequency.linearRampToValueAtTime(200, t + 0.2);
-            osc.type = 'sine';
-            gain.gain.setValueAtTime(0.3, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-            osc.start(t);
-            osc.stop(t + 0.3);
+            playOsc('sine', 300, 0.3, 0.3);
         } else if (type === 'wind_whoosh') {
-            // Low sweeping noise-like (simulated with low freq sine sweep)
-            osc.frequency.setValueAtTime(100, t);
-            osc.frequency.linearRampToValueAtTime(300, t + 0.2);
-            osc.frequency.linearRampToValueAtTime(50, t + 0.4);
-            osc.type = 'triangle'; // rougher than sine
-            gain.gain.setValueAtTime(0.0, t);
-            gain.gain.linearRampToValueAtTime(0.2, t + 0.2);
-            gain.gain.linearRampToValueAtTime(0.0, t + 0.4);
-            osc.start(t);
-            osc.stop(t + 0.4);
+            playOsc('triangle', 200, 0.2, 0.4);
         } else if (type === 'creepy_small') {
-            // High pitch dissonance
-            osc.frequency.setValueAtTime(2000, t);
-            osc.type = 'sawtooth';
-            gain.gain.setValueAtTime(0.05, t);
-            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
-            osc.start(t);
-            osc.stop(t + 0.1);
-
-            // Second tone for dissonance
-            const osc2 = ctx.createOscillator();
-            const gain2 = ctx.createGain();
-            osc2.connect(gain2);
-            gain2.connect(ctx.destination);
-            osc2.type = 'sawtooth';
-            osc2.frequency.setValueAtTime(2100, t); // slightly off
-            gain2.gain.setValueAtTime(0.05, t);
-            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
-            osc2.start(t);
-            osc2.stop(t + 0.1);
+            playOsc('sawtooth', 2000, 0.05, 0.1);
+            setTimeout(() => playOsc('sawtooth', 2100, 0.05, 0.1), 50);
         } else if (type === 'attack') {
-            // Heavy Impact "Do-ka"
-            // 1. "Do" - Low punch
-            osc.frequency.setValueAtTime(150, t);
-            osc.frequency.exponentialRampToValueAtTime(10, t + 0.1);
-            osc.type = 'square';
-            gain.gain.setValueAtTime(0.8, t);
-            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-            osc.start(t);
-            osc.stop(t + 0.15);
+            playOsc('square', 100, 0.8, 0.15);
 
-            // 2. "Ka" - Noise Burst
-            const bufferSize = ctx.sampleRate * 0.1; // 0.1 sec
+            // Noise burst
+            const bufferSize = ctx.sampleRate * 0.1;
             const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
             const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
+            for (let i = 0; i < bufferSize; i++) { data[i] = Math.random() * 2 - 1; }
             const noise = ctx.createBufferSource();
             noise.buffer = buffer;
             const noiseGain = ctx.createGain();
+            noiseGain.gain.value = 0.5;
             noise.connect(noiseGain);
             noiseGain.connect(ctx.destination);
-
-            noiseGain.gain.setValueAtTime(0.5, t);
-            noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-            noise.start(t);
+            noise.start();
+            setTimeout(() => { try { noise.stop(); } catch(e){} }, 100);
         }
     }
 
-    playNote(freq, time, duration) {
+    playNote(freq, time_or_duration, duration) {
         if (this.audioCtx.state === 'suspended') {
             this.audioCtx.resume();
         }
+        
+        let dur = duration;
+        if (dur === undefined) { dur = time_or_duration; }
         
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
         osc.connect(gain);
         gain.connect(this.audioCtx.destination);
         osc.type = 'square';
-        osc.frequency.setValueAtTime(freq, time); // timeはすでに +0.05 された t
-        gain.gain.setValueAtTime(0.1, time);
-        gain.gain.setValueAtTime(0.1, time + duration - 0.05);
-        gain.gain.linearRampToValueAtTime(0, time + duration);
-        osc.start(time);
-        osc.stop(time + duration);
+        osc.frequency.value = freq; 
+        gain.gain.value = 0.1;
+        osc.start();
+        setTimeout(() => { try { osc.stop(); } catch(e){} }, dur * 1000);
     }
 
     play(type) {
@@ -2239,17 +2172,14 @@ class BGMController {
         const gain = this.audioCtx.createGain();
 
         osc.type = type;
-        const t = this.audioCtx.currentTime + 0.05;
-        osc.frequency.setValueAtTime(freq, t);
-
-        gain.gain.setValueAtTime(vol, t);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+        osc.frequency.value = freq;
+        gain.gain.value = vol; // iOS/Chrome bypass
 
         osc.connect(gain);
         gain.connect(this.audioCtx.destination);
 
-        osc.start(t);
-        osc.stop(t + duration);
+        osc.start();
+        setTimeout(() => { try { osc.stop(); } catch(e){} }, duration * 1000);
     }
 
     playBattleTheme() {
@@ -2320,14 +2250,12 @@ class BGMController {
                 const osc = this.audioCtx.createOscillator();
                 const gain = this.audioCtx.createGain();
                 osc.type = 'square';
-                const t = this.audioCtx.currentTime + 0.05;
-                osc.frequency.setValueAtTime(note.f, t);
-                gain.gain.setValueAtTime(0.2, t);
-                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+                osc.frequency.value = note.f;
+                gain.gain.value = 0.2;
                 osc.connect(gain);
                 gain.connect(this.audioCtx.destination);
-                osc.start(t);
-                osc.stop(t + 0.3);
+                osc.start();
+                setTimeout(() => { try { osc.stop(); } catch(e){} }, 300);
             }, note.t);
         });
     }

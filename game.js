@@ -2044,15 +2044,22 @@ class BGMController {
         const ctx = this.audioCtx;
 
         const playOsc = (oscType, freq, vol, duration) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = oscType;
-            osc.frequency.value = freq;
-            gain.gain.value = vol;
-            osc.start();
-            osc.stop(ctx.currentTime + duration);
+            const doPlay = () => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = oscType;
+                osc.frequency.value = freq;
+                gain.gain.value = vol;
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            };
+            if (ctx.state === 'suspended') {
+                ctx.resume().then(doPlay).catch(()=>{});
+            } else {
+                doPlay();
+            }
         };
 
         if (type === 'pi') {
@@ -2099,22 +2106,26 @@ class BGMController {
     }
 
     playNote(freq, time_or_duration, duration) {
-        if (this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
-        }
-        
         let dur = duration;
         if (dur === undefined) { dur = time_or_duration; }
         
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(this.audioCtx.destination);
-        osc.type = 'square';
-        osc.frequency.value = freq; 
-        gain.gain.value = 0.1;
-        osc.start();
-        osc.stop(this.audioCtx.currentTime + dur);
+        const doPlay = () => {
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.type = 'square';
+            osc.frequency.value = freq; 
+            gain.gain.value = 0.1;
+            osc.start();
+            osc.stop(this.audioCtx.currentTime + dur);
+        };
+
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume().then(doPlay).catch(()=>{});
+        } else {
+            doPlay();
+        }
     }
 
     play(type) {
@@ -2158,22 +2169,24 @@ class BGMController {
 
     playTone(freq, duration, type = 'square', vol = 0.1) {
         if (!this.isPlaying && type !== 'square') return; 
+
+        const doPlay = () => {
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            gain.gain.value = vol;
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start();
+            osc.stop(this.audioCtx.currentTime + duration);
+        };
+
         if (this.audioCtx.state === 'suspended') {
-            this.audioCtx.resume();
+            this.audioCtx.resume().then(doPlay).catch(()=>{});
+        } else {
+            doPlay();
         }
-
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-
-        osc.type = type;
-        osc.frequency.value = freq;
-        gain.gain.value = vol; // iOS/Chrome bypass
-
-        osc.connect(gain);
-        gain.connect(this.audioCtx.destination);
-
-        osc.start();
-        osc.stop(this.audioCtx.currentTime + duration);
     }
 
     playBattleTheme() {

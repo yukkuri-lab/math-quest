@@ -2173,7 +2173,9 @@ class BGMController {
     }
 
     playNote(freq, time, duration) {
-        if (this.audioCtx.state === 'suspended') return;
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
         
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
@@ -2229,7 +2231,9 @@ class BGMController {
 
     playTone(freq, duration, type = 'square', vol = 0.1) {
         if (!this.isPlaying && type !== 'square') return; 
-        if (this.audioCtx.state === 'suspended') return; // Do not queue if suspended
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
 
         const osc = this.audioCtx.createOscillator();
         const gain = this.audioCtx.createGain();
@@ -2307,7 +2311,9 @@ class BGMController {
 
         notes.forEach(note => {
             setTimeout(() => {
-                if (this.audioCtx.state === 'suspended') return;
+                if (this.audioCtx.state === 'suspended') {
+                    this.audioCtx.resume();
+                }
                 
                 // Manually play tone without isPlaying check dependencies ideally
                 const osc = this.audioCtx.createOscillator();

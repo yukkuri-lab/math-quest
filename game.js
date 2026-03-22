@@ -2049,7 +2049,7 @@ class BGMController {
         }
 
         const ctx = this.audioCtx;
-        const t = ctx.currentTime;
+        const t = ctx.currentTime + 0.05; // わずかな遅延を入れてiOSのスキップバグを回避
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
@@ -2182,7 +2182,7 @@ class BGMController {
         osc.connect(gain);
         gain.connect(this.audioCtx.destination);
         osc.type = 'square';
-        osc.frequency.value = freq;
+        osc.frequency.setValueAtTime(freq, time); // timeはすでに +0.05 された t
         gain.gain.setValueAtTime(0.1, time);
         gain.gain.setValueAtTime(0.1, time + duration - 0.05);
         gain.gain.linearRampToValueAtTime(0, time + duration);
@@ -2239,16 +2239,17 @@ class BGMController {
         const gain = this.audioCtx.createGain();
 
         osc.type = type;
-        osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+        const t = this.audioCtx.currentTime + 0.05;
+        osc.frequency.setValueAtTime(freq, t);
 
-        gain.gain.setValueAtTime(vol, this.audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + duration);
+        gain.gain.setValueAtTime(vol, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
 
         osc.connect(gain);
         gain.connect(this.audioCtx.destination);
 
-        osc.start();
-        osc.stop(this.audioCtx.currentTime + duration);
+        osc.start(t);
+        osc.stop(t + duration);
     }
 
     playBattleTheme() {
@@ -2319,13 +2320,14 @@ class BGMController {
                 const osc = this.audioCtx.createOscillator();
                 const gain = this.audioCtx.createGain();
                 osc.type = 'square';
-                osc.frequency.setValueAtTime(note.f, this.audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.3);
+                const t = this.audioCtx.currentTime + 0.05;
+                osc.frequency.setValueAtTime(note.f, t);
+                gain.gain.setValueAtTime(0.2, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
                 osc.connect(gain);
                 gain.connect(this.audioCtx.destination);
-                osc.start();
-                osc.stop(this.audioCtx.currentTime + 0.3);
+                osc.start(t);
+                osc.stop(t + 0.3);
             }, note.t);
         });
     }

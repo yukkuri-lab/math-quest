@@ -2062,7 +2062,7 @@ class BGMController {
             osc.frequency.value = freq;
             gain.gain.value = vol;
             osc.start();
-            setTimeout(() => { try { osc.stop(); } catch(e){} }, duration * 1000);
+            osc.stop(ctx.currentTime + duration);
         };
 
         if (type === 'pi') {
@@ -2104,7 +2104,7 @@ class BGMController {
             noise.connect(noiseGain);
             noiseGain.connect(ctx.destination);
             noise.start();
-            setTimeout(() => { try { noise.stop(); } catch(e){} }, 100);
+            noise.stop(ctx.currentTime + 0.1);
         }
     }
 
@@ -2124,7 +2124,7 @@ class BGMController {
         osc.frequency.value = freq; 
         gain.gain.value = 0.1;
         osc.start();
-        setTimeout(() => { try { osc.stop(); } catch(e){} }, dur * 1000);
+        osc.stop(this.audioCtx.currentTime + dur);
     }
 
     play(type) {
@@ -2183,7 +2183,7 @@ class BGMController {
         gain.connect(this.audioCtx.destination);
 
         osc.start();
-        setTimeout(() => { try { osc.stop(); } catch(e){} }, duration * 1000);
+        osc.stop(this.audioCtx.currentTime + duration);
     }
 
     playBattleTheme() {
@@ -2259,7 +2259,7 @@ class BGMController {
                 osc.connect(gain);
                 gain.connect(this.audioCtx.destination);
                 osc.start();
-                setTimeout(() => { try { osc.stop(); } catch(e){} }, 300);
+                osc.stop(this.audioCtx.currentTime + 0.3);
             }, note.t);
         });
     }

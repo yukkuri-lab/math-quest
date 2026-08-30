@@ -1451,8 +1451,8 @@ body {
     bottom: 2px;
     right: 2px;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 0.7rem;
-    z-index: 1000;
+    font-size: 12px;   /* 金継ぎ: 11.2px は床(12px)を下回っていた */
+    z-index: 100;      /* 金継ぎ: 1000 は場当たり値。層は 1 / 10 / 100 の3段に */
     pointer-events: none;
     font-family: 'DotGothic16', sans-serif;
 }

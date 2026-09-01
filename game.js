@@ -150,6 +150,16 @@ class GameController {
         // soundTestBtn / startBtn ハンドラ内で直接行う。
         const unlockAudio = (e) => {
             if (e && e.type === 'touchstart') return;
+            // ★ iPhone/iPad: マナーモード（本体横の消音スイッチ）で音を消されないようにする。
+            //   Web Audio は既定で「環境音」扱いのため、消音スイッチがONだと問答無用で無音になる。
+            //   'playback' にすると動画アプリと同じ扱いになり、消音スイッチの影響を受けない。
+            //   iOS 16.4 以降の Safari / iPhoneのChrome（中身はSafari）で有効。
+            //   古い端末では navigator.audioSession が無いので、その場合は何もしない（従来どおり）。
+            try {
+                if (navigator.audioSession && navigator.audioSession.type !== 'playback') {
+                    navigator.audioSession.type = 'playback';
+                }
+            } catch (err) { /* 対応していない端末では無視 */ }
             // AudioContextをまだ作っていなければここで作る
             if (!this.bgm.audioCtx) {
                 const AC = window.AudioContext || window.webkitAudioContext;
@@ -158,7 +168,7 @@ class GameController {
             if (this.bgm.audioCtx.state === 'suspended') {
                 this.bgm.audioCtx.resume();
             }
-            this.updateDebugInfo(`Unlock: ${this.bgm.audioCtx.state} (${e ? e.type : '?'})`);
+            this.updateDebugInfo(`Unlock: ${this.bgm.audioCtx.state} / session=${(navigator.audioSession && navigator.audioSession.type) || '非対応'} (${e ? e.type : '?'})`);
         };
         document.body.addEventListener('touchstart', unlockAudio, { passive: true });
         document.body.addEventListener('touchend', unlockAudio, { passive: true });
